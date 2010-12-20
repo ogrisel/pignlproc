@@ -49,6 +49,16 @@ directly from the EBS volume.
 
 ## Usage
 
+### Extracting links from the raw wikipedia dump
+
+You can take example on the extract-links.pig example script:
+
+  $ pig -x local \
+    -p INPUT=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
+    -p OUTPUT=/tmp/output \
+    -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+    examples/extract-links.pig
+
 ### Building a NER training / evaluation corpus
 
 TODO: Explain howto extract a BIO-formatted corpus suitable for the
