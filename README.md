@@ -13,7 +13,7 @@ Expects bugs and not implemented exceptions.
 
 Install maven (tested with 2.2.1) and java jdk 6, then:
 
-    $ mvn clean install
+    $ mvn assembly:assembly
 
 This should download the dependencies, build a jar in the target/
 subfolder and run the tests.

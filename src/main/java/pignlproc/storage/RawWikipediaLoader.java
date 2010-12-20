@@ -9,6 +9,7 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.pig.LoadFunc;
 import org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigSplit;
+import org.apache.pig.data.BagFactory;
 import org.apache.pig.data.DataByteArray;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
@@ -20,9 +21,22 @@ import pignlproc.format.WikipediaPageInputFormat.WikipediaRecordReader;
  * LoadFunc to load the title and raw markup of wikipedia articles from a pig
  * script.
  */
-public class WikipediaLoader extends LoadFunc {
+public class RawWikipediaLoader extends LoadFunc {
 
-    private WikipediaRecordReader reader;
+    protected WikipediaRecordReader reader;
+
+    protected TupleFactory tupleFactory;
+
+    protected BagFactory bagFactory;
+
+    protected String languageCode = "en";
+
+    public RawWikipediaLoader() {
+    }
+
+    public RawWikipediaLoader(String languageCode) {
+        this.languageCode = languageCode;
+    }
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -37,12 +51,18 @@ public class WikipediaLoader extends LoadFunc {
             if (!next) {
                 return null;
             }
-            byte[] title = reader.getCurrentKey().toString().getBytes("UTF-8");
-            byte[] rawMarkup = reader.getCurrentValue().toString().getBytes(
-                    "UTF-8");
-            return TupleFactory.getInstance().newTupleNoCopy(
-                    Arrays.asList(new DataByteArray(title), new DataByteArray(
-                            rawMarkup)));
+
+            String title = reader.getCurrentKey().toString();
+            String rawMarkup = reader.getCurrentValue().toString();
+
+            // TODO: check that the uri generation logic works on non trivial
+            // cases (e.g. non latin words)
+            String uri = String.format("http://%s.wikipedia.org/wiki/%s",
+                    languageCode, title.replaceAll(" ", "_"));
+
+            return tupleFactory.newTupleNoCopy(Arrays.asList(new DataByteArray(
+                    title), new DataByteArray(uri),
+                    new DataByteArray(rawMarkup)));
         } catch (InterruptedException e) {
             throw new IOException(e);
         }
@@ -53,6 +73,8 @@ public class WikipediaLoader extends LoadFunc {
     public void prepareToRead(RecordReader reader, PigSplit split)
             throws IOException {
         this.reader = (WikipediaPageInputFormat.WikipediaRecordReader) reader;
+        tupleFactory = TupleFactory.getInstance();
+        bagFactory = BagFactory.getInstance();
     }
 
     @Override

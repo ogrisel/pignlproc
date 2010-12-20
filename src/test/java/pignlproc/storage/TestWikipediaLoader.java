@@ -13,7 +13,33 @@ import org.junit.Test;
 public class TestWikipediaLoader {
 
     @Test
-    public void testLoadXMLLoader() throws Exception {
+    public void testRawWikipediaLoader() throws Exception {
+        URL wikiDump = Thread.currentThread().getContextClassLoader().getResource(
+                "enwiki-20090902-pages-articles-sample.xml");
+        String filename = wikiDump.getPath();
+        PigServer pig = new PigServer(LOCAL);
+        filename = filename.replace("\\", "\\\\");
+        String query = "A = LOAD 'file:" + filename
+                + "' USING pignlproc.storage.RawWikipediaLoader()"
+                + " as (title: chararray, uri: chararray, markup: chararray);";
+        pig.registerQuery(query);
+        Iterator<?> it = pig.openIterator("A");
+        int tupleCount = 0;
+        while (it.hasNext()) {
+            Tuple tuple = (Tuple) it.next();
+            if (tuple == null)
+                break;
+            else {
+                if (tuple.size() > 0) {
+                    tupleCount++;
+                }
+            }
+        }
+        assertEquals(4, tupleCount);
+    }
+
+    @Test
+    public void testParsingWikipediaLoader() throws Exception {
         URL wikiDump = Thread.currentThread().getContextClassLoader().getResource(
                 "enwiki-20090902-pages-articles-sample.xml");
         String filename = wikiDump.getPath();
@@ -21,7 +47,8 @@ public class TestWikipediaLoader {
         filename = filename.replace("\\", "\\\\");
         String query = "A = LOAD 'file:"
                 + filename
-                + "' USING pignlproc.storage.WikipediaLoader() as (title:chararray, markup:chararray);";
+                + "' USING pignlproc.storage.ParsingWikipediaLoader('en')"
+                + " as (title: chararray, uri: chararray, text: chararray, links);";
         pig.registerQuery(query);
         Iterator<?> it = pig.openIterator("A");
         int tupleCount = 0;

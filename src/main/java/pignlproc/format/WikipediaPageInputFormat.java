@@ -22,7 +22,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileSplit;
  * payload as value.
  */
 public class WikipediaPageInputFormat extends FileInputFormat<Text, Text> {
-
+    
     public static final Charset UTF8 = Charset.forName("UTF-8");
 
     /**
