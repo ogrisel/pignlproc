@@ -53,11 +53,11 @@ directly from the EBS volume.
 
 You can take example on the extract-links.pig example script:
 
-  $ pig -x local \
-    -p INPUT=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
-    -p OUTPUT=/tmp/output \
-    -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
-    examples/extract-links.pig
+    $ pig -x local \
+      -p INPUT=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
+      -p OUTPUT=/tmp/output \
+      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+      examples/extract-links.pig
 
 ### Building a NER training / evaluation corpus
 
