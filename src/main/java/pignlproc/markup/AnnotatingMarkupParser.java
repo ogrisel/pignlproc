@@ -25,11 +25,16 @@ import java.util.regex.Pattern;
 
 /**
  * Parse mediawiki markup to strip the formatting info and extract a simple text
- * version suitable for NLP along with link position annotations.
+ * version suitable for NLP along with header, paragraph and link position
+ * annotations.
  * 
  * Use the {@code #convert(String)} and {@code #getWikiLinks()} methods.
+ * 
+ * Due to the constraints imposed by the {@code ITextConverter} /
+ * {@code WikiModel} API, this class is not thread safe: only one instance
+ * should be run by thread.
  */
-public class LinkAnnotationTextConverter implements ITextConverter {
+public class AnnotatingMarkupParser implements ITextConverter {
 
     public static final String HREF_ATTR_KEY = "href";
 
@@ -39,15 +44,19 @@ public class LinkAnnotationTextConverter implements ITextConverter {
 
     public static final String WIKIOBJECT_ATTR_KEY = "wikiobject";
 
-    public static final Set<String> TAGS_WITH_1_NEWLINE = new HashSet<String>(
+    public static final Set<String> PARAGRAPH_TAGS = new HashSet<String>(
             Arrays.asList("p"));
 
-    public static final Set<String> TAGS_WITH_2_NEWLINES = new HashSet<String>(
+    public static final Set<String> HEADING_TAGS = new HashSet<String>(
             Arrays.asList("h1", "h2", "h3", "h4", "h5", "h6"));
 
     public static final Pattern INTERWIKI_PATTERN = Pattern.compile("http://[\\w-]+\\.wikipedia\\.org/wiki/.*");
 
     protected final List<Annotation> wikilinks = new ArrayList<Annotation>();
+
+    protected final List<Annotation> headers = new ArrayList<Annotation>();
+
+    protected final List<Annotation> paragraphs = new ArrayList<Annotation>();
 
     protected String languageCode = "en";
 
@@ -55,13 +64,15 @@ public class LinkAnnotationTextConverter implements ITextConverter {
 
     protected String redirect;
 
+    protected String text;
+
     protected static final Pattern REDIRECT_PATTERN = Pattern.compile("^#REDIRECT \\[\\[([^\\]]*)\\]\\]");
 
-    public LinkAnnotationTextConverter() {
+    public AnnotatingMarkupParser() {
         model = makeWikiModel(languageCode);
     }
 
-    public LinkAnnotationTextConverter(String languageCode) {
+    public AnnotatingMarkupParser(String languageCode) {
         this.languageCode = languageCode;
         model = makeWikiModel(languageCode);
     }
@@ -89,7 +100,7 @@ public class LinkAnnotationTextConverter implements ITextConverter {
      * @param rawWikiMarkup
      * @return the simple text without the markup
      */
-    public String convert(String rawWikiMarkup) {
+    public String parse(String rawWikiMarkup) {
         Matcher matcher = REDIRECT_PATTERN.matcher(rawWikiMarkup);
         if (matcher.find()) {
             redirect = titleToUri(matcher.group(1), languageCode);
@@ -97,7 +108,10 @@ public class LinkAnnotationTextConverter implements ITextConverter {
             redirect = null;
         }
         wikilinks.clear();
-        return model.render(this, rawWikiMarkup);
+        headers.clear();
+        paragraphs.clear();
+        text = model.render(this, rawWikiMarkup);
+        return text;
     }
 
     public static String titleToUri(String title, String languageCode) {
@@ -168,7 +182,7 @@ public class LinkAnnotationTextConverter implements ITextConverter {
                         Map<String, Object> oAttributes = tagNode.getObjectAttributes();
                         boolean hasSpecialHandling = false;
                         String tagName = tagNode.getName();
-                        // countingBuffer.append("<[" + tagName + "]>");
+                        int tagBegin = countingBuffer.currentPosition;
                         if ("a".equals(tagName)) {
                             String href = attributes.get(HREF_ATTR_KEY);
                             if (href != null
@@ -183,8 +197,8 @@ public class LinkAnnotationTextConverter implements ITextConverter {
                             hasSpecialHandling = true;
                         } else if (oAttributes != null
                                 && oAttributes.get(WIKIOBJECT_ATTR_KEY) instanceof ImageFormat) {
-                            // the caption of images often hold well formed
-                            // sentences with links to entites
+                            // the caption of images often holds well formed
+                            // sentences with links to entities
                             hasSpecialHandling = true;
                             ImageFormat iformat = (ImageFormat) oAttributes.get(WIKIOBJECT_ATTR_KEY);
                             imageNodeToText(tagNode, iformat, countingBuffer,
@@ -194,12 +208,17 @@ public class LinkAnnotationTextConverter implements ITextConverter {
                             nodesToText(tagNode.getChildren(), countingBuffer,
                                     model);
                         }
-                        if (TAGS_WITH_1_NEWLINE.contains(tagName)) {
+                        if (PARAGRAPH_TAGS.contains(tagName)) {
+                            paragraphs.add(new Annotation(tagBegin,
+                                    countingBuffer.currentPosition,
+                                    "paragraph", tagName));
                             countingBuffer.append("\n");
-                        } else if (TAGS_WITH_2_NEWLINES.contains(tagName)) {
+                        } else if (HEADING_TAGS.contains(tagName)) {
+                            headers.add(new Annotation(tagBegin,
+                                    countingBuffer.currentPosition, "heading",
+                                    tagName));
                             countingBuffer.append("\n\n");
                         }
-                        // countingBuffer.append("<[/" + tagName + "]>");
                     }
                 }
             } finally {
@@ -210,15 +229,46 @@ public class LinkAnnotationTextConverter implements ITextConverter {
 
     public void imageNodeToText(TagNode tagNode, ImageFormat imageFormat,
             Appendable buffer, IWikiModel model) throws IOException {
+        CountingAppendable countingBuffer = (CountingAppendable) buffer;
+        int tagBegin = countingBuffer.currentPosition;
         nodesToText(tagNode.getChildren(), buffer, model);
+        // store the text location of an image caption as a paragraph
+        // TODO: check that this is not nested with a paragraph tag that would
+        // behave as a duplicate
+        paragraphs.add(new Annotation(tagBegin, countingBuffer.currentPosition,
+                "paragraph", tagNode.getName()));
     }
 
     public boolean noLinks() {
         return true;
     }
 
-    public List<Annotation> getWikiLinks() {
+    public List<Annotation> getWikiLinkAnnotations() {
         return wikilinks;
+    }
+
+    public List<Annotation> getHeaderAnnotations() {
+        return headers;
+    }
+
+    public List<Annotation> getParagraphAnnotations() {
+        return paragraphs;
+    }
+
+    public List<String> getParagraphs() {
+        List<String> texts = new ArrayList<String>();
+        for (Annotation p : paragraphs) {
+            texts.add(text.substring(p.begin, p.end));
+        }
+        return texts;
+    }
+
+    public List<String> getHeaders() {
+        List<String> texts = new ArrayList<String>();
+        for (Annotation h : headers) {
+            texts.add(text.substring(h.begin, h.end));
+        }
+        return texts;
     }
 
     public String getRedirect() {

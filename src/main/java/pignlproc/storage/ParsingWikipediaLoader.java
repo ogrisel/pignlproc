@@ -15,7 +15,7 @@ import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 
 import pignlproc.markup.Annotation;
-import pignlproc.markup.LinkAnnotationTextConverter;
+import pignlproc.markup.AnnotatingMarkupParser;
 
 public class ParsingWikipediaLoader extends RawWikipediaLoader implements
         LoadMetadata {
@@ -37,16 +37,16 @@ public class ParsingWikipediaLoader extends RawWikipediaLoader implements
                 return null;
             }
             String title = reader.getCurrentKey().toString();
-            String uri = LinkAnnotationTextConverter.titleToUri(title,
+            String uri = AnnotatingMarkupParser.titleToUri(title,
                     languageCode);
             String rawMarkup = reader.getCurrentValue().toString();
 
-            LinkAnnotationTextConverter converter = new LinkAnnotationTextConverter(
+            AnnotatingMarkupParser converter = new AnnotatingMarkupParser(
                     languageCode);
-            String text = converter.convert(rawMarkup);
+            String text = converter.parse(rawMarkup);
             String redirect = converter.getRedirect();
             DataBag links = bagFactory.newDefaultBag();
-            for (Annotation link : converter.getWikiLinks()) {
+            for (Annotation link : converter.getWikiLinkAnnotations()) {
                 links.add(tupleFactory.newTupleNoCopy(Arrays.asList(link.label,
                         link.value, link.begin, link.end)));
             }

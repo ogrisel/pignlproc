@@ -8,13 +8,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 import org.apache.hadoop.io.Text;
 import org.junit.Test;
 
 import pignlproc.format.WikipediaPageInputFormat.WikipediaRecordReader;
 import pignlproc.markup.Annotation;
-import pignlproc.markup.LinkAnnotationTextConverter;
+import pignlproc.markup.AnnotatingMarkupParser;
 
 public class TestWikipediaParsing {
 
@@ -35,10 +36,10 @@ public class TestWikipediaParsing {
                 "#REDIRECT [[Computer accessibility]] {{R from CamelCase}}",
                 markup);
 
-        LinkAnnotationTextConverter converter = new LinkAnnotationTextConverter();
-        String simpleText = converter.convert(markup);
+        AnnotatingMarkupParser converter = new AnnotatingMarkupParser();
+        String simpleText = converter.parse(markup);
         assertEquals("", simpleText);
-        assertTrue(converter.getWikiLinks().isEmpty());
+        assertTrue(converter.getWikiLinkAnnotations().isEmpty());
         assertEquals("http://en.wikipedia.org/wiki/Computer_accessibility",
                 converter.getRedirect());
 
@@ -46,12 +47,12 @@ public class TestWikipediaParsing {
         assertTrue(reader.nextKeyValue());
         assertEquals("Anarchism", reader.getCurrentKey().toString());
         markup = reader.getCurrentValue().toString();
-        converter = new LinkAnnotationTextConverter();
-        simpleText = converter.convert(markup);
+        converter = new AnnotatingMarkupParser();
+        simpleText = converter.parse(markup);
         assertTrue(simpleText.startsWith("\nAnarchism is a political philosophy"
                 + " encompassing theories and attitudes"));
-        assertEquals(465, converter.getWikiLinks().size());
-        Annotation firstLink = converter.getWikiLinks().get(0);
+        assertEquals(465, converter.getWikiLinkAnnotations().size());
+        Annotation firstLink = converter.getWikiLinkAnnotations().get(0);
         assertEquals("political philosophy", firstLink.label);
         assertEquals("http://en.wikipedia.org/wiki/Political_philosophy",
                 firstLink.value);
@@ -64,10 +65,10 @@ public class TestWikipediaParsing {
         assertTrue(reader.nextKeyValue());
         assertEquals("AfghanistanHistory", reader.getCurrentKey().toString());
         markup = reader.getCurrentValue().toString();
-        converter = new LinkAnnotationTextConverter();
-        simpleText = converter.convert(markup);
+        converter = new AnnotatingMarkupParser();
+        simpleText = converter.parse(markup);
         assertEquals("", simpleText);
-        assertEquals(0, converter.getWikiLinks().size());
+        assertEquals(0, converter.getWikiLinkAnnotations().size());
         assertEquals("http://en.wikipedia.org/wiki/History_of_Afghanistan",
                 converter.getRedirect());
 
@@ -75,12 +76,12 @@ public class TestWikipediaParsing {
         assertTrue(reader.nextKeyValue());
         assertEquals("Autism", reader.getCurrentKey().toString());
         markup = reader.getCurrentValue().toString();
-        converter = new LinkAnnotationTextConverter();
-        simpleText = converter.convert(markup);
+        converter = new AnnotatingMarkupParser();
+        simpleText = converter.parse(markup);
         assertTrue(simpleText.contains("Autism is a brain development disorder"
                 + " characterized by impaired social interaction and communication"));
-        assertEquals(236, converter.getWikiLinks().size());
-        firstLink = converter.getWikiLinks().get(0);
+        assertEquals(236, converter.getWikiLinkAnnotations().size());
+        firstLink = converter.getWikiLinkAnnotations().get(0);
         assertEquals("Neurodevelopmental disorder", firstLink.label);
         assertEquals(
                 "http://en.wikipedia.org/wiki/Neurodevelopmental_disorder",
@@ -107,12 +108,36 @@ public class TestWikipediaParsing {
         assertTrue(reader.nextKeyValue());
         assertEquals("Antoine Meillet", reader.getCurrentKey().toString());
         String markup = reader.getCurrentValue().toString();
-        LinkAnnotationTextConverter converter = new LinkAnnotationTextConverter();
-        String simpleText = converter.convert(markup);
+        AnnotatingMarkupParser converter = new AnnotatingMarkupParser();
+        String simpleText = converter.parse(markup);
         // TODO: handle date templates
         assertTrue(simpleText.startsWith("Paul Jules Antoine Meillet, né le  à Moulins,"
                 + " Allier, mort le  à Châteaumeillant"));
-        assertEquals(48, converter.getWikiLinks().size());
+        assertEquals(48, converter.getWikiLinkAnnotations().size());
+        List<String> headers = converter.getHeaders();
+        assertEquals("Biographie", headers.get(0));
+        assertEquals("Antoine Meillet et les études arméniennes",
+                headers.get(1));
+        assertEquals("Antoine Meillet et les études homériques", headers.get(2));
+        assertEquals(8, headers.size());
+        List<String> paragraphs = converter.getParagraphs();
+        assertEquals(
+                "Paul Jules Antoine Meillet, né le  à Moulins, Allier, mort"
+                        + " le  à Châteaumeillant, Cher, est le principal linguiste"
+                        + " français des premières décennies du .",
+                paragraphs.get(0));
+        assertEquals(
+                "D'origine bourbonnaise, fils d'un notaire de Châteaumeillant (Cher),"
+                        + " il fait ses études secondaires au lycée"
+                        + " Théodore-de-Banville de Moulins.\n"
+                        + "Étudiant à la faculté des lettres de Paris à partir de 1885,"
+                        + " il suit notamment les cours de Louis Havet à la Sorbonne, de"
+                        + " Michel Bréal au Collège de France et de Ferdinand de Saussure"
+                        + " à l'École pratique des hautes études. Il assure à la suite"
+                        + " de Saussure le cours de grammaire comparée, qu'il complète à"
+                        + " partir de 1894 par une conférence sur l'iranien.",
+                paragraphs.get(1));
+        assertEquals(15, paragraphs.size());
         assertNull(converter.getRedirect());
 
         // go to the last article wich is a redirect
@@ -124,10 +149,11 @@ public class TestWikipediaParsing {
 
         assertEquals("Amenophis IV", reader.getCurrentKey().toString());
         markup = reader.getCurrentValue().toString();
-        converter = new LinkAnnotationTextConverter();
-        assertEquals("", converter.convert(markup));
-        assertEquals(0, converter.getWikiLinks().size());
-        assertEquals("http://en.wikipedia.org/wiki/Akh%C3%A9naton", converter.getRedirect());
+        converter = new AnnotatingMarkupParser();
+        assertEquals("", converter.parse(markup));
+        assertEquals(0, converter.getWikiLinkAnnotations().size());
+        assertEquals("http://en.wikipedia.org/wiki/Akh%C3%A9naton",
+                converter.getRedirect());
 
         // this was the last article
         assertFalse(reader.nextKeyValue());
