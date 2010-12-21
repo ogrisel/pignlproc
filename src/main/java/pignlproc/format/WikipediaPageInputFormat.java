@@ -22,7 +22,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileSplit;
  * payload as value.
  */
 public class WikipediaPageInputFormat extends FileInputFormat<Text, Text> {
-    
+
     public static final Charset UTF8 = Charset.forName("UTF-8");
 
     /**
@@ -88,7 +88,7 @@ public class WikipediaPageInputFormat extends FileInputFormat<Text, Text> {
                                     stop = buffer.getLength()
                                             - END_TITLE_MARKER.length;
                                     String xmlEscapedContent = new String(
-                                            buffer.getData(), 0, stop, UTF8);
+                                            buffer.getData(), 0, stop + 1, UTF8);
                                     value.set(StringEscapeUtils.unescapeXml(
                                             xmlEscapedContent).getBytes(UTF8));
                                     return true;

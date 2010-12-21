@@ -775,5 +775,21 @@ Par ailleurs, {{lien|Gustavo Breide Obeid|lang=es}}, l'un des partisans du ''Car
 [[ru:Политика Аргентины]]</text>
     </revision>
   </page>
+  <page>
+    <title>Amenophis IV</title>
+    <id>115</id>
+    <redirect />
+    <revision>
+      <id>2334572</id>
+      <timestamp>2003-07-28T16:59:26Z</timestamp>
+      <contributor>
+        <username>Panoramix</username>
+        <id>272</id>
+      </contributor>
+      <minor />
+      <comment>redirection vers Akhénaton</comment>
+      <text xml:space="preserve">#REDIRECT [[Akhénaton]]</text>
+    </revision>
+  </page>
 </mediawiki>
 

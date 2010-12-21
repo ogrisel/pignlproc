@@ -12,6 +12,8 @@ import info.bliki.wiki.model.WikiModel;
 import info.bliki.wiki.tags.WPATag;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -53,7 +55,7 @@ public class LinkAnnotationTextConverter implements ITextConverter {
 
     protected String redirect;
 
-    protected static final Pattern REDIRECT_PATTERN = Pattern.compile("^#REDIRECT \\[\\[([^\\]]*)\\]\\].*$");
+    protected static final Pattern REDIRECT_PATTERN = Pattern.compile("^#REDIRECT \\[\\[([^\\]]*)\\]\\]");
 
     public LinkAnnotationTextConverter() {
         model = makeWikiModel(languageCode);
@@ -89,14 +91,23 @@ public class LinkAnnotationTextConverter implements ITextConverter {
      */
     public String convert(String rawWikiMarkup) {
         Matcher matcher = REDIRECT_PATTERN.matcher(rawWikiMarkup);
-        if (matcher.matches()) {
-            redirect = String.format("http://%s.wikipedia.org/wiki/%s",
-                    languageCode, matcher.group(1).replaceAll(" ", "_"));
+        if (matcher.find()) {
+            redirect = titleToUri(matcher.group(1), languageCode);
         } else {
             redirect = null;
         }
         wikilinks.clear();
         return model.render(this, rawWikiMarkup);
+    }
+
+    public static String titleToUri(String title, String languageCode) {
+        try {
+            return String.format("http://%s.wikipedia.org/wiki/%s",
+                    languageCode,
+                    URLEncoder.encode(title.replaceAll(" ", "_"), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void nodesToText(List<? extends Object> nodes, Appendable buffer,

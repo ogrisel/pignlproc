@@ -16,6 +16,7 @@ import org.apache.pig.data.TupleFactory;
 
 import pignlproc.format.WikipediaPageInputFormat;
 import pignlproc.format.WikipediaPageInputFormat.WikipediaRecordReader;
+import pignlproc.markup.LinkAnnotationTextConverter;
 
 /**
  * LoadFunc to load the title and raw markup of wikipedia articles from a pig
@@ -54,11 +55,7 @@ public class RawWikipediaLoader extends LoadFunc {
 
             String title = reader.getCurrentKey().toString();
             String rawMarkup = reader.getCurrentValue().toString();
-
-            // TODO: check that the uri generation logic works on non trivial
-            // cases (e.g. non latin words)
-            String uri = String.format("http://%s.wikipedia.org/wiki/%s",
-                    languageCode, title.replaceAll(" ", "_"));
+            String uri = LinkAnnotationTextConverter.titleToUri(title, languageCode);
 
             return tupleFactory.newTupleNoCopy(Arrays.asList(new DataByteArray(
                     title), new DataByteArray(uri),

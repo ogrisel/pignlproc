@@ -37,12 +37,9 @@ public class ParsingWikipediaLoader extends RawWikipediaLoader implements
                 return null;
             }
             String title = reader.getCurrentKey().toString();
+            String uri = LinkAnnotationTextConverter.titleToUri(title,
+                    languageCode);
             String rawMarkup = reader.getCurrentValue().toString();
-
-            // TODO: check that the uri generation logic works on non trivial
-            // cases (e.g. non latin words)
-            String uri = String.format("http://%s.wikipedia.org/wiki/%s",
-                    languageCode, title.replaceAll(" ", "_"));
 
             LinkAnnotationTextConverter converter = new LinkAnnotationTextConverter(
                     languageCode);

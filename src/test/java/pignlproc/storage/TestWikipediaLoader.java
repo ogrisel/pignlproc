@@ -45,10 +45,10 @@ public class TestWikipediaLoader {
         String filename = wikiDump.getPath();
         PigServer pig = new PigServer(LOCAL);
         filename = filename.replace("\\", "\\\\");
-        String query = "A = LOAD 'file:"
-                + filename
+        String query = "A = LOAD 'file:" + filename
                 + "' USING pignlproc.storage.ParsingWikipediaLoader('en')"
-                + " as (title: chararray, uri: chararray, text: chararray, links);";
+                + " as (title: chararray, uri: chararray, text: chararray,"
+                + " redirect: chararray, links);";
         pig.registerQuery(query);
         Iterator<?> it = pig.openIterator("A");
         int tupleCount = 0;

@@ -3,6 +3,7 @@ package pignlproc.format;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -11,7 +12,6 @@ import java.net.URL;
 import org.apache.hadoop.io.Text;
 import org.junit.Test;
 
-import pignlproc.format.WikipediaPageInputFormat;
 import pignlproc.format.WikipediaPageInputFormat.WikipediaRecordReader;
 import pignlproc.markup.Annotation;
 import pignlproc.markup.LinkAnnotationTextConverter;
@@ -19,7 +19,7 @@ import pignlproc.markup.LinkAnnotationTextConverter;
 public class TestWikipediaParsing {
 
     @Test
-    public void testWikipediaParsingFromReader() throws IOException,
+    public void testEnWikipediaParsingFromReader() throws IOException,
             InterruptedException {
         URL wikiDump = Thread.currentThread().getContextClassLoader().getResource(
                 "enwiki-20090902-pages-articles-sample.xml");
@@ -32,7 +32,7 @@ public class TestWikipediaParsing {
         assertEquals(new Text("AccessibleComputing"), reader.getCurrentKey());
         String markup = reader.getCurrentValue().toString();
         assertEquals(
-                "#REDIRECT [[Computer accessibility]] {{R from CamelCase}",
+                "#REDIRECT [[Computer accessibility]] {{R from CamelCase}}",
                 markup);
 
         LinkAnnotationTextConverter converter = new LinkAnnotationTextConverter();
@@ -94,4 +94,42 @@ public class TestWikipediaParsing {
         assertFalse(reader.nextKeyValue());
     }
 
+    @Test
+    public void testFrWikipediaParsingFromReader() throws IOException,
+            InterruptedException {
+        URL wikiDump = Thread.currentThread().getContextClassLoader().getResource(
+                "frwiki-20101103-pages-articles-sample.xml");
+        assertNotNull(wikiDump);
+        WikipediaRecordReader reader = new WikipediaPageInputFormat.WikipediaRecordReader(
+                wikiDump, 0, 100000);
+
+        // first article
+        assertTrue(reader.nextKeyValue());
+        assertEquals("Antoine Meillet", reader.getCurrentKey().toString());
+        String markup = reader.getCurrentValue().toString();
+        LinkAnnotationTextConverter converter = new LinkAnnotationTextConverter();
+        String simpleText = converter.convert(markup);
+        // TODO: handle date templates
+        assertTrue(simpleText.startsWith("Paul Jules Antoine Meillet, né le  à Moulins,"
+                + " Allier, mort le  à Châteaumeillant"));
+        assertEquals(48, converter.getWikiLinks().size());
+        assertNull(converter.getRedirect());
+
+        // go to the last article wich is a redirect
+        assertTrue(reader.nextKeyValue());
+        assertTrue(reader.nextKeyValue());
+        assertTrue(reader.nextKeyValue());
+        assertTrue(reader.nextKeyValue());
+        assertTrue(reader.nextKeyValue());
+
+        assertEquals("Amenophis IV", reader.getCurrentKey().toString());
+        markup = reader.getCurrentValue().toString();
+        converter = new LinkAnnotationTextConverter();
+        assertEquals("", converter.convert(markup));
+        assertEquals(0, converter.getWikiLinks().size());
+        assertEquals("http://en.wikipedia.org/wiki/Akh%C3%A9naton", converter.getRedirect());
+
+        // this was the last article
+        assertFalse(reader.nextKeyValue());
+    }
 }
