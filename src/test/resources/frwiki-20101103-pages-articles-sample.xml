@@ -1,0 +1,779 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.3/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd" version="0.3" xml:lang="en">
+  <siteinfo>
+<sitename>Wikipedia</sitename>
+    <base>http://en.wikipedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.13alpha</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2">Media</namespace>
+      <namespace key="-1">Special</namespace>
+      <namespace key="0" />
+      <namespace key="1">Talk</namespace>
+      <namespace key="2">User</namespace>
+      <namespace key="3">User talk</namespace>
+      <namespace key="4">Wikipedia</namespace>
+      <namespace key="5">Wikipedia talk</namespace>
+      <namespace key="6">Image</namespace>
+      <namespace key="7">Image talk</namespace>
+      <namespace key="8">MediaWiki</namespace>
+      <namespace key="9">MediaWiki talk</namespace>
+      <namespace key="10">Template</namespace>
+      <namespace key="11">Template talk</namespace>
+      <namespace key="12">Help</namespace>
+      <namespace key="13">Help talk</namespace>
+      <namespace key="14">Category</namespace>
+      <namespace key="15">Category talk</namespace>
+      <namespace key="100">Portal</namespace>
+      <namespace key="101">Portal talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Antoine Meillet</title>
+    <id>3</id>
+    <revision>
+      <id>56818410</id>
+      <timestamp>2010-09-05T12:03:52Z</timestamp>
+      <contributor>
+        <username>Sisqi</username>
+        <id>781305</id>
+      </contributor>
+      <minor />
+      <comment>[[:fr:WP:CLEANER|WikiCleaner]] 0.99 - [[P:CS/067|Ponctuation avant une référence]] (projet [[P:CS|correction syntaxique]])</comment>
+      <text xml:space="preserve">'''Paul Jules Antoine Meillet''', né le {{Date|11|novembre|1866}} à [[Moulins (Allier)|Moulins]], [[Allier (département)|Allier]], mort le {{Date|21|septembre|1936}} à [[Châteaumeillant]], [[Cher (département)|Cher]], est le principal [[Linguistes célèbres|linguiste]] français des premières décennies du {{XXe siècle}}.
+
+== Biographie ==
+
+D'origine bourbonnaise, fils d'un notaire de [[Châteaumeillant]] ([[Cher (département)|Cher]]), il fait ses études secondaires au lycée Théodore-de-Banville de [[Moulins (Allier)|Moulins]].
+Étudiant à la [[faculté des lettres de Paris]] à partir de [[1885]], il suit notamment les cours de [[Louis Havet]] à la [[Sorbonne]], de [[Michel Bréal]] au [[Collège de France]] et de [[Ferdinand de Saussure]] à l'[[École pratique des hautes études]]. Il assure à la suite de Saussure le cours de [[grammaire comparée]], qu'il complète à partir de 1894 par une conférence sur l'[[iranien]].
+
+En 1897, il soutient sa thèse pour le [[doctorat]] ès lettres  (''Recherches sur l'emploi du génitif-accusatif en vieux-slave'').  En 1905, il occupe la chaire de grammaire comparée au [[Collège de France]], où il consacre ses cours à l'histoire et à la structure des [[langues indo-européennes]].
+
+Secrétaire de la Société de linguistique de Paris, il est élu à l'[[Académie des inscriptions et belles-lettres]] en 1924.
+	
+Il a formé toute une génération de linguistes français, parmi lesquels [[Emile Benveniste]], [[Marcel Cohen]], [[Georges Dumézil]], [[André Martinet]], [[Aurélien Sauvageot]], [[Lucien Tesnière]], [[Joseph Vendryes]]. Il devait diriger la thèse de [[Jean Paulhan]] sur la sémantique du proverbe et c'est lui qui découvrit [[Gustave Guillaume]].
+
+Il a influencé aussi un certain nombre de linguistes étrangers. Il est notamment l'inspirateur de la définition de la phrase adoptée par le linguiste américain [[Leonard Bloomfield]]. Il a également été le premier à identifier le phénomène de la [[grammaticalisation]].
+
+==Antoine Meillet et les études arméniennes==
+
+En [[1890]], une mission d'un an dans le [[Caucase]] lui permet d'étudier l'[[arménien]] moderne. En 1902, il obtient la chaire d'arménien de l'[[École des langues orientales]]. Il publiera en 1903, son Esquisse d'une grammaire comparée de l'arménien classique, qui demeure une référence en linguistique arménienne et indo-européenne jusqu'à ce jour.  Son étudiant, [[Hratchia Adjarian]], deviendra le fondateur de la dialectologie arménienne.  C'est également sous les encouragements de Meillet, qu'[[Émile Benveniste]] étudie la langue arménienne.
+
+==Antoine Meillet et les études homériques==
+
+À la Sorbonne, Meillet surveille le travail de [[Milman Parry]]. En 1923, un an avant que Milman Parry ne commence son travail avec Meillet, Meillet écrit ceci (cité dans la première des deux thèses de Milman Parry, à savoir celle qui traite de l'[[épithète homérique]]) :
+
+&lt;blockquote&gt;
+« L'épopée homérique est entièrement composée de formules, transmise de poète en poète. Un examen de n'importe quel passage révèlera vite qu'il est fait de vers et de fragments de vers qui sont reproduits mot pour mot dans un ou dans plusieurs autres passages. Et même des vers, dont les parties ne se retrouvent pas dans un autre passage, ont le caractère d'une formule, et c'est sans aucun doute par un pur hasard qu'ils ne sont pas attestés ailleurs. »
+&lt;/blockquote&gt;
+
+Meillet offre à son étudiant l'opinion, nouvelle à cet époque, que la structure formulaïque de ''[[l'Iliade]]'' serait une conséquence directe de sa transmission orale. Ainsi il le dirige vers l'étude de l'oralité dans son cadre natif et lui suggère d'observer les mécanismes d'une tradition orale vivante à côté du texte classique (''[[l'Iliade]]'') qu'on a censé résulter de une telle tradition. En conséquence, Meillet présente Parry à [[Matija Murko]], savant originaire de [[Slovénie]] qui avait longuement écrit sur la tradition héroïque épique dans les [[Balkans]], surtout en [[Bosnie-Herzégovine]]&lt;ref&gt;[[Mathias Murko]], ''La poésie populaire épique en Yougoslavie au début du {{s-|XX|e}}'' (Paris: Champion, 1929); Albert Lord, ''The singer of tales'' (Cambridge, Mass.: Harvard University Press, 1960), pp. 11-12; Andrew Dalby, ''Rediscovering Homer'' (New York, London: Norton, 2006. ISBN 0393057887), pp. 186-187.&lt;/ref&gt;.  À partir de ses recherches éventuelles, dont les résultats sont à présent hébergés par l'Université de Harvard, Parry et son élève, [[Albert Lord]], ont profondément renouvelé les études homériques.
+
+== Notes ==
+&lt;references /&gt;
+
+{{wikisourceauteur}}
+== Principaux ouvrages ==
+
+*''Esquisse d'une grammaire comparée de l'arménien classique'', [[1903]].
+*''Introduction à l'étude comparative des langues indo-européennes'', [[1903]].
+*''Les dialectes indo-européens'', [[1908]].
+*''Aperçu d'une histoire de la langue grecque'', [[1913]].
+*''Altarmenisches Elementarbuch'', [[1913]]. Heidelberg
+*''Linguistique historique et linguistique générale'', [[1921]].
+*''Les origines indo-européennes des mètres grecs'', [[1923]].
+*''Esquisse d'une histoire de la langue latine'', [[1928]]. Éd. Klincksieck, ISBN 2-252-01871-2
+*''La méthode comparative en linguistique historique'', 1928.
+*''Dictionnaire étymologique de la langue latine'', [[1932]] (en collab. avec [[Alfred Ernout]] (1879-1973), éd. augmentée, par Jacques André (1910-1994), Paris : Klincksieck, 2001, ISBN 2-252-03359-2 Notice n° : FRBNF37707942)
+
+== Autres ==
+Le College de Chateaumeillant porte son nom .
+
+== Bibliographie sur Antoine Meillet ==
+* Fryba Anne-Marguerite, &quot;[[Maurice Grammont]], Antoine Meillet et l'institutionnalisation de la linguistique en France&quot;, [[Revue des langues romanes]] 105, 2001, 503-517.
+* de Lamberterie Charles 1997, &quot;[[Milman Parry]] et Antoine Meillet&quot;, in Hommage à Milman Parry. Le style formulaire de l’épopée homérique et la théorie de l’oralité poétique, Françoise Létoublon (éd.). Amsterdam, Gieben, 1997
+* Bergounioux Gabriel et de Lamberterie Charles, &quot;Meillet Aujourd'hui&quot;, Peeters, Leuven-Paris, 2006
+
+== Voir aussi ==
+
+*[[Franz Bopp]]
+*[[Johann Kaspar Zeuss]]
+{{Portail|linguistique|Langues|Arménie}}
+
+{{DEFAULTSORT:Meillet, Antoine}}
+[[Catégorie:Académie des inscriptions et belles-lettres]]
+[[Catégorie:Linguiste français]]
+[[Catégorie:Naissance en 1866]]
+[[Catégorie:Naissance à Moulins (Allier)]]
+[[Catégorie:Décès en 1936]]
+[[Catégorie:Institut national des langues et civilisations orientales]]
+
+[[cu:Антоуа́нъ Мєѥ́]]
+[[de:Antoine Meillet]]
+[[en:Antoine Meillet]]
+[[eo:Antoine Meillet]]
+[[es:Antoine Meillet]]
+[[fa:آنتوان میه]]
+[[fi:Antoine Meillet]]
+[[gl:Antoine Meillet]]
+[[it:Antoine Meillet]]
+[[ja:アントワーヌ・メイエ]]
+[[la:Antonius Meillet]]
+[[no:Antoine Meillet]]
+[[ro:Antoine Meillet]]
+[[ru:Мейе, Антуан]]
+[[tr:Antoine Meillet]]
+[[zh:安东尼·梅耶]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Algèbre linéaire</title>
+    <id>7</id>
+    <revision>
+      <id>57536981</id>
+      <timestamp>2010-09-28T02:24:21Z</timestamp>
+      <contributor>
+        <username>Xqbot</username>
+        <id>520383</id>
+      </contributor>
+      <minor />
+      <comment>robot Modifie: [[af:Lineêre algebra]]</comment>
+      <text xml:space="preserve">L’'''algèbre linéaire''' est la branche des [[mathématiques]] qui s'intéresse à l'étude des [[Espace vectoriel|espaces vectoriels]] (ou espaces linéaires), de leurs éléments les [[vecteur]]s, des [[Application linéaire|transformations linéaires]] et des [[Système d'équations linéaires|systèmes d'équations linéaires]] (théorie des [[matrice (mathématiques)|matrices]]).
+
+== Histoire ==
+L'histoire de l'algèbre linéaire commence avec [[René Descartes]] qui le premier pose des problèmes de [[géométrie]], comme l'intersection de deux [[Droite (mathématiques)|droites]], sous forme d'[[équation linéaire]]. Il établit alors un pont entre deux branches mathématiques jusqu'à présent séparées : l'algèbre et la géométrie. S'il ne définit pas la notion de base de l'algèbre linéaire qui est l'espace vectoriel, il l'utilise déjà avec succès. Après cette découverte, les progrès en algèbre linéaire vont se limiter à des études ponctuelles comme la définition et l'analyse des premières propriétés des [[déterminant (mathématiques)|déterminants]] par [[Jean le Rond d'Alembert|Jean d'Alembert]].
+
+Ce n'est qu'au {{XIXe siècle}} que l'algèbre linéaire devient une branche des mathématiques à part entière. [[Carl Friedrich Gauss]] trouve une méthode générique pour la résolution des systèmes d'équations linéaires, [[Marie Ennemond Camille Jordan]] résout définitivement le problème de la [[réduction d'endomorphisme]]. En 1843, [[William Rowan Hamilton]] (inventeur du terme ''vector'') découvre les [[quaternion]]s. En 1844, [[Hermann Günther Grassmann|Hermann Grassmann]] publie un livre ''Die lineare Ausdehnungslehre''.
+
+Le début du {{XXe siècle}} voit la naissance de la formalisation moderne des mathématiques. Les espaces vectoriels deviennent alors une structure générale omni-présente dans presque tous les domaines mathématiques.
+
+== Intérêt ==
+Sous leur forme la plus simple, les applications linéaires dans les [[Espace vectoriel|espaces vectoriels]] représentent intuitivement les déplacements dans les espaces géométriques élémentaires comme la [[Droite (mathématiques)|droite]], le [[Plan (mathématiques)|plan]] ou notre [[Espace (notion)#Physique|espace]] physique. Les bases de cette théorie remplacent maintenant la représentation construite par [[Euclide]] au {{IIIe siècle av. J.-C.}}. La construction moderne permet de généraliser la notion d'espace à des dimensions quelconques.
+
+L'algèbre linéaire permet de résoudre tout un ensemble d'équations dites linéaires utilisées non seulement en mathématiques ou en [[mécanique]], mais dans de nombreuses autres branches comme les [[sciences naturelles]] ou les [[sciences sociales]].
+
+Les espaces vectoriels forment aussi un outil fondamental pour les [[sciences de l'ingénieur]] et servent de base à de nombreux domaines dans la [[recherche opérationnelle]].
+
+Enfin, c'est un outil utilisé en mathématiques pour résoudre des problèmes aussi divers que la [[théorie des groupes]], [[Théorie des anneaux|des anneaux]] ou [[Théorie des corps|des corps]], l'[[Analyse fonctionnelle (mathématiques)|analyse fonctionnelle]], la [[géométrie différentielle]] ou la [[théorie des nombres]].
+
+== Présentation élémentaire ==
+L'algèbre linéaire commence par l'étude de [[vecteur]]s dans les espaces cartésiens de dimension 2 et 3. Un vecteur, ici, est un segment de droite caractérisé à la fois par sa longueur (ou ''norme''), sa direction et son sens. Les vecteurs peuvent alors être utilisés pour représenter certaines entités physiques comme des déplacements, additionnés entre eux ou encore multipliés par des scalaires (''nombres''), formant ainsi le premier exemple concret d'[[espace vectoriel]].
+
+L'algèbre linéaire moderne a été étendue pour considérer les espaces de dimension arbitraire ou infinie. Un espace vectoriel de dimension ''n'' est appelé un n-espace. La plupart des résultats obtenus dans les 2-espaces et 3-espaces peuvent être étendus aux espaces de dimensions supérieures. Bien que beaucoup de personnes ne peuvent appréhender correctement un vecteur dans un n-espace, ils sont utiles pour représenter des données. Les vecteurs étant des listes ordonnées à n composantes, on peut manipuler ces données efficacement dans cet environnement. Par exemple en [[Sciences économiques|économie]], on peut créer et utiliser des vecteurs à huit dimensions pour représenter le [[produit national brut]] de huit pays.
+
+== Quelques théorèmes ==
+* Tout espace vectoriel de dimension finie possède au moins une [[base (algèbre linéaire)|base]].
+* Toutes les bases du même espace vectoriel de dimension finie ont un même nombre de vecteurs.
+* Théorème de la « base incomplète » : soit E un espace vectoriel de dimension finie, G une famille génératrice de E et L une famille libre de vecteurs de G. Alors il existe au moins une base B de E telle que L soit incluse dans B et B incluse dans G.
+* Tout espace vectoriel A possède un [[espace dual]] A&lt;sup&gt;*&lt;/sup&gt;; si A est de dimension finie, A&lt;sup&gt;*&lt;/sup&gt; est de même dimension.
+* Formule de Grassmann : Soient E et G deux sous espaces vectoriels d'un même espace vectoriel de dimension finie. On a alors :
+
+&lt;center&gt;&lt;math&gt;\text{Dim} (E + G) = \text{Dim} (E) + \text{Dim} (G) - \text{Dim} (E \cap G)&lt;/math&gt;&lt;/center&gt;
+
+D'autres théorèmes concernent les conditions d'inversion de [[Matrice (mathématiques)|matrices]] de divers types :
+* [[matrice diagonale]]
+* bande
+* [[matrice triangulaire]]
+* à diagonale dominante (très utilisées en analyse numérique)
+
+Un théorème intéressant à l'époque des mémoires d'ordinateurs de petite taille était qu'on pouvait travailler séparément sur des sous-ensembles (« blocs ») d'une matrice en les combinant ensuite par les mêmes règles qu'on utilise pour combiner des scalaires dans les matrices. Avec les mémoires actuelles de plusieurs [[gigaoctet]]s, cette question a perdu un peu de son intérêt pratique, mais reste très prisée en [[théorie des nombres]], pour la [[décomposition en produit de facteurs premiers]] avec le [[Algorithme de factorisation par crible sur les corps de nombres généralisé|crible général de corps de nombres (GNFS)]] (''méthode Lanczos par blocs'').
+
+== Utilisations ==
+Les espaces vectoriels forment le support et le fondement de l'algèbre linéaire. Ils sont aussi présents dans de nombreux domaines distincts. S'il n'est pas possible d'indiquer ici tous les cas d'utilisation, on peut tout de même citer pour les principales structures objet de théories, des exemples significatifs. Leurs rôles dans de vastes théories ne traitant pas d'une structure particulière, comme celles des [[théorie algébrique des nombres|nombres algébriques]] ou  de [[Théorie de Galois|Galois]] peuvent aussi être évoqués.
+
+Les espaces vectoriels utilisés sont d'une grande diversité. On y trouve les classiques espaces vectoriels de dimension deux et trois sur les [[nombre réel|nombres réels]], cependant la dimension peut être quelconque, même infini. Les [[nombre complexe|nombres complexes]] sont aussi très utilisés, ainsi que les [[nombre rationnel|rationnels]]. Il n'est pas rare qu'une partie des nombres réels ou complexes soit considéré comme un espace vectoriel rationnel. Le corps de base peut aussi contenir un nombre fini d'éléments, définissant parfois un espace vectoriel dont le cardinal est fini.
+
+Les propriétés géométriques de la structure permettent la démonstration de nombreux théorèmes. Elles ne se limitent pas aux cas où l'espace est réel, même dans le cas de corps plus insolites comme les [[corps fini]]s ou les [[extension finie|extensions finies]] des rationnels, les propriétés géométriques s'avèrent parfois essentielles.
+
+=== Groupe fini ===
+{{Loupe|Représentations d'un groupe fini}}
+[[Fichier:Rotations du cube.jpg|280px|right|thumb|Représentation du [[groupe symétrique]] d'ordre quatre comme groupe des rotations du cube dans un espace vectoriel de dimension trois.]]
+
+La [[Groupe fini#Classification des groupes finis|classification des groupes finis]] est une vaste question, encore objet de recherche. Si le groupe contient un petit nombre d'éléments, les [[théorèmes de Sylow]] peuvent suffire pour en déterminer la structure. Une méthode beaucoup plus puissante est nécessaire dans le cas général.
+
+[[Ferdinand Georg Frobenius|Georg Frobenius]] &lt;small&gt;([[1849 en science|1849]]-[[1917 en science|1917]])&lt;/small&gt;, à la suite de travaux de [[Richard Dedekind]] &lt;small&gt;([[1831 en science|1831]] [[1916 en science|1916]])&lt;/small&gt; développe une nouvelle théorie&lt;ref&gt;C. W. Curtis ''Representation theory of finite groups, from Frobenius to Brauer'' Math. Intelligencer p 48-57 1992&lt;/ref&gt; en [[1896 en science|1896]]. Elle se fonde sur l'idée que l'ensemble des [[symétrie]]s d'un espace vectoriel possède une structure de groupe. Il est toujours possible de ''représenter'' un groupe fini par des symétries bien choisies sur un espace vectoriel de dimension suffisante. Un groupe est ainsi incarné par des transformations géométriques simples. Une telle incarnation prend le nom de ''représentation d'un groupe''.
+
+Les espaces vectoriels choisis sont de dimension finie, en général sur le [[nombre complexe|corps des complexes]]&lt;ref&gt;Les 11 premiers chapitres de {{Serre2}} ne concernent que les espaces vectoriels complexes&lt;/ref&gt;, cependant pour disposer de bonnes propriétés arithmétiques le corps peut être celui des [[nombre rationnel|rationnels]]&lt;ref&gt;W. Feit ''Characters of finite groups'' W. A. Benjamin Publ, New-York 1967&lt;/ref&gt; ou encore utiliser des [[entier algébrique|entiers algébriques]] comme pour la démonstration du [[Théorème de Burnside (groupe résoluble)|théorème]] de [[William Burnside]] &lt;small&gt;([[1852 en science|1852]]-[[1927 en science|1927]])&lt;/small&gt; sur les [[groupe résoluble|groupes résolubles]]&lt;ref&gt;[[William Burnside]] ''Theory of Groups of Finite Order'' Dover Publications 2004&lt;/ref&gt;. [[Richard Brauer]] &lt;small&gt;([[1901 en science|1901]]-[[1977 en science|1977]])&lt;/small&gt; étudie un cas très abstrait, celui des représentations sur un espace vectoriel construit à l'aide d'un [[corps fini]]&lt;ref&gt;[[Richard Brauer]] ''Über die Darstellung von Gruppen in Galoisschen Feldern'' Act. Sci. Ind. 195 1935&lt;/ref&gt;. 
+
+Un exemple relativement simple d'utilisation de cette théorie est donné par Burnside , avec son [[Théorème de Burnside (problème de 1902)|théorème]] sur les [[partie génératrice d'un groupe|groupes de type fini]] et d'[[exposant d'un groupe|exposant]] fini&lt;ref&gt;[[William Burnside]] ''On an unsettled question in the theory of discontinuous groups'' Quart.J.Math. 33 pages 230 à 238 [[1902 en science|1902]]&lt;/ref&gt;.
+
+=== Anneau ===
+{{Loupe|théorie des anneaux}}
+[[Fichier:Noether.jpg|thumb|left|[[Emmy Noether]] utilise la notion d'espace vectoriel pour étudier les [[Anneau noethérien|anneaux]] portant maintenant son nom.]]
+Un exemple célèbre d'anneau disposant aussi d'une structure d'espace vectoriel est celui des [[polynôme formel|polynômes]] à coefficients dans un corps. Cet espace vectoriel, de dimension infinie, est largement utilisé en algèbre linéaire, à travers par exemple le [[polynôme minimal d'un endomorphisme|polynôme minimal]] ou [[polynôme caractéristique|caractéristique]]. Le [[polynôme d'endomorphisme|morphisme canonique]] entre les polynômes et les applications linéaires d'un espace vectoriel est à l'origine d'une structure d'algèbre qui est un anneau, si la multiplication externe est ''oubliée''.
+
+Cette méthode permet d'élucider la structure de certains anneaux. Si la [[caractéristique d'un anneau]] est soit nulle soit égale à un [[nombre premier]], alors l'anneau est aussi un espace vectoriel sur tout sous-anneau disposant d'une structure de corps. C'est par exemple le cas du plus petit sous-anneau contenant l'unité. L'espace vectoriel ressemble à la structure développée par Grassman. Cette remarque est utilisée au début du {{XXe siècle}}, en particulier par [[Emil Artin]] &lt;small&gt;([[1898 en science|1898]] - [[1962 en science|1962]])&lt;/small&gt; et [[Emmy Noether]] &lt;small&gt;([[1882 en science|1882]] - [[1935 en science|1935]])&lt;/small&gt; pour élucider cette structure dans le cas des anneaux artiniens et [[Anneau noethérien|noethériens]], qui sont des copies de sous-algèbres sur un espace vectoriel construit sur sous-anneau qui s'avère être un corps.
+
+Un exemple est la généralisation du théorème de [[Joseph Henry Maclagan Wedderburn|Joseph Wedderburn]] &lt;small&gt;([[1882 en science|1882]] - [[1948 en science|1948]])&lt;/small&gt; par Artin et portant maintenant le nom d'[[Théorème d'Artin-Wedderburn|Artin-Wedderburn]]. Il est important en [[algèbre non commutative]]. Ce théorème permet, par exemple, de construire le corps des [[quaternion]]s à l'aide d'une [[représentations du groupe des quaternions|représentation]] du [[groupe de quaternions|groupe associé]] sur un espace vectoriel [[nombre réel|réel]] de dimension quatre.
+
+=== Théorie de Galois ===
+{{Loupe|Théorie de Galois}}
+[[Fichier:Pentagone construit.png|thumb|250px|right|Un [[Construction du pentagone régulier à la règle et au compas|pentagone]] en [[théorie de Galois]] est une figure d'un espace vectoriel rationnel de dimension quatre. Le fait que la dimension soit une puissance de deux est une condition nécessaire pour une [[construction à la règle et au compas]].]]
+La théorie de Galois contient de nombreux exemples d'espaces vectoriels. Elle consiste à étudier un corps comme un espace vectoriel sur un sous-corps. Ainsi chaque sous-corps permet de considérer la structure initiale comme un espace vectoriel particulier.
+
+Un exemple d'application est celui des figures [[construction à la règle et au compas|constructible à la règle et au compas]]. Ces points forment un corps disposant d'une structure d'espace vectoriel sur les nombres rationnels. Il est de dimension infinie et, pour chaque points, le plus petit sous-corps le contenant est de dimension finie égale à une puissance de deux. Un tel sous-corps est appelé  une [[tour d'extension quadratique]]. Cette propriété de ces espaces vectoriel permet de résoudre d'antiques conjectures comme la [[duplication du cube]], la [[trisection de l'angle]] ou la construction d'un [[polygone régulier]].
+
+L'exemple historique de la théorie est celui de la résolution d'une [[équation algébrique|équation polynomiale]]. Le [[Théorème d'Abel (algèbre)|théorème d'Abel]] donne une condition nécessaire et suffisante de résolution par [[Racine d'un nombre#Racines d'un complexe|radicaux]]. Les espaces vectoriels utilisés ont pour éléments ceux du plus petit corps ''L'' contenant tous les coefficients du polynôme ainsi que ses racines et le corps sous-jacent est un sous-corps ''K'' du premier contenant tous les coefficients. Le [[groupe de Galois]] est composé des automorphismes du corps ''L'' et laissant invariant le corps ''K''. Il correspond à un nombre fini de [[symétrie]]s de l'espace vectoriel. L'élément clé de la démonstration montre que l'équation est résoluble seulement si ces symétries sont [[Diagonalisation|diagonalisables]].
+
+== Voir aussi ==
+{{autres projets|v=Algèbre linéaire}}
+=== Liens internes ===
+* [[Propriétés métriques des droites et plans]]
+* [[Algèbre multilinéaire]]
+
+=== Références ===
+
+&lt;references/&gt;
+
+=== Liens externes ===
+* [http://www.egwald.com/linearalgebra/index.php Linear Algebra] by Elmer G. Wiens
+* [http://roso.epfl.ch/teaching.html Les cours du ROSO, dont de l'Algèbre linéaire]
+* [http://braise.univ-rennes1.fr/  Braise : la base raisonnée d'exercices de mathématiques et son chapitre sur l'Algèbre linéaire]
+
+{{Algèbre linéaire}}
+{{Domaines des mathématiques}}
+{{portail mathématiques}}
+
+[[Catégorie:Algèbre linéaire| ]]
+
+[[af:Lineêre algebra]]
+[[ar:جبر خطي]]
+[[bg:Линейна алгебра]]
+[[bn:রৈখিক বীজগণিত]]
+[[bs:Linearna algebra]]
+[[ca:Àlgebra lineal]]
+[[cs:Lineární algebra]]
+[[da:Lineær algebra]]
+[[de:Lineare Algebra]]
+[[el:Γραμμική άλγεβρα]]
+[[en:Linear algebra]]
+[[eo:Lineara algebro]]
+[[es:Álgebra lineal]]
+[[eu:Aljebra lineal]]
+[[fa:جبر خطی]]
+[[fi:Lineaarialgebra]]
+[[gan:線性代數]]
+[[gl:Álxebra lineal]]
+[[he:אלגברה לינארית]]
+[[hr:Linearna algebra]]
+[[hu:Lineáris algebra]]
+[[id:Aljabar linear]]
+[[is:Línuleg algebra]]
+[[it:Algebra lineare]]
+[[ja:線型代数学]]
+[[ka:წრფივი ალგებრა]]
+[[ko:선형대수학]]
+[[lt:Tiesinė algebra]]
+[[mk:Линеарна алгебра]]
+[[nl:Lineaire algebra]]
+[[no:Lineær algebra]]
+[[pl:Algebra liniowa]]
+[[pms:Àlgebra linear]]
+[[pt:Álgebra linear]]
+[[ro:Algebră liniară]]
+[[ru:Линейная алгебра]]
+[[scn:Algibbra liniari]]
+[[sh:Linearna algebra]]
+[[simple:Linear algebra]]
+[[sk:Lineárna algebra]]
+[[sl:Linearna algebra]]
+[[sq:Algjebra lineare]]
+[[sr:Линеарна алгебра]]
+[[sv:Linjär algebra]]
+[[ta:நேரியல் இயற்கணிதம்]]
+[[tg:Алгебраи хаттӣ]]
+[[th:พีชคณิตเชิงเส้น]]
+[[tr:Doğrusal cebir]]
+[[uk:Лінійна алгебра]]
+[[ur:لکیری الجبرا]]
+[[vi:Đại số tuyến tính]]
+[[yi:ליניארע אלגעברע]]
+[[yo:Áljẹ́brà gbígbọrọ]]
+[[zh:线性代数]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Algèbre générale</title>
+    <id>9</id>
+    <revision>
+      <id>55358939</id>
+      <timestamp>2010-07-19T09:06:12Z</timestamp>
+      <contributor>
+        <username>Luckas-bot</username>
+        <id>414968</id>
+      </contributor>
+      <minor />
+      <comment>robot Ajoute: [[ro:Algebră abstractă]]</comment>
+      <text xml:space="preserve">{{ébauche|mathématiques}}
+L' '''algèbre générale''', ou '''algèbre abstraite''', est la branche des [[mathématiques]] qui porte principalement sur l'étude des [[structure (mathématiques)|structures]] [[structure algébrique|algébriques]] et de leurs relations. L'appellation ''algèbre générale'' s'oppose à celle d'''[[Algèbre (mathématiques élémentaires)|algèbre élémentaire]]'' ; cette dernière enseigne le ''[[calcul algébrique]]'', c'est-à-dire les règles de manipulation des ''[[équation algébrique|formules]]'' et des ''[[expressions algébriques]]''.
+
+Historiquement, les structures algébriques sont apparues dans différents domaines des mathématiques, et n'y ont pas été étudiées séparément. C'est pourquoi l'algèbre générale possède beaucoup de connexions avec toutes les branches des mathématiques.
+
+L'étude des structures algébriques peut être faite de manière abstraite, mais unifiée dans le cadre de l'[[algèbre universelle]].
+
+== Bases ==
+* [[Théorie des ensembles]]
+** [[Ensemble|Notion d'ensemble]]
+** [[Sous-ensemble]]
+** [[Opérations sur les ensembles]]
+** [[Produit cartésien]]
+* [[Correspondance et relation|Correspondances et Relations]]
+** [[Relation binaire]]
+** [[Fonction et application|Fonctions et applications]]
+* [[Loi de composition]]
+** [[Loi de composition interne|Loi interne]]
+
+== [[Structure algébrique|Structures algébriques]] ==
+* [[Magma (mathématiques)|Magma]]
+* [[Demigroupe]]
+* [[Quasigroupe]]
+* [[Monoïde]]
+* [[Semigroupe]]
+* [[Groupe (mathématiques)|Groupe]]
+* [[Anneau (mathématiques)|Anneau]]
+* [[Corps (mathématiques)|Corps]]
+* [[Espace vectoriel]]
+* [[Algèbre sur un corps|Algèbre]]
+* [[Opérade]]
+
+== Articles connexes ==
+* [[Algèbre universelle]]
+* [[Structure algébrique]]
+* [[Évariste Galois]] et [[Niels Henrik Abel]] (mathématiciens ayant fourni un travail majeur pour la construction de l'algèbre)
+
+{{portail|mathématiques}}
+
+{{DEFAULTSORT:Algebre generale}}
+
+[[Catégorie:Algèbre générale| ]]
+
+[[ar:جبر تجريدي]]
+[[be:Абстрактная алгебра]]
+[[be-x-old:Абстрактная альгебра]]
+[[bn:বিমূর্ত বীজগণিত]]
+[[bs:Apstraktna algebra]]
+[[ca:Àlgebra abstracta]]
+[[cs:Abstraktní algebra]]
+[[cv:Абстраклă алгебра]]
+[[da:Abstrakt algebra]]
+[[de:Abstrakte Algebra]]
+[[en:Abstract algebra]]
+[[eo:Abstrakta algebro]]
+[[es:Álgebra abstracta]]
+[[eu:Aljebra abstraktu]]
+[[fa:جبر مجرد]]
+[[fi:Abstrakti algebra]]
+[[gl:Álxebra abstracta]]
+[[he:אלגברה מופשטת]]
+[[hr:Osnovna algebra]]
+[[hu:Absztrakt algebra]]
+[[id:Aljabar abstrak]]
+[[io:Abstrakta algebro]]
+[[is:Hrein algebra]]
+[[it:Algebra astratta]]
+[[ja:抽象代数学]]
+[[ka:უმაღლესი ალგებრა]]
+[[ko:추상대수학]]
+[[ml:അമൂർത്തബീജഗണിതം]]
+[[mt:Alġebra astratta]]
+[[nl:Abstracte algebra]]
+[[nn:Abstrakt algebra]]
+[[no:Abstrakt algebra]]
+[[pt:Álgebra abstrata]]
+[[ro:Algebră abstractă]]
+[[ru:Абстрактная алгебра]]
+[[sh:Apstraktna algebra]]
+[[simple:Abstract algebra]]
+[[sk:Abstraktná algebra]]
+[[sl:Abstraktna algebra]]
+[[sr:Апстрактна алгебра]]
+[[sv:Abstrakt algebra]]
+[[th:พีชคณิตนามธรรม]]
+[[tr:Soyut cebir]]
+[[uk:Абстрактна алгебра]]
+[[ur:تجریدی الجبرا]]
+[[vi:Đại số trừu tượng]]
+[[yi:אבסטראקטע אלגעברע]]
+[[zh:抽象代数]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Algorithmique</title>
+    <id>10</id>
+    <revision>
+      <id>58455182</id>
+      <timestamp>2010-10-26T08:52:39Z</timestamp>
+      <contributor>
+        <ip>78.250.226.29</ip>
+      </contributor>
+      <comment>Détails</comment>
+      <text xml:space="preserve">{{Redirect5|Algorithme|la notion d'algorithme en sport|algorithme (sport)}}
+{{à sourcer|date=mai 2010}}
+L''''algorithmique''' est l’ensemble des règles et des techniques qui sont impliquées dans la définition et la conception d'algorithmes, c'est-à-dire de processus systématiques de résolution, par le calcul, d'un problème permettant de décrire les étapes vers le résultat. En d'autres termes, un algorithme est une suite finie et non-ambiguë d’opérations permettant de donner la réponse à un problème. 
+
+Si les opérations d'un algorithme s’exécutent les unes après les autres, c'est un algorithme séquentiel, si elles s’exécutent en parallèle, c'est un algorithme parallèle. Si l'algorithme exploite des tâches s’exécutant sur un réseau de processeurs on parle d’[[algorithme réparti]], ou distribué.
+
+Le mot « algorithme » vient du nom du [[mathématicien]] [[Abou Jafar Muhammad Ibn Mūsa al-Khuwārizmī|Al Khuwarizmi]] (latinisé au Moyen Âge en {{lang|la|''Algoritmi''}}), qui, au {{IXe siècle}} écrivit [[Abrégé du calcul par la restauration et la comparaison|le premier ouvrage systématique]] sur la solution des [[équation linéaire|équations linéaires]] et [[équation du second degré|quadratiques]]. 
+
+== Historique ==
+=== Antiquité ===
+Les algorithmes dont on a retrouvé des descriptions exhaustives ont été utilisés dès l’époque des [[Babylone|Babyloniens]], pour des calculs concernant le commerce et les impôts.
+
+L’algorithme le plus célèbre est celui qui se trouve dans le livre&amp;nbsp;7 des ''[[algorithme d'Euclide|Éléments d'Euclide]]''. Il permet de trouver le plus grand diviseur commun, ou [[Plus grand commun diviseur|PGCD]], de deux nombres. Un point particulièrement remarquable est qu’il contient explicitement une [[itération]] et que les propositions&amp;nbsp;1 et 2 démontrent (maladroitement pour nos contemporains) sa convergence.
+
+=== Étude systématique ===
+L’algorithmique a été systématisée par le mathématicien perse [[Muhammad ibn Mūsā al-Khuwārizmī|Al Khuwarizmi]] (né vers [[780]] - mort vers [[850]]), auteur d’un ouvrage dont le titre est souvent traduit en ''L’algèbre et le balancement'', qui décrit des méthodes de calculs algébriques et dans lequel l'auteur introduit le [[zéro]] des Indiens. 
+
+Le savant arabe [[Averroès]] ([[1126]]-[[1198]]) évoque une méthode de raisonnement où la thèse s’affine étape par étape (itérativement) jusqu’à une certaine convergence et ceci conformément au déroulement d’un algorithme. À la même époque, au {{XIIe siècle}}, le moine [[Adelard de Bath]] introduit le terme [[latin]] de {{lang|la|''algorismus''}} (par référence au nom de Al Khuwarizmi). Ce mot donne ''algorithme'' en [[français]] en [[1554]]. 
+
+Au {{XVIIe siècle}}, on pourrait entrevoir une certaine allusion à la méthode algorithmique chez [[René Descartes]] dans la méthode générale proposée par le [[Discours de la méthode]] ([[1637]]), notamment quand, en sa deuxième partie, le logicien français propose de {{citation|diviser chacune des difficultés que j’examinerois, en autant de parcelles qu’il se pourroit, et qu’il seroit requis pour les mieux résoudre.}} Sans évoquer explicitement les concepts de boucle, d’itération ou de dichotomie, l’approche de Descartes prédispose la logique à accueillir le concept de programme, mot qui naît en français en [[1677]]. 
+
+L’utilisation du terme ''algorithme'' est remarquable chez [[Ada Lovelace]], fille de [[George Gordon Byron|Lord Byron]] et assistante de [[Charles Babbage]] ([[1791]]-[[1871]]).
+
+== Vocabulaire ==
+Le substantif ''algorithmique'' désigne la méthode utilisant des algorithmes. Le terme est également employé comme adjectif.
+
+Un algorithme énonce une résolution sous la forme d’une ''série d’opérations à effectuer''. La mise en œuvre de l’algorithme consiste en l’écriture de ces opérations dans un [[langage de programmation]] et constitue alors la brique de base d’un [[programme informatique]].
+
+Les informaticiens utilisent fréquemment l’anglicisme ''implémentation'' pour désigner cette mise en œuvre. L’écriture en langage informatique est aussi fréquemment désignée par le terme « [[codage (programmation)|codage]] », qui n’a ici aucun rapport avec la [[cryptographie]], mais qui se réfère au terme « [[code source]] » pour désigner le texte, en langage de programmation, constituant le programme. L’algorithme devra être plus ou moins détaillé selon le niveau d’abstraction du langage utilisé ; autrement dit, une recette de cuisine doit être plus ou moins détaillée en fonction de l’expérience du cuisinier.
+
+== Étude formelle ==
+De nombreux outils formels ou théories ont été développés pour décrire les algorithmes, les étudier, exprimer leurs qualités, pouvoir les comparer entre eux :
+* Ainsi, pour décrire les algorithmes, des structures algorithmiques ont été mises en évidences : structures de contrôle (boucle, conditionnelle, ...) et structures de données (variables, listes, ...). 
+* Pour justifier de la qualité des algorithmes, les notions de correction, de complétude et de terminaison ont été mises en place. 
+* Enfin, pour comparer les algorithmes entre eux, une théorie de la complexité des algorithmes a été définie.
+
+=== Structures algorithmiques ===
+
+Les concepts en œuvre en algorithmique, par exemple selon l'approche de N. Wirth pour les langages les plus répandus (Pascal, C, etc.), sont en petit nombre. Ils appartiennent à deux classes : 
+* les [[structure de contrôle|structures de contrôle]]
+** séquences
+** conditionnelles 
+** boucles
+* les [[Structure de données|structures de données]]
+** constantes
+** variables 
+** tableaux
+** structures récursives (listes, arbres, graphes)
+
+Ce découpage est parfois difficile à percevoir pour certains langages ([[Lisp]], [[Prolog]], ...) plus basés sur la notion de [[algorithme récursif|récursivité]] où certaines structures de contrôle sont implicites (et, donc, semblent disparaître).
+
+=== Correction, complétude, terminaison ===
+
+Ces trois notions « correction », « complétude », « terminaison » sont liées, et supposent qu'un algorithme est écrit pour résoudre un problème.
+ 
+La terminaison est l'assurance que l'algorithme terminera en un temps fini. Les preuves de terminaison font habituellement intervenir une fonction entière positive strictement décroissante à chaque « pas » de l'algorithme. 
+
+Étant donnée la garantie qu'un algorithme terminera, la preuve de correction doit apporter l'assurance que si l'algorithme termine en donnant une proposition de solution, alors cette solution est correcte — c'est-à-dire qu'elle est effectivement une solution au problème posé. 
+
+La preuve de complétude garantit que, pour un espace de problèmes donné, l'algorithme, s'il termine, donnera des propositions de solutions.
+
+=== Complexité algorithmique ===
+
+{{Article_détaillé|Théorie de la complexité des algorithmes}}
+
+Les principales notions mathématiques dans le calcul du coût d’un algorithme précis sont les [[notation de Landau|notions de domination]] (notée ''O(f(n))'', « grand o »), où ''f'' est une [[fonction mathématique]] de ''n'', variable désignant la quantité d’informations (en [[bit]]s, en nombre d’enregistrements, etc.) manipulée dans l’algorithme. En algorithmique on trouve souvent des complexités du type : 
+
+{| class=&quot;wikitable&quot;
+! Notation
+! Type de complexité
+|-
+| &lt;math&gt;O(1)&lt;/math&gt;
+| complexité constante (indépendante de la taille de la donnée)
+|-
+| &lt;math&gt;O(log(n))&lt;/math&gt;
+| complexité logarithmique
+|-
+| &lt;math&gt;O(n)&lt;/math&gt;
+| complexité linéaire
+|-
+| &lt;math&gt;O(n log(n))&lt;/math&gt;
+| complexité quasi-linéaire
+|-
+| &lt;math&gt;O(n^{2})&lt;/math&gt;
+| complexité quadratique
+|-
+| &lt;math&gt;O(n^{3})&lt;/math&gt;
+| complexité cubique
+|-
+| &lt;math&gt;O(n^p)&lt;/math&gt;
+| complexité polynomiale
+|-
+| &lt;math&gt;O(n^{\log(n)})&lt;/math&gt;
+| complexité quasi-polynomiale
+|-
+| &lt;math&gt;O(2^{n})&lt;/math&gt;
+| complexité exponentielle
+|-
+| &lt;math&gt;O(n!)&lt;/math&gt;
+| complexité factorielle
+|}
+
+Sans entrer dans les détails mathématiques, le calcul de l’efficacité d’un algorithme (sa ''[[complexité algorithmique]]'') consiste en la recherche de deux quantités importantes. La première quantité est l’évolution du nombre d’instructions de base en fonction de la quantité de données à traiter (par exemple, pour un [[algorithme de tri]], il s'agit du nombre de données à trier), que l’on privilégiera sur le temps d'exécution mesuré en secondes (car ce dernier dépend de la machine sur laquelle l'algorithme s'exécute). La seconde quantité estimée est la quantité de mémoire nécessaire pour effectuer les calculs. Baser le calcul de la complexité d’un algorithme sur le temps ou la quantité effective de mémoire qu’un ordinateur particulier prend pour effectuer ledit algorithme ne permet pas de prendre en compte la structure interne de l’algorithme, ni la particularité de l’ordinateur : selon sa charge de travail, la vitesse de son processeur, la vitesse d’accès aux données, l’exécution de l’algorithme (qui peut faire intervenir le hasard) ou son organisation de la mémoire, le temps d’exécution et la quantité de mémoire ne seront pas les mêmes.
+
+Il existe également un autre aspect de l'évaluation de l'efficacité d'un algorithme : les performances en moyenne de cet algorithme. Elle suppose d'avoir un modèle de la répartition des données de l'algorithme, tandis que la mise en œuvre des techniques d'analyse implique des méthodes assez fines de [[analyse combinatoire|combinatoire]] et d'[[Développement asymptotique|évaluation asymptotique]], utilisant en particulier les [[série génératrice|séries génératrices]] et des méthodes avancées d'[[analyse complexe]]. L'ensemble de ces méthodes sont regroupées sous le nom de [[combinatoire analytique]].
+
+On trouvera dans l’article sur la [[théorie de la complexité des algorithmes]] d’autres évaluations de la complexité qui vont en général au-delà des valeurs proposées ci-dessus et qui répartissent les problèmes (plutôt que les algorithmes) en classes de complexité.
+
+==== Quelques indications sur l’efficacité des algorithmes ====
+
+Souvent, l’efficacité d’un algorithme n’est connue que de manière asymptotique, c’est-à-dire pour de grandes valeurs du paramètre ''n''.
+Lorsque ce paramètre est suffisamment petit, un algorithme de complexité supérieure peut en pratique être plus efficace.
+Ainsi, pour trier un tableau de 30&amp;nbsp;lignes (c’est un paramètre de petite taille), il est inutile d’utiliser un algorithme évolué comme le [[Tri rapide]] (l’un des algorithmes de tri les plus efficaces en moyenne) : l’algorithme de tri le plus trivial sera suffisamment efficace.
+
+Entre deux algorithmes dont la complexité est identique, on cherchera à utiliser celui dont l’occupation mémoire est la plus faible. L’analyse de la complexité algorithmique peut également servir à évaluer l’occupation mémoire d’un algorithme. Enfin, le choix d’un algorithme plutôt qu’un autre doit se faire en fonction des données que l’on s’attend à lui fournir en entrée. Ainsi, le {{lang|en|''[[Quicksort]]''}} (ou tri rapide), lorsque l’on choisit le premier élément comme pivot, se comporte de façon désastreuse si on l’applique à une liste de valeurs déjà triée. Il n’est donc pas judicieux de l’utiliser si on prévoit que le programme recevra en entrée des listes déjà presque triées.
+
+Un autre paramètre à prendre en compte est la [[Mémoire virtuelle#Principe de localité|localité]] de l’algorithme. Par exemple pour un système à [[mémoire virtuelle]] qui dispose de peu de mémoire (par rapport au nombre de données à traiter), le [[Tri rapide]] sera normalement plus efficace que le [[Tri par tas]] car le premier ne passe qu’une seule fois sur chaque élément de la mémoire tandis que le second accède à la mémoire de manière discontinue (ce qui augmente le risque de {{lang|en|''[[Mémoire virtuelle#Swapping|swapping]]''}}).
+
+Enfin, il existe certains algorithmes dont la complexité est dite [[analyse amortie|amortie]]. Cela signifie que, pour certaines exécutions de l’algorithme (cas marginaux), la complexité de l’algorithme sera très supérieure au cas moyen. Bien sûr, on n’utilise la notion de complexité amortie que dans les cas où cette réaction est très marginale.
+
+== Approches pratiques ==
+
+L'algorithmique a développé quelques stratégies pour résoudre les problèmes :
+* [[algorithme glouton]] : un premier algorithme peut souvent être proposé en ne regardant que les cas simples, ou ceux apparaissant le plus souvent. On parle alors d'algorithme glouton. L'algorithme glouton n'est souvent qu'une première étape dans la rédaction d'un algorithme plus performant.
+* [[Diviser pour régner (informatique)|diviser pour régner]] : pour améliorer les performances des algorithmes, une technique usuelle consiste à diviser les données d'un problème en sous-ensembles de tailles plus petites, jusqu'à obtenir des données que l'algorithme pourra traiter au cas par cas. Une seconde étape dans ces algorithmes consiste à « fusionner » les résultats partiels pour obtenir une solution globale. Ces algorithmes sont souvent associés à la récursivité.
+* [[recherche exhaustive]] (ou combinatoire) : une méthode utilisant l'énorme puissance de calcul des ordinateurs consiste à regarder tous les cas possibles. Cela n'est pour autant possible que dans certains cas particuliers (la combinatoire est souvent plus forte que l'énorme puissance des ordinateurs, aussi énorme soit-elle)
+* [[Algorithme probabiliste|aléatoire]], ou par approximations successives : certains algorithmes utilisent des recherches aléatoires, ou par approches successives, donnant de meilleurs résultats (en moyenne) que des recherche directes ou explicites.
+* décomposition top-down / bottom-up : les décompositions top-bottom consistent à essayer de décomposer le problème en sous-problèmes à résoudre successivement, la décomposition allant jusqu'à des problèmes triviaux faciles à résoudre. L'algorithme global est alors donné par la composée des algorithmes définis au cours de la décomposition. La démarche bottom-up est la démarche inverse, elle consiste à partir d'algorithmes simples, ne résolvant qu'une étape du problème, pour essayer de les composer pour obtenir un algorithme global.
+* pré-traitement / post-traitement : parfois, certains algorithmes comportent une ou deux phases identifiées comme des pré-traitements (à faire avant l'algorithme principal), ou post-traitement (à faire après l'algorithme principal), pour simplifier l'écriture de l'algorithme général.
+
+=== Les heuristiques ===
+
+Pour certains problèmes, les algorithmes ont une complexité beaucoup trop grande pour obtenir un résultat en temps raisonnable, même si l’on pouvait utiliser une puissance de calcul phénoménale. On est donc amené à rechercher une solution la plus proche possible d’une solution optimale en procédant par essais successifs. Puisque toutes les combinaisons ne peuvent être essayées, certains choix stratégiques doivent être faits. Ces choix, généralement très dépendants du problème traité, constituent ce qu’on appelle une [[heuristique]]. Le but d’une heuristique n'est donc pas d'essayer toutes les combinaisons possibles afin de trouver celle répondant au problème, mais de trouver une solution approchée convenable (qui peut être exacte dans certains cas) dans un temps raisonnable.
+C’est ainsi que les programmes de [[jeu d'échecs|jeu d’échecs]] ou de [[jeu de go]] (pour ne citer que ceux-là) font appel de manière très fréquente à des heuristiques qui modélisent l’expérience d’un joueur. Certains [[Logiciel antivirus|logiciels antivirus]] se basent également sur des heuristiques pour reconnaître des [[virus informatique]]s non répertoriés dans leur base, en s’appuyant sur des ressemblances avec des virus connus.
+
+== Exemples d’algorithmes, de problèmes, d'applications ou domaines d'application ==
+
+Il existe un certain nombre d’algorithmes classiques, utilisés pour résoudre des problèmes ou plus simplement pour illustrer des méthodes de programmation. On se référera aux articles suivants pour de plus amples détails (voir aussi [[liste des algorithmes]]) :
+* Algorithmes ou problèmes classiques (du plus simple ou plus complexe)
+** échange, ou comment échanger les valeurs de deux variables : problème classique illustrant la notion de variable informatique (voir aussi [[Structure de données]])
+** Algorithmes de recherche, ou comment retrouver une information dans un ensemble structuré ou non (par exemple [[Dichotomie|Recherche dichotomique]])
+** [[algorithme de tri]], ou comment trier un ensemble de nombres le plus rapidement possible ou en utilisant le moins de ressources possible
+** [[problème du voyageur de commerce]], [[problème du sac à dos]], [[problème SAT]] et autres algorithmes ou approximations de solutions pour les problèmes combinatoires difficiles (dit NP-complets) 
+* Algorithmes ou problèmes illustrant la programmation récursive (voir aussi [[algorithme récursif]])
+** [[tours de Hanoï]]
+** [[huit dames]], placer huit dames sur un échiquier sans qu’elles puissent se prendre entre elles,
+** [[suite de Conway]],
+** algorithme de dessins récursifs pour le [[Tapis de Sierpiński (programme informatique)]], la [[Courbe du dragon]], le flocon, ...
+* Algorithmes dans le domaine des mathématiques
+** calcul de la [[factorielle]] d'un nombre, de la [[Fonction d'Ackermann]] ou de la suite de Fibonnacci,
+** [[algorithme du simplexe]], qui minimise une fonction linéaire de variables réelles soumises à des contraintes linéaires,
+** [[fraction continue d'un nombre quadratique]], permettant d'extraire une [[racine carrée]], cas particulier de la [[méthode de Newton]]
+** dans le domaine de l'algèbre : l'[[unification|algorithme d'unification]] et le calcul d'une [[bases de Gröbner|base de Gröbner]] d'un idéal de polynôme,
+** en [[Théorie des graphes#Aspect algorithmique|théorie des graphes]] qui donne lieu à de nombreux algorithmes.
+* Algorithmes pour et dans le domaine de l'informatique
+** [[cryptologie]] et [[compression de données]]
+** [[Informatique musicale]]
+** [[algorithme génétique]] en [[informatique décisionnelle]]
+** Analyse et compilation des langages formels (voir [[Compilateur]] et [[Interprète (informatique)]])
+** [[allocation de mémoire]] ([[ramasse-miettes (informatique)|ramasse-miettes]])
+
+== Voir aussi ==
+{{autres projets|wikiversity=Algorithmique|wiktionary=algorithmie}}
+=== Articles connexes ===
+* [[Al-Khuwarizmi]]
+* [[Algorithme récursif]]
+* [[Algorithme réparti]]
+* [[Algorithme adaptatif]]
+* [[Liste des algorithmes]]
+* [[Métaheuristique]]
+* [[Recherche opérationnelle]]
+
+
+{{Palette informatique théorique}}
+
+{{Portail|algorithmique}}
+
+[[Catégorie:Algorithmique|*]]
+
+{{Lien BA|uk}}
+
+[[af:Algoritme]]
+[[an:Algorismo]]
+[[ar:خوارزمية]]
+[[arz:الجوريتم]]
+[[ast:Algoritmu]]
+[[az:Alqoritm]]
+[[be:Алгарытм]]
+[[be-x-old:Альгарытм]]
+[[bg:Алгоритъм]]
+[[bn:অ্যালগরিদম]]
+[[bs:Algoritam]]
+[[ca:Algorisme]]
+[[cs:Algoritmus]]
+[[da:Algoritme]]
+[[de:Algorithmus]]
+[[el:Αλγόριθμος]]
+[[en:Algorithm]]
+[[eo:Algoritmo]]
+[[es:Algoritmo]]
+[[et:Algoritm]]
+[[eu:Algoritmo]]
+[[fa:الگوریتم]]
+[[fi:Algoritmi]]
+[[gl:Algoritmo]]
+[[he:אלגוריתם]]
+[[hi:अल्गोरिद्म]]
+[[hr:Algoritam]]
+[[hu:Algoritmus]]
+[[ia:Algorithmo]]
+[[id:Algoritma]]
+[[io:Algoritmo]]
+[[is:Reiknirit]]
+[[it:Algoritmo]]
+[[ja:アルゴリズム]]
+[[ka:ალგორითმი]]
+[[kaa:Algoritm]]
+[[ko:알고리즘]]
+[[ku:Algorîtma]]
+[[la:Algorithmus]]
+[[lb:Algorithmus]]
+[[lt:Algoritmas]]
+[[lv:Algoritms]]
+[[mk:Алгоритам]]
+[[ml:അൽഗൊരിതം]]
+[[mn:Алгоритм]]
+[[mr:अल्गोरिदम]]
+[[ms:Algoritma]]
+[[nl:Algoritme]]
+[[nn:Algoritme]]
+[[no:Algoritme]]
+[[pl:Algorytm]]
+[[pnb:الگورتھم]]
+[[pt:Algoritmo]]
+[[ro:Algoritm]]
+[[ru:Алгоритм]]
+[[sah:Алгоритм]]
+[[scn:Alguritmu]]
+[[sd:الخوارزمي]]
+[[sh:Algoritam]]
+[[si:ඇල්ගොරිතම]]
+[[simple:Algorithm]]
+[[sk:Algoritmus]]
+[[sl:Algoritem]]
+[[sq:Algoritmi]]
+[[sr:Алгоритам]]
+[[su:Algoritma]]
+[[sv:Algoritm]]
+[[ta:படிமுறைத் தீர்வு]]
+[[te:అల్గారిథం]]
+[[tg:Алгоритм]]
+[[th:ขั้นตอนวิธี]]
+[[tl:Algoritmo]]
+[[tr:Algoritma]]
+[[uk:Алгоритм]]
+[[ur:الخوارزم]]
+[[uz:Algoritm]]
+[[vi:Thuật toán]]
+[[war:Algoritmo]]
+[[yi:אלגאריטם]]
+[[zh:算法]]
+[[zh-min-nan:Ián-sǹg-hoat]]
+[[zh-yue:演算法]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>Politique de l'Argentine</title>
+    <id>11</id>
+    <revision>
+      <id>58655693</id>
+      <timestamp>2010-10-30T23:37:44Z</timestamp>
+      <contributor>
+        <username>Lysosome</username>
+        <id>235065</id>
+      </contributor>
+      <minor />
+      <comment>Ajout rapide de {{portail}} : + politique ; avec [[Projet:JavaScript/Notices/BandeauxPortails|BandeauxPortails]]</comment>
+      <text xml:space="preserve">{{ébauche|politique|Argentine}}
+{{PolitiqueArgentine}}
+L'[[Argentine]] est une [[république]] [[régime présidentiel|présidentielle]] [[multipartisme|multipartite]], où le président est à la fois [[chef de l'État]] et chef du [[gouvernement]]. Le [[pouvoir exécutif]] est détenu par le gouvernement et le [[pouvoir législatif]] est partagé entre le gouvernement et les deux chambres du [[parlement]]. Le pouvoir judiciaire est indépendant des deux premiers.
+
+== Pouvoir exécutif ==
+
+Les élections présidentielles se déroulent en un ou deux tours. Si aucun candidat ne récolte plus de 45 % des votes, alors un deuxième tour est organisé. Seuls les deux candidats qui ont remporté le plus de votes participent au deuxième tour (2003). [[Histoire de l'Argentine|Historiquement]], le pays est marqué par le [[bipartisme]] entre le [[Parti justicialiste]] (ou [[péroniste]]), qui fut cependant interdit de 1955 aux [[élections de 1973 (Argentine)|élections de 1973]], puis à nouveau réprimé après le [[coup d'Etat de mars 1976]], et le parti radical ([[Union Civique Radicale]], UCR) et l'élection se fait normalement dès le premier tour.
+
+Depuis 1989, il n'y eut aucun débat télévisé entre deux candidats à la présidentielle [http://www.monografias.com/trabajos31/politicos-calle-conferencias-partido-socialista/politicos-calle-conferencias-partido-socialista.pdf].
+
+== Histoire ==
+
+19 candidats étaient inscrits pour les élections du [[19 avril]] [[2003]], fait exceptionnel et un second tour était attendu.
+
+=== Élection présidentielle 2003 ===
+
+Les 19 candidats étaient (dans l'ordre alphabétique) :
+
+# [[Jorge Altamira]]
+# [[Juan Carlos Arcagni]]
+# [[José Bonacci]]
+# [[Alfredo Bravo]]
+# [[Elisa Carrió]]
+# [[Manuel Herrera]]
+# [[Néstor Kirchner]]
+# [[Manuel Manusovich]]
+# [[Mario Mazzitelli]]
+# [[Carlos Menem]]
+# [[Leopoldo Moreau]]
+# [[Ricardo López Murphy]]
+# [[Ricardo Mussa]]
+# [[Gustavo Breide Obeid]]
+# [[Adolfo Rodríguez Saá]]
+# [[Guillermo Sulling]]
+# [[Enrique Venturino]]
+# [[Patricia Walsh]]
+# [[Carlos Zaffore]]
+
+[[Carlos Menem]], ancien président est arrivé en tête au premier tour avec 24 % des voix, suivi de [[Néstor Kirchner]], proche du président en titre, [[Eduardo Duhalde]], avec 22 %. Tous les deux sont issus du parti justicialiste ([[péronisme|péroniste]]). [[Carlos Menem]], d'après les sondages, ne paraissait pas pouvoir significativement progresser par rapport à son score du premier tour et semblait donc promis à une lourde défaite, avec 30 % de retard. Il a renoncé le [[14 mai]], à quatre jours du second tour, laissant Nestor Kirchner devenir automatiquement président. Les adversaires de Menem et notamment l'entourage du président Duhalde ont qualifié cette décision d'irresponsable, puisqu'en privant Kirchner de la victoire au second tour, en faisant un président par défaut, elle pourrait miner sérieusement sa légitimité...
+
+=== Mandat de Nestor Kirchner ===
+Une fois élu à la tête de l'Argentine, [[Nestor Kirchner]] a eu devant lui un chantier imposant : reconstruire l'économie de l'Argentine, gravement endommagée par la [[crise économique argentine|crise financière de 2001]]. Il tente d'appliquer à l'Argentine les recettes qui ont fait le succès économique de la province de [[Santa Cruz (province argentine)|Santa Cruz]], en Patagonie, dont il était le gouverneur jusqu'en 2003.
+Ses premières tâches ont été :
+- la renégociation de la dette en défaut, avec le [[FMI]] et avec les créanciers privés. Un accord a été trouvé avec ces derniers début 2005, ceux-ci devant renoncer à 75 % de leurs créances.
+- les renégociations des contrats d'eau, de gaz... avec de grandes entreprises étrangères (Suez...). La plupart des services publics ont été privatisés pendant l'ère Menem.
+- les discussions avec les « [[piqueteros]] », associations de chômeurs bloquant régulièrement les routes pour demander la revalorisation des aides sociales.
+
+Nestor Kirchner a également été confronté à une vague de violences et d'enlèvements (contre rançons), avec l'implication de la police de la Province de Buenos Aires. Il a donc mené une épuration de la police et de la justice pour lutter contre la corruption et la violence organisée, et nomma en juin 2004 [[Esteban Righi]], l'ex-ministre de l'Intérieur d'[[Héctor Cámpora]] (mai-juillet 1973), [[procureur général|procureur de la Nation]]&lt;ref name=Clarin&gt; Julio Blanck, [http://www.clarin.com/suplementos/zona/2004/06/06/z-03301.htm Esteban Righi, un hombre marcado por sus palabras], ''[[El Clarín]]'', 6 juin 2004 &lt;/ref&gt;.
+
+Les [[élection présidentielle argentine de 2007|élections présidentielles de 2007]] ont été à nouveau remportées par le [[Parti justicialiste]], portant la femme de Kirchner, [[Cristina Fernández de Kirchner]], à la présidence.
+
+== Extrême-droite ==
+
+Depuis au moins les années 1930, il existe une [[extrême-droite]] argentine organisée (création du Parti fasciste argentin en 1932, élection du gouverneur de Buenos Aires [[Manuel Fresco]] en 1935, [[Mouvement nationaliste Tacuara]] des années 1960 qui organisa une forte campagne antisémite après l'enlèvement du nazi [[Adolf Eichmann]] par le [[Mossad]]). Celle-ci, désignée sous le terme de « [[national-catholicisme]] », eut une influence importante dans l'armée et l'Eglise (avec notamment l'abbé [[Julio Meinvielle]] ; la [[Cité catholique]] fondée par [[Jean Ousset]], un disciple de [[Charles Maurras|Maurras]], proche par ailleurs de l'archévêque [[Antonio Caggiano]], ou le magazine ''[[Cabildo (revue)|Cabildo]]'') et les différents coups d'Etat (« [[Révolution libératrice]] », « [[Révolution argentine]] » de 1966 et [[coup d'Etat de mars 1976]], préparé, entre autres, par l'activisme violent de l'[[Alliance anticommuniste argentine]] et de la ''[[Concentración Nacional Universitaria]]''), celle-ci fut intégrée au régime de [[Jorge Rafael Videla]] après mars 1976, participant aux nombreux [[escadrons de la mort]], ce qui lui ôta toute existence indépendante du pouvoir.
+
+Depuis la [[transition démocratique]] des années 1980, elle se montre plus discrète, à l'exception des soulèvements militaires organisés par les [[Carapintadas]]. Elle n'en continue pas moins d'exister, avec la fondation du {{lien|Partido Nuevo Triunfo|lang=es}} en 1990, par {{lien|Alejandro Biondini|lang=es}}, ou la re-création du magazine national-catholique et antisémite ''[[Cabildo (revue)|Cabildo]]''. La [[Cour suprême (Argentine)|Cour suprême]] a néanmoins ordonné la dissolution de ce parti en 2009 en raison de déclarations nazies et antisémites &lt;ref&gt; [http://ecodiario.eleconomista.es/internacional/noticias/1105848/03/09/Corte-Suprema-rechaza-personeria-politica-a-partido-neonazi-en-Argentina.html Corte Suprema rechaza personería política a partido neonazi en Argentina], ''[[El Economista]]'', 17 mars 2009 &lt;/ref&gt;.
+
+Par ailleurs, {{lien|Gustavo Breide Obeid|lang=es}}, l'un des partisans du ''Carapintada'' Seineldín et participants à son putsch, condamné à 7 ans de prison, a fondé en 1996 le marginal ''{{lien|Partido Popular por la Reconstrucción|lang=es}}''. Candidat à l'élection présidentielle de 2003 et de 2007, il obtint à [[élection présidentielle de 2007 (Argentine)|cette dernière]] 45 113 voix, soit 0,25% des suffrages exprimés.
+
+== Notes et références ==
+{{Références}}
+
+== Liens ==
+
+* [[Économie de l'Argentine]]
+* [[Histoire de l'Argentine]]
+* [[Liste des Présidents de l'Argentine]]
+* [[Représentations diplomatiques de l'Argentine]]
+
+== Liens externes ==
+* {{es}} [http://www.presidencia.gov.ar/ Site officiel du gouvernement]
+
+{{Politique de l'Amérique du Sud}}
+
+{{Portail|Argentine|politique}}
+
+[[Catégorie:Politique de l'Argentine|*]]
+
+[[ast:Gobiernu y política d'Arxentina]]
+[[bg:Държавно устройство на Аржентина]]
+[[cy:Gwleidyddiaeth yr Ariannin]]
+[[de:Politisches System Argentiniens]]
+[[en:Politics of Argentina]]
+[[es:Política de la Nación Argentina]]
+[[fa:سیاست در آرژانتین]]
+[[lt:Argentinos politinė sistema]]
+[[ms:Politik Argentina]]
+[[pt:Política da Argentina]]
+[[ro:Politica Argentinei]]
+[[ru:Политика Аргентины]]</text>
+    </revision>
+  </page>
+</mediawiki>
+
