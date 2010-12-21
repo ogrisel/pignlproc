@@ -7,7 +7,7 @@ REGISTER $PIGNLPROC_JAR
 parsed =
   LOAD '$INPUT'
   USING pignlproc.storage.ParsingWikipediaLoader('en')
-  AS (title, uri, text, redirect, links);
+  AS (title, uri, text, redirect, links, headers, paragraphs);
 
 -- Flatten the links
 links1 =
@@ -17,6 +17,6 @@ links1 =
 -- Select the target link
 links2 =
   FOREACH links1
-  GENERATE uri, value;
+  GENERATE uri, target;
 
 STORE links2 INTO '$OUTPUT' USING PigStorage();

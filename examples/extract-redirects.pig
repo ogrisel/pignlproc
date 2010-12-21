@@ -7,7 +7,7 @@ REGISTER $PIGNLPROC_JAR
 parsed =
   LOAD '$INPUT'
   USING pignlproc.storage.ParsingWikipediaLoader('en')
-  AS (title, uri, text, redirect, links);
+  AS (title, uri, text, redirect, links, headers, paragraphs);
 
 filtered = FILTER parsed BY NOT redirect IS NULL;
 

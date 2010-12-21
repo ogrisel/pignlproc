@@ -37,8 +37,7 @@ public class ParsingWikipediaLoader extends RawWikipediaLoader implements
                 return null;
             }
             String title = reader.getCurrentKey().toString();
-            String uri = AnnotatingMarkupParser.titleToUri(title,
-                    languageCode);
+            String uri = AnnotatingMarkupParser.titleToUri(title, languageCode);
             String rawMarkup = reader.getCurrentValue().toString();
 
             AnnotatingMarkupParser converter = new AnnotatingMarkupParser(
@@ -47,11 +46,21 @@ public class ParsingWikipediaLoader extends RawWikipediaLoader implements
             String redirect = converter.getRedirect();
             DataBag links = bagFactory.newDefaultBag();
             for (Annotation link : converter.getWikiLinkAnnotations()) {
-                links.add(tupleFactory.newTupleNoCopy(Arrays.asList(link.label,
-                        link.value, link.begin, link.end)));
+                links.add(tupleFactory.newTupleNoCopy(Arrays.asList(link.value,
+                        link.begin, link.end)));
+            }
+            DataBag headers = bagFactory.newDefaultBag();
+            for (Annotation h : converter.getHeaderAnnotations()) {
+                headers.add(tupleFactory.newTupleNoCopy(Arrays.asList(h.value,
+                        h.begin, h.end)));
+            }
+            DataBag paragraphs = bagFactory.newDefaultBag();
+            for (Annotation p : converter.getParagraphAnnotations()) {
+                paragraphs.add(tupleFactory.newTupleNoCopy(Arrays.asList(
+                        p.value, p.begin, p.end)));
             }
             return tupleFactory.newTupleNoCopy(Arrays.asList(title, uri, text,
-                    redirect, links));
+                    redirect, links, headers, paragraphs));
         } catch (InterruptedException e) {
             throw new IOException(e);
         }
@@ -66,11 +75,21 @@ public class ParsingWikipediaLoader extends RawWikipediaLoader implements
         schema.add(new FieldSchema("text", DataType.CHARARRAY));
         schema.add(new FieldSchema("redirect", DataType.CHARARRAY));
         Schema linkInfoSchema = new Schema();
-        linkInfoSchema.add(new FieldSchema("label", DataType.CHARARRAY));
-        linkInfoSchema.add(new FieldSchema("value", DataType.CHARARRAY));
+        linkInfoSchema.add(new FieldSchema("target", DataType.CHARARRAY));
         linkInfoSchema.add(new FieldSchema("begin", DataType.INTEGER));
         linkInfoSchema.add(new FieldSchema("end", DataType.INTEGER));
         schema.add(new FieldSchema("links", linkInfoSchema, DataType.BAG));
+        Schema headerInfoSchema = new Schema();
+        headerInfoSchema.add(new FieldSchema("tagname", DataType.CHARARRAY));
+        headerInfoSchema.add(new FieldSchema("begin", DataType.INTEGER));
+        headerInfoSchema.add(new FieldSchema("end", DataType.INTEGER));
+        schema.add(new FieldSchema("headers", headerInfoSchema, DataType.BAG));
+        Schema paragraphInfoSchema = new Schema();
+        paragraphInfoSchema.add(new FieldSchema("tagname", DataType.CHARARRAY));
+        paragraphInfoSchema.add(new FieldSchema("begin", DataType.INTEGER));
+        paragraphInfoSchema.add(new FieldSchema("end", DataType.INTEGER));
+        schema.add(new FieldSchema("paragraphs", paragraphInfoSchema,
+                DataType.BAG));
         return new ResourceSchema(schema);
     }
 
