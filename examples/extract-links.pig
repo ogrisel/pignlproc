@@ -9,14 +9,15 @@ parsed =
   USING pignlproc.storage.ParsingWikipediaLoader('en')
   AS (title, uri, text, redirect, links, headers, paragraphs);
 
--- Flatten the links
-links1 =
+-- Extract the sentence contexts of the links respecting the paragraph
+-- boundaries
+sentences =
   FOREACH parsed
-  GENERATE uri, flatten(links);
+  GENERATE uri, pignlproc.evaluation.SentencesWithLink(text, links, paragraphs);
 
--- Select the target link
-links2 =
-  FOREACH links1
-  GENERATE uri, target;
+-- Flatten the links
+flattened =
+  FOREACH sentences
+  GENERATE uri, flatten($1);
 
-STORE links2 INTO '$OUTPUT' USING PigStorage();
+STORE flattened INTO '$OUTPUT' USING PigStorage();

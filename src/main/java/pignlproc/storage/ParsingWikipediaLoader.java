@@ -14,8 +14,8 @@ import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 
-import pignlproc.markup.Annotation;
 import pignlproc.markup.AnnotatingMarkupParser;
+import pignlproc.markup.Annotation;
 
 public class ParsingWikipediaLoader extends RawWikipediaLoader implements
         LoadMetadata {

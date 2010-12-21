@@ -14,8 +14,8 @@ import org.apache.hadoop.io.Text;
 import org.junit.Test;
 
 import pignlproc.format.WikipediaPageInputFormat.WikipediaRecordReader;
-import pignlproc.markup.Annotation;
 import pignlproc.markup.AnnotatingMarkupParser;
+import pignlproc.markup.Annotation;
 
 public class TestWikipediaParsing {
 
