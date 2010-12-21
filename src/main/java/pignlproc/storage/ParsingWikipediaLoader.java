@@ -47,13 +47,14 @@ public class ParsingWikipediaLoader extends RawWikipediaLoader implements
             LinkAnnotationTextConverter converter = new LinkAnnotationTextConverter(
                     languageCode);
             String text = converter.convert(rawMarkup);
+            String redirect = converter.getRedirect();
             DataBag links = bagFactory.newDefaultBag();
             for (Annotation link : converter.getWikiLinks()) {
                 links.add(tupleFactory.newTupleNoCopy(Arrays.asList(link.label,
                         link.value, link.begin, link.end)));
             }
             return tupleFactory.newTupleNoCopy(Arrays.asList(title, uri, text,
-                    links));
+                    redirect, links));
         } catch (InterruptedException e) {
             throw new IOException(e);
         }
@@ -66,6 +67,7 @@ public class ParsingWikipediaLoader extends RawWikipediaLoader implements
         schema.add(new FieldSchema("title", DataType.CHARARRAY));
         schema.add(new FieldSchema("uri", DataType.CHARARRAY));
         schema.add(new FieldSchema("text", DataType.CHARARRAY));
+        schema.add(new FieldSchema("redirect", DataType.CHARARRAY));
         Schema linkInfoSchema = new Schema();
         linkInfoSchema.add(new FieldSchema("label", DataType.CHARARRAY));
         linkInfoSchema.add(new FieldSchema("value", DataType.CHARARRAY));

@@ -7,7 +7,7 @@ REGISTER $PIGNLPROC_JAR
 parsed =
   LOAD '$INPUT'
   USING pignlproc.storage.ParsingWikipediaLoader('en')
-  AS (title, uri, text, links);
+  AS (title, uri, text, redirect, links);
 
 -- Flatten the links
 links1 =

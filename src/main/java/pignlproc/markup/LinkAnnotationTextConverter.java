@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -50,6 +51,10 @@ public class LinkAnnotationTextConverter implements ITextConverter {
 
     protected final WikiModel model;
 
+    protected String redirect;
+
+    protected static final Pattern REDIRECT_PATTERN = Pattern.compile("^#REDIRECT \\[\\[([^\\]]*)\\]\\].*$");
+
     public LinkAnnotationTextConverter() {
         model = makeWikiModel(languageCode);
     }
@@ -68,6 +73,7 @@ public class LinkAnnotationTextConverter implements ITextConverter {
             public String getRawWikiContent(String namespace,
                     String articleName, Map<String, String> templateParameters) {
                 // disable template support
+                // TODO: we need to readd template support at least for dates
                 return "";
             }
         };
@@ -82,6 +88,14 @@ public class LinkAnnotationTextConverter implements ITextConverter {
      * @return the simple text without the markup
      */
     public String convert(String rawWikiMarkup) {
+        Matcher matcher = REDIRECT_PATTERN.matcher(rawWikiMarkup);
+        if (matcher.matches()) {
+            redirect = String.format("http://%s.wikipedia.org/wiki/%s",
+                    languageCode, matcher.group(1).replaceAll(" ", "_"));
+        } else {
+            redirect = null;
+        }
+        wikilinks.clear();
         return model.render(this, rawWikiMarkup);
     }
 
@@ -194,6 +208,10 @@ public class LinkAnnotationTextConverter implements ITextConverter {
 
     public List<Annotation> getWikiLinks() {
         return wikilinks;
+    }
+
+    public String getRedirect() {
+        return redirect;
     }
 
     public class CountingAppendable implements Appendable {

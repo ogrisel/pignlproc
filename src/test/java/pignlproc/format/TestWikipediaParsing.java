@@ -19,7 +19,8 @@ import pignlproc.markup.LinkAnnotationTextConverter;
 public class TestWikipediaParsing {
 
     @Test
-    public void testWikipediaParsingFromReader() throws IOException, InterruptedException {
+    public void testWikipediaParsingFromReader() throws IOException,
+            InterruptedException {
         URL wikiDump = Thread.currentThread().getContextClassLoader().getResource(
                 "enwiki-20090902-pages-articles-sample.xml");
         assertNotNull(wikiDump);
@@ -38,6 +39,8 @@ public class TestWikipediaParsing {
         String simpleText = converter.convert(markup);
         assertEquals("", simpleText);
         assertTrue(converter.getWikiLinks().isEmpty());
+        assertEquals("http://en.wikipedia.org/wiki/Computer_accessibility",
+                converter.getRedirect());
 
         // second article
         assertTrue(reader.nextKeyValue());
@@ -65,6 +68,8 @@ public class TestWikipediaParsing {
         simpleText = converter.convert(markup);
         assertEquals("", simpleText);
         assertEquals(0, converter.getWikiLinks().size());
+        assertEquals("http://en.wikipedia.org/wiki/History_of_Afghanistan",
+                converter.getRedirect());
 
         // fourth article
         assertTrue(reader.nextKeyValue());
@@ -77,13 +82,14 @@ public class TestWikipediaParsing {
         assertEquals(236, converter.getWikiLinks().size());
         firstLink = converter.getWikiLinks().get(0);
         assertEquals("Neurodevelopmental disorder", firstLink.label);
-        assertEquals("http://en.wikipedia.org/wiki/Neurodevelopmental_disorder",
+        assertEquals(
+                "http://en.wikipedia.org/wiki/Neurodevelopmental_disorder",
                 firstLink.value);
         assertEquals(15, firstLink.begin);
         assertEquals(41, firstLink.end);
         assertEquals("brain development disorder",
                 simpleText.substring(firstLink.begin, firstLink.end));
-        
+
         // there is no fifth article in this test file
         assertFalse(reader.nextKeyValue());
     }
