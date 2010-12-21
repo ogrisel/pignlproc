@@ -89,6 +89,5 @@ public class ParsingWikipediaLoader extends RawWikipediaLoader implements
     @Override
     public void setPartitionFilter(Expression partitionFilter)
             throws IOException {
-
     }
 }
