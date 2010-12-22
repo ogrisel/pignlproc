@@ -72,7 +72,7 @@ public class SentencesWithLink extends EvalFunc<DataBag> {
                     + t1.getClass().getName());
         }
         Object t2 = input.get(2);
-        if (!(t1 instanceof DataBag)) {
+        if (!(t2 instanceof DataBag)) {
             throw new IOException(
                     "Expected input to be bag of paragraphs, but got "
                             + t2.getClass().getName());
