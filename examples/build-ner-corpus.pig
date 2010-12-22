@@ -14,22 +14,22 @@ wikipedia_links =
   LOAD '$DBPEDIA/wikipedia_links_en.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://xmlns.com/foaf/0.1/primaryTopic')
-  AS (wikiuri, dburi);
+  AS (wikiuri: chararray, dburi: chararray);
 
 instance_types =
   LOAD '$DBPEDIA/instance_types_en.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
-  AS (dburi, type);
+  AS (dburi: chararray, type: chararray);
 
 instance_types_no_thing =
-  FILTER instance_types BY type != 'http://www.w3.org/2002/07/owl#Thing';
+  FILTER instance_types BY type NEQ 'http://www.w3.org/2002/07/owl#Thing';
 
 redirects =
   LOAD '$DBPEDIA/redirects_en.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://dbpedia.org/property/redirect')
-  AS (redirected_from, redirerected_to);
+  AS (redirected_from: chararray, redirerected_to: chararray);
 
 -- Extract the sentence contexts of the links respecting the paragraph
 -- boundaries
@@ -49,7 +49,6 @@ distincted = DISTINCT joined2;
 result = FOREACH distincted GENERATE type, title, sentenceOrder,
   linkTarget, linkBegin, linkEnd, sentence;
 
-ordered = ORDER result by type, title, sentenceOrder;
+ordered = ORDER result BY type ASC, title ASC, sentenceOrder ASC;
 
---tmp = LIMIT joined2 10; DUMP tmp;
-STORE result INTO '$OUTPUT' USING PigStorage();
+STORE ordered INTO '$OUTPUT' USING PigStorage();

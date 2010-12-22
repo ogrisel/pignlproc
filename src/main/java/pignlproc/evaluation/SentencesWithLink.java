@@ -105,15 +105,15 @@ public class SentencesWithLink extends EvalFunc<DataBag> {
                         + sentenceRelative.getStart(), beginParagraph
                         + sentenceRelative.getEnd(), sentenceRelative.getType());
 
+                String sentence = text.substring(absoluteSentence.getStart(),
+                        absoluteSentence.getEnd());
+                // replace some formatting white-spaces without changing the
+                // number of chars not to break the annotations
+                sentence = sentence.replaceAll("\n", " ");
+                sentence = sentence.replaceAll("\t", " ");
+
                 // for each link in that sentence, emit a tuple
                 for (Span link : linkSpans) {
-                    String sentence = text.substring(
-                            absoluteSentence.getStart(),
-                            absoluteSentence.getEnd());
-                    // replace some formatting white-spaces without changing the
-                    // number of chars not to break the annotations
-                    sentence = sentence.replaceAll("\n", " ");
-                    sentence = sentence.replaceAll("\t", " ");
                     // TODO: optimize me by leveraging the link ordering
                     if (absoluteSentence.contains(link)) {
                         int begin = link.getStart()
