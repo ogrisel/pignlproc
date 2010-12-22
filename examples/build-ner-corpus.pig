@@ -35,16 +35,21 @@ redirects =
 -- boundaries
 sentences =
   FOREACH parsed
-  GENERATE flatten(pignlproc.evaluation.SentencesWithLink(
+  GENERATE title, flatten(pignlproc.evaluation.SentencesWithLink(
     text, links, paragraphs));
 
 -- Perform successive joins to find the type of the linkTarget
-joined1 = JOIN sentences BY linkTarget, wikipedia_links BY wikiuri USING 'skewed';
-joined2 = JOIN joined1 BY dburi, instance_types_no_thing BY dburi USING 'skewed';
+joined1 = JOIN sentences BY linkTarget, wikipedia_links BY wikiuri;
+joined2 = JOIN joined1 BY dburi, instance_types_no_thing BY dburi;
 -- TODO: handle the redirects properly with a left outer join and a conditional
 -- expression
 
-result = FOREACH joined2 GENERATE type, linkTarget, linkBegin, linkEnd, sentence;
+distincted = DISTINCT joined2;
+
+result = FOREACH distincted GENERATE type, title, sentenceOrder,
+  linkTarget, linkBegin, linkEnd, sentence;
+
+ordered = ORDER result by type, title, sentenceOrder;
 
 --tmp = LIMIT joined2 10; DUMP tmp;
 STORE result INTO '$OUTPUT' USING PigStorage();

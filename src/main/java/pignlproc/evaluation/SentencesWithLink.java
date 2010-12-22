@@ -57,6 +57,7 @@ public class SentencesWithLink extends EvalFunc<DataBag> {
         model = new SentenceModel(in);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public DataBag exec(Tuple input) throws IOException {
         SentenceDetectorME sentenceDetector = new SentenceDetectorME(model);
@@ -106,7 +107,13 @@ public class SentencesWithLink extends EvalFunc<DataBag> {
 
                 // for each link in that sentence, emit a tuple
                 for (Span link : linkSpans) {
-                    CharSequence sentence = absoluteSentence.getCoveredText(text);
+                    String sentence = text.substring(
+                            absoluteSentence.getStart(),
+                            absoluteSentence.getEnd());
+                    // replace some formatting white-spaces without changing the
+                    // number of chars not to break the annotations
+                    sentence = sentence.replaceAll("\n", " ");
+                    sentence = sentence.replaceAll("\t", " ");
                     // TODO: optimize me by leveraging the link ordering
                     if (absoluteSentence.contains(link)) {
                         int begin = link.getStart()
@@ -127,7 +134,7 @@ public class SentencesWithLink extends EvalFunc<DataBag> {
     public Schema outputSchema(Schema input) {
         try {
             Schema tupleSchema = new Schema();
-            tupleSchema.add(new FieldSchema("order", DataType.INTEGER));
+            tupleSchema.add(new FieldSchema("sentenceOrder", DataType.INTEGER));
             tupleSchema.add(new FieldSchema("sentence", DataType.CHARARRAY));
             tupleSchema.add(new FieldSchema("linkTarget", DataType.CHARARRAY));
             tupleSchema.add(new FieldSchema("linkBegin", DataType.INTEGER));
