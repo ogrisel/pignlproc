@@ -39,8 +39,8 @@ sentences =
     text, links, paragraphs));
 
 -- Perform successive joins to find the type of the linkTarget
-joined1 = JOIN sentences BY linkTarget, wikipedia_links BY wikiuri;
-joined2 = JOIN joined1 BY dburi, instance_types_no_thing BY dburi;
+joined1 = JOIN wikipedia_links BY wikiuri, sentences BY linkTarget;
+joined2 = JOIN instance_types_no_thing BY dburi, joined1 BY dburi;
 -- TODO: handle the redirects properly with a left outer join and a conditional
 -- expression
 
