@@ -229,14 +229,7 @@ public class AnnotatingMarkupParser implements ITextConverter {
 
     public void imageNodeToText(TagNode tagNode, ImageFormat imageFormat,
             Appendable buffer, IWikiModel model) throws IOException {
-        CountingAppendable countingBuffer = (CountingAppendable) buffer;
-        int tagBegin = countingBuffer.currentPosition;
         nodesToText(tagNode.getChildren(), buffer, model);
-        // store the text location of an image caption as a paragraph
-        // TODO: check that this is not nested with a paragraph tag that would
-        // behave as a duplicate
-        paragraphs.add(new Annotation(tagBegin, countingBuffer.currentPosition,
-                "paragraph", tagNode.getName()));
     }
 
     public boolean noLinks() {
