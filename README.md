@@ -54,9 +54,9 @@ directly from the EBS volume.
 You can take example on the extract-links.pig example script:
 
     $ pig -x local \
+      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
       -p INPUT=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
       -p OUTPUT=/tmp/output \
-      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
       examples/extract-links.pig
 
 ### Building a NER training / evaluation corpus
@@ -66,6 +66,16 @@ training of sequence labeling algorithms such as MaxEnt or CRF
 models with [OpenNLP](http://incubator.apache.org/opennlp),
 [Mallet](http://mallet.cs.umass.edu/) or
 [crfsuite](http://www.chokkan.org/software/crfsuite/).
+
+Work in progress: assuming the dbpedia dumps are available in
+/home/ogrisel/data/dbpedia:
+
+    $ pig -x local \
+      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar
+      -p DBPEDIA=/home/ogrisel/data/dbpedia \
+      -p WIKIPEDIA=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
+      -p OUTPUT=/tmp/output \
+      examples/build-ner-corpus.pig
 
 ### Building a document classification corpus
 
