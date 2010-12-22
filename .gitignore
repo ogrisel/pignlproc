@@ -3,5 +3,9 @@ bin
 .classpath
 .project
 .settings
+.idea
 *.log
-
+*.swp
+*~
+*.iml
+run.sh
