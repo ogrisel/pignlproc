@@ -46,8 +46,8 @@ joined2 = JOIN joined1 BY dburi, instance_types_no_thing BY dburi;
 
 distincted = DISTINCT joined2;
 
-result = FOREACH distincted GENERATE type, title, sentenceOrder,
-  linkTarget, linkBegin, linkEnd, sentence;
+result = FOREACH distincted GENERATE type, linkTarget, title, sentenceOrder,
+  linkBegin, linkEnd, sentence;
 
 ordered = ORDER result BY type ASC, title ASC, sentenceOrder ASC;
 
