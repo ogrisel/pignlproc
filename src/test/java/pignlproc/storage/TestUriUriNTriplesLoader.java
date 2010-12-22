@@ -11,18 +11,18 @@ import org.apache.pig.PigServer;
 import org.apache.pig.data.Tuple;
 import org.junit.Test;
 
-public class TestUriUriUriNTriplesLoader {
+public class TestUriUriNTriplesLoader {
 
     @Test
-    public void testUriUriUriNTriplesLoader() throws Exception {
+    public void testUriUriNTriplesLoader() throws Exception {
         URL dbpediaDump = Thread.currentThread().getContextClassLoader().getResource(
                 "dbpedia_3.4_instancetype_en.nt");
         String filename = dbpediaDump.getPath();
         PigServer pig = new PigServer(LOCAL);
         filename = filename.replace("\\", "\\\\");
         String query = "A = LOAD 'file:" + filename
-                + "' USING pignlproc.storage.UriUriUriNTriplesLoader()"
-                + " as (s: chararray, p: chararray, o: chararray);";
+                + "' USING pignlproc.storage.UriUriNTriplesLoader()"
+                + " as (s: chararray, o: chararray);";
         pig.registerQuery(query);
         Iterator<Tuple> it = pig.openIterator("A");
         int tupleCount = 0;
@@ -40,11 +40,9 @@ public class TestUriUriUriNTriplesLoader {
         assertEquals(110, tupleCount);
         // introspect last tuple
         assertNotNull(tuple);
-        assertEquals(3, tuple.size());
+        assertEquals(2, tuple.size());
         assertEquals("http://dbpedia.org/resource/%22Looked_Up%22_Plus_Four",
                 tuple.get(0));
-        assertEquals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-                tuple.get(1));
-        assertEquals("http://dbpedia.org/ontology/Album", tuple.get(2));
+        assertEquals("http://dbpedia.org/ontology/Album", tuple.get(1));
     }
 }

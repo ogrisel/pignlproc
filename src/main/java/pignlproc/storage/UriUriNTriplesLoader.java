@@ -17,12 +17,24 @@ import org.apache.pig.data.TupleFactory;
 /**
  * Pig loader for NTriples formatted RDF files assuming that subject, predicate
  * and object are all valid URIs (e.g. clear of any whitespace character).
+ * 
+ * Returns the subject and the object. The property value can be given as a
+ * filter.
  */
-public class UriUriUriNTriplesLoader extends LoadFunc {
+public class UriUriNTriplesLoader extends LoadFunc {
 
     protected RecordReader<Long, Text> reader;
 
     protected TupleFactory tupleFactory = TupleFactory.getInstance();
+
+    protected String propertyUri;
+
+    public UriUriNTriplesLoader() {
+    }
+
+    public UriUriNTriplesLoader(String propertyUri) {
+        this.propertyUri = propertyUri;
+    }
 
     @Override
     public void setLocation(String location, Job job) throws IOException {
@@ -49,13 +61,16 @@ public class UriUriUriNTriplesLoader extends LoadFunc {
                 String line = reader.getCurrentValue().toString();
                 String[] split = line.split(" ");
                 if (split.length != 4) {
-                    System.err.println(getClass().getName()
-                            + ": skipping invalid line: " + line);
+                    // unexpected spaces, the object must be a literal, skip
+                    continue;
+                }
+                if (propertyUri != null
+                        && !propertyUri.equals(stripBrackets(split[1]))) {
+                    // property value is not matching the filter
                     continue;
                 }
                 return tupleFactory.newTupleNoCopy(Arrays.asList(
-                        stripBrackets(split[0]), stripBrackets(split[1]),
-                        stripBrackets(split[2])));
+                        stripBrackets(split[0]), stripBrackets(split[2])));
             }
             return null;
         } catch (InterruptedException e) {
