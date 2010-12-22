@@ -22,6 +22,9 @@ instance_types =
     'http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
   AS (dburi, type);
 
+instance_types_no_thing =
+  FILTER instance_types BY type != 'http://www.w3.org/2002/07/owl#Thing';
+
 redirects =
   LOAD '$DBPEDIA/redirects_en.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
@@ -37,10 +40,11 @@ sentences =
 
 -- Perform successive joins to find the type of the linkTarget
 joined1 = JOIN sentences BY linkTarget, wikipedia_links BY wikiuri USING 'skewed';
-joined2 = JOIN joined1 BY dburi, instance_types BY dburi USING 'skewed';
+joined2 = JOIN joined1 BY dburi, instance_types_no_thing BY dburi USING 'skewed';
 -- TODO: handle the redirects properly with a left outer join and a conditional
 -- expression
 
-tmp = LIMIT joined2 10; DUMP tmp;
+result = FOREACH joined2 GENERATE type, linkTarget, linkBegin, linkEnd, sentence;
 
---STORE flattened INTO '$OUTPUT' USING PigStorage();
+--tmp = LIMIT joined2 10; DUMP tmp;
+STORE result INTO '$OUTPUT' USING PigStorage();
