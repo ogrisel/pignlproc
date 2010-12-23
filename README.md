@@ -8,7 +8,6 @@ NLP out of public Wikipedia and DBpedia dumps.
 This project is alpha / experimental code. Features are implemented when needed.
 Expects bugs and not implemented exceptions.
 
-
 ## Building from source
 
 Install maven (tested with 2.2.1) and java jdk 6, then:
@@ -17,6 +16,82 @@ Install maven (tested with 2.2.1) and java jdk 6, then:
 
 This should download the dependencies, build a jar in the target/
 subfolder and run the tests.
+
+## Usage
+
+The following introduces some sample scripts to demo the User Defined
+Functions provided by pignlproc for some practical Wikipedia mining tasks.
+
+Those examples demo how to use pig on your local machine on sample
+files. In production (with complete dumps) you might want to startup a
+real Hadoop cluster, upload the dumps into HDFS, adjust the above paths
+to match your setup and remove the '-x local' command line parameter to
+tell pig to use your Hadoop cluster.
+
+### Extracting links from a raw Wikipedia XML dump
+
+You can take example on the extract-links.pig example script:
+
+    $ pig -x local \
+      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+      -p INPUT=src/test/resources/frwiki-20101103-pages-articles-sample.xml \
+      -p OUTPUT=/tmp/output \
+      examples/extract-links.pig
+
+### Building a NER training / evaluation corpus from Wikipedia and DBpedia
+
+The goal of those samples scripts is to extract a pre-formatted corpus
+suitable for the training of sequence labeling algorithms such as MaxEnt
+or CRF models with [OpenNLP](http://incubator.apache.org/opennlp),
+[Mallet](http://mallet.cs.umass.edu/) or
+[crfsuite](http://www.chokkan.org/software/crfsuite/).
+
+*WARNING*: work in progress
+
+To achieve this you can run time following scripts (splitted into somewhat
+independant parts that store intermediate results to avoid recomputing
+everything from scratch when you can the source files or some parameters.
+
+The first script parses a wikipedia dump and extract occurrences of
+sentences with outgoing links along with some ordering and positioning
+information:
+
+    $ pig -x local \
+      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+      -p INPUT=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
+      -p OUTPUT=workspace \
+      examples/ner-corpus/01-extract-sentences-with-links.pig
+
+The second script parses dbpedia dumps assumed to be in the folder
+/home/ogrisel/data/dbpedia:
+
+    $ pig -x local \
+      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+      -p INPUT=/home/ogrisel/data/dbpedia \
+      -p OUTPUT=workspace \
+      examples/ner-corpus/02-dbpedia-article-types.pig
+
+This script could be adapted / replaced to use other typed entities
+knowledge bases linked to Wikipedia with downloadable dumps in NT
+or TSV formats; for instance: [freebase](http://freebase.com) or
+[Uberblic](http://uberblic.org).
+
+The third script (to be completed) merges the partial results of the
+first two scripts and order back the results by grouping the sentences
+of the same article together to be able to build annotated sentences
+suitable for OpenNLP for instance:
+
+    $ pig -x local \
+      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+      -p INPUT=workspace \
+      -p OUTPUT=workspace \
+      examples/ner-corpus/03-join-sentence-with-types.pig
+
+### Building a document classification corpus
+
+TODO: Explain howto extract bag of words / document frequency features suitable
+for document classification using a SGD model from
+[Mahout](http://mahout.apache.org) for instance.
 
 ## Fetching the data
 
@@ -27,15 +102,9 @@ You can get the latest wikipedia dumps for the english articles here (around
 
 The DBPedia links and entities types datasets are available here:
 
-  [wikipage_en.nt.bz2](http://downloads.dbpedia.org/3.5.1/en/wikipage_en.nt.bz2)
+  [Index of individual DBpedia 3.5.1 dumps](http://wiki.dbpedia.org/Downloads351)
 
-  [instancetype_en.nt.bz2](http://downloads.dbpedia.org/3.5.1/en/instancetype_en.nt.bz2)
-
-  [longabstract_en.nt.bz2](http://downloads.dbpedia.org/3.5.1/en/longabstract_en.nt.bz2)
-
-  [pagelinks_en.nt.bz2](http://downloads.dbpedia.org/3.5.1/en/pagelinks_.nt.bz2)
-
-  [redirect_en.nt.bz2](http://downloads.dbpedia.org/3.5.1/en/redirect_en.nt.bz2)
+  [Complete multilingual archive](http://downloads.dbpedia.org/3.5.1/all_languages.tar)
 
 All of those datasets are also available from the Amazon cloud as public EBS
 volumes:
@@ -46,42 +115,6 @@ volumes:
 
 It is planned to have crane based utility function to load them to HDFS
 directly from the EBS volume.
-
-## Usage
-
-### Extracting links from the raw wikipedia dump
-
-You can take example on the extract-links.pig example script:
-
-    $ pig -x local \
-      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
-      -p INPUT=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
-      -p OUTPUT=/tmp/output \
-      examples/extract-links.pig
-
-### Building a NER training / evaluation corpus
-
-TODO: Explain howto extract a BIO-formatted corpus suitable for the
-training of sequence labeling algorithms such as MaxEnt or CRF
-models with [OpenNLP](http://incubator.apache.org/opennlp),
-[Mallet](http://mallet.cs.umass.edu/) or
-[crfsuite](http://www.chokkan.org/software/crfsuite/).
-
-Work in progress: assuming the dbpedia dumps are available in
-/home/ogrisel/data/dbpedia:
-
-    $ pig -x local \
-      -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar
-      -p DBPEDIA=/home/ogrisel/data/dbpedia \
-      -p WIKIPEDIA=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
-      -p OUTPUT=/tmp/output \
-      examples/build-ner-corpus.pig
-
-### Building a document classification corpus
-
-TODO: Explain howto extract bag of words / document frequency features suitable
-for document classification using a SGD model from
-[Mahout](http://mahout.apache.org) for instance.
 
 ## License
 
