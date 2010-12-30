@@ -1,7 +1,12 @@
 package pignlproc.helpers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.DataBag;
+import org.apache.pig.data.Tuple;
 
 import opennlp.tools.util.Span;
 
@@ -12,15 +17,31 @@ import opennlp.tools.util.Span;
 public class SpanHelper {
 
     public static List<Span> tupleFieldsToSpans(Object fieldBegin,
-            Object fieldEnd) {
+            Object fieldEnd) throws ExecException {
         return tupleFieldsToSpans(fieldBegin, fieldEnd, null);
     }
 
-    public static List<Span> tupleFieldsToSpans(Object fieldBegin,
-            Object fieldEnd, Object fieldType) {
+    public static List<Span> tupleFieldsToSpans(Object beginField,
+            Object endField, Object typeField) throws ExecException {
         List<Span> spans = new ArrayList<Span>();
-        // TODO: implement me!
+        if (beginField == null || endField == null) {
+            return spans;
+        }
+        if (beginField instanceof DataBag && endField instanceof DataBag) {
+            Iterator<Tuple> beginIterator = ((DataBag) beginField).iterator();
+            Iterator<Tuple> endIterator = ((DataBag) endField).iterator();
+            Iterator<Tuple> typeIterator = null;
+            if (typeField instanceof DataBag) {
+                typeIterator = ((DataBag) typeField).iterator();
+            }
+            while (beginIterator.hasNext() && endIterator.hasNext()) {
+               int begin = (Integer) beginIterator.next().get(0);
+               int end = (Integer) endIterator.next().get(0);
+            }
+        } else {
+            spans.add(new Span((Integer) beginField, (Integer) endField,
+                    (String) typeField));
+        }
         return spans;
     }
-
 }

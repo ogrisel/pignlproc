@@ -111,7 +111,7 @@ public class MergeAsOpenNLPAnnotatedText extends EvalFunc<String> {
         }
     }
 
-    protected String merge(String text, List<Span> links) throws ExecException {
+    public String merge(String text, List<Span> links) throws ExecException {
         Collections.sort(links);
         TokenizerME tokenizer = new TokenizerME(model);
 
@@ -125,6 +125,7 @@ public class MergeAsOpenNLPAnnotatedText extends EvalFunc<String> {
 
         StringBuilder sb = new StringBuilder();
         while (linksIterator.hasNext()) {
+            // peek at the next link
             nextLink = linksIterator.next();
             while (nextLink != null
                     && (nextToken != null || tokensIterator.hasNext())) {
@@ -142,7 +143,7 @@ public class MergeAsOpenNLPAnnotatedText extends EvalFunc<String> {
                     }
                     sb.append(' ');
                     do {
-                        // consume tokens
+                        // consume tokens inside an active link
                         sb.append(text.substring(nextToken.getStart(),
                                 nextToken.getEnd()));
                         sb.append(' ');
@@ -153,6 +154,7 @@ public class MergeAsOpenNLPAnnotatedText extends EvalFunc<String> {
                     sb.append(NameSampleDataStream.END_TAG);
                     sb.append(' ');
                 } else {
+                    // consume tokens outside of any active link
                     sb.append(text.substring(nextToken.getStart(),
                             nextToken.getEnd()));
                     sb.append(' ');
