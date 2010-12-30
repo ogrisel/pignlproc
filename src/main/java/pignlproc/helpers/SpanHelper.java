@@ -31,12 +31,19 @@ public class SpanHelper {
             Iterator<Tuple> beginIterator = ((DataBag) beginField).iterator();
             Iterator<Tuple> endIterator = ((DataBag) endField).iterator();
             Iterator<Tuple> typeIterator = null;
+            String type = null;
             if (typeField instanceof DataBag) {
                 typeIterator = ((DataBag) typeField).iterator();
+            } else {
+                type = (String) typeField;
             }
             while (beginIterator.hasNext() && endIterator.hasNext()) {
-               int begin = (Integer) beginIterator.next().get(0);
-               int end = (Integer) endIterator.next().get(0);
+                int begin = (Integer) beginIterator.next().get(0);
+                int end = (Integer) endIterator.next().get(0);
+                if (typeIterator != null) {
+                    type = (String) typeIterator.next().get(0);
+                }
+                spans.add(new Span(begin, end, type));
             }
         } else {
             spans.add(new Span((Integer) beginField, (Integer) endField,

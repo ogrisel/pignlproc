@@ -42,6 +42,7 @@ public class TestMergeAsOpenNLPAnnotatedText {
     }
 
     @SuppressWarnings("unchecked")
+    @Test
     public void testBagOfAnnotationMerge() throws IOException {
         TupleFactory tf = TupleFactory.getInstance();
         DefaultDataBag textBag = new DefaultDataBag();

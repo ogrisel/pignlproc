@@ -85,6 +85,8 @@ suitable for OpenNLP for instance:
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
       -p INPUT=workspace \
       -p OUTPUT=workspace \
+      -p TYPE_URI=http://dbpedia.org/ontology/Person \
+      -p TYPE_NAME=person \
       examples/ner-corpus/03-join-sentence-with-types.pig
 
 ### Building a document classification corpus
