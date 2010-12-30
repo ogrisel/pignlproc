@@ -36,7 +36,7 @@ You can take example on the extract-links.pig example script:
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
       -p INPUT=src/test/resources/frwiki-20101103-pages-articles-sample.xml \
       -p OUTPUT=/tmp/output \
-      examples/extract-links.pig
+      examples/extract_links.pig
 
 ### Building a NER training / evaluation corpus from Wikipedia and DBpedia
 
@@ -60,7 +60,7 @@ information:
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
       -p INPUT=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
       -p OUTPUT=workspace \
-      examples/ner-corpus/01-extract-sentences-with-links.pig
+      examples/ner-corpus/01_extract_sentences_with_links.pig
 
 The second script parses dbpedia dumps assumed to be in the folder
 /home/ogrisel/data/dbpedia:
@@ -69,17 +69,17 @@ The second script parses dbpedia dumps assumed to be in the folder
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
       -p INPUT=/home/ogrisel/data/dbpedia \
       -p OUTPUT=workspace \
-      examples/ner-corpus/02-dbpedia-article-types.pig
+      examples/ner-corpus/02_dbpedia_article_types.pig
 
 This script could be adapted / replaced to use other typed entities
 knowledge bases linked to Wikipedia with downloadable dumps in NT
 or TSV formats; for instance: [freebase](http://freebase.com) or
 [Uberblic](http://uberblic.org).
 
-The third script (to be completed) merges the partial results of the
-first two scripts and order back the results by grouping the sentences
-of the same article together to be able to build annotated sentences
-suitable for OpenNLP for instance:
+The third script merges the partial results of the first two scripts and
+order back the results by grouping the sentences of the same article
+together to be able to build annotated sentences suitable for OpenNLP
+for instance:
 
     $ pig -x local \
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
@@ -87,7 +87,13 @@ suitable for OpenNLP for instance:
       -p OUTPUT=workspace \
       -p TYPE_URI=http://dbpedia.org/ontology/Person \
       -p TYPE_NAME=person \
-      examples/ner-corpus/03-join-sentence-with-types.pig
+      examples/ner-corpus/03_join_by_type_and_convert.pig
+
+    $ head -3 workspace/opennlp_person/part-r-00000
+    The Table Talk of <START:person> Martin Luther <END> contains the story of a 12-year-old boy who may have been severely autistic .
+    The New Latin word autismus ( English translation autism ) was coined by the Swiss psychiatrist <START:person> Eugen Bleuler <END> in 1910 as he was defining symptoms of schizophrenia .
+    Noted autistic <START:person> Temple Grandin <END> described her inability to understand the social communication of neurotypicals , or people with normal neural development , as leaving her feeling "like an anthropologist on Mars " .
+
 
 ### Building a document classification corpus
 
