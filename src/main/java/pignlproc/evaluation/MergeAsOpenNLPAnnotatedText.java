@@ -29,21 +29,38 @@ import pignlproc.helpers.SpanHelper;
  */
 public class MergeAsOpenNLPAnnotatedText extends EvalFunc<String> {
 
-    public static final String ENGLISH_TOKENMODEL_PATH = "opennlp/en-token.bin";
+    public static final String TOKENMODEL_PATH_TEMPLATE = "opennlp/%s-token.bin";
 
     protected final TokenizerModel model;
 
-    // TODO: make it possible to configure a global type in the constructor
+    protected final String defaultTypeName;
 
     public MergeAsOpenNLPAnnotatedText() throws IOException {
+        this("en");
+    }
+
+    public MergeAsOpenNLPAnnotatedText(String tokenModelOrLanguageCode)
+            throws IOException {
+        this(tokenModelOrLanguageCode, null);
+    }
+
+    public MergeAsOpenNLPAnnotatedText(String tokenModelOrLanguageCode,
+            String typeName) throws IOException {
+        super();
+        defaultTypeName = typeName;
         ClassLoader loader = this.getClass().getClassLoader();
-        // TODO: make it possible to path the language code and or midel path as
-        // argument
-        String path = ENGLISH_TOKENMODEL_PATH;
-        InputStream in = loader.getResourceAsStream(path);
+
+        if (tokenModelOrLanguageCode == null) {
+            throw new IllegalArgumentException(
+                    "tokenModelOrLanguageCode cannot be null");
+        } else if (tokenModelOrLanguageCode.length() == 2) {
+            tokenModelOrLanguageCode = String.format(TOKENMODEL_PATH_TEMPLATE,
+                    tokenModelOrLanguageCode);
+        }
+        InputStream in = loader.getResourceAsStream(tokenModelOrLanguageCode);
         if (in == null) {
             String message = String.format("Failed to find resource for model"
-                    + " tokenizer model: %s", path);
+                    + " tokenizer model: %s", tokenModelOrLanguageCode);
             log.error(message);
             throw new IOException(message);
         }
@@ -97,7 +114,7 @@ public class MergeAsOpenNLPAnnotatedText extends EvalFunc<String> {
                         textField));
             }
 
-            Object type = input.size() == 4 ? input.get(3) : null;
+            Object type = input.size() == 4 ? input.get(3) : defaultTypeName;
             List<Span> links = SpanHelper.tupleFieldsToSpans(input.get(1),
                     input.get(2), type);
             return merge(text, links);
