@@ -62,6 +62,9 @@ information:
       -p OUTPUT=workspace \
       examples/ner-corpus/01_extract_sentences_with_links.pig
 
+The parser has been measured to run at a processing of 1MB/s on in local mode on
+a MacBook Pro of 2009.
+
 The second script parses dbpedia dumps assumed to be in the folder
 /home/ogrisel/data/dbpedia:
 
@@ -70,6 +73,8 @@ The second script parses dbpedia dumps assumed to be in the folder
       -p INPUT=/home/ogrisel/data/dbpedia \
       -p OUTPUT=workspace \
       examples/ner-corpus/02_dbpedia_article_types.pig
+
+This step should complete in a couple of minutes in local mode.
 
 This script could be adapted / replaced to use other typed entities
 knowledge bases linked to Wikipedia with downloadable dumps in NT
@@ -108,7 +113,8 @@ You can get the latest wikipedia dumps for the english articles here (around
 
   [enwiki-latest-pages-articles.xml.bz2](http://download.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2)
 
-The DBPedia links and entities types datasets are available here:
+The DBPedia links and entities types datasets are available here (16.4GB
+compressed):
 
   [Index of individual DBpedia 3.5.1 dumps](http://wiki.dbpedia.org/Downloads351)
 
