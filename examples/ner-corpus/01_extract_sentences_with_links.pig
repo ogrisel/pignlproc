@@ -12,7 +12,7 @@
 REGISTER $PIGNLPROC_JAR
 
 parsed = LOAD '$INPUT'
-  USING pignlproc.storage.ParsingWikipediaLoader('en')
+  USING pignlproc.storage.ParsingWikipediaLoader('$LANG')
   AS (title, wikiuri, text, redirect, links, headers, paragraphs);
 
 -- filter and project as early as possible
@@ -30,4 +30,4 @@ stored = FOREACH sentences
 
 -- Ensure ordering for fast merge with type info later
 ordered = ORDER stored BY linkTarget ASC, title ASC, sentenceOrder ASC;
-STORE ordered INTO '$OUTPUT/sentences_with_links';
+STORE ordered INTO '$OUTPUT/sentences_with_links_$LANG';

@@ -36,7 +36,9 @@ public class RawWikipediaLoader extends LoadFunc {
     }
 
     public RawWikipediaLoader(String languageCode) {
-        this.languageCode = languageCode;
+        if (languageCode != null && !languageCode.isEmpty()) {
+            this.languageCode = languageCode;
+        }
     }
 
     @SuppressWarnings("rawtypes")

@@ -3,13 +3,14 @@
  */
 
 REGISTER $PIGNLPROC_JAR
+-- use the english tokenizer for other european languages as well
 DEFINE merge pignlproc.evaluation.MergeAsOpenNLPAnnotatedText('en', '$TYPE_NAME');
 
-sentences = LOAD '$INPUT/sentences_with_links'
+sentences = LOAD '$INPUT/sentences_with_links_$LANG'
   AS (title: chararray, sentenceOrder: int, linkTarget: chararray,
       linkBegin: int, linkEnd: int, sentence: chararray);
 
-wikiuri_types = LOAD '$INPUT/wikiuri_to_types'
+wikiuri_types = LOAD '$INPUT/wikiuri_to_types_$LANG'
   AS (wikiuri: chararray, type: chararray);
 
 filtered_types = FILTER wikiuri_types BY type == '$TYPE_URI';
@@ -35,4 +36,4 @@ opennlp_corpus =
  FOREACH grouped
  GENERATE merge(ordered.sentence, ordered.linkBegin, ordered.linkEnd);
 
-STORE opennlp_corpus INTO '$OUTPUT/opennlp_$TYPE_NAME';
+STORE opennlp_corpus INTO '$OUTPUT/opennlp_$LANG_$TYPE_NAME';

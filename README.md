@@ -34,6 +34,7 @@ You can take example on the extract-links.pig example script:
 
     $ pig -x local \
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+      -p LANG=fr \
       -p INPUT=src/test/resources/frwiki-20101103-pages-articles-sample.xml \
       -p OUTPUT=/tmp/output \
       examples/extract_links.pig
@@ -58,6 +59,7 @@ information:
 
     $ pig -x local \
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+      -p LANG=en \
       -p INPUT=src/test/resources/enwiki-20090902-pages-articles-sample.xml \
       -p OUTPUT=workspace \
       examples/ner-corpus/01_extract_sentences_with_links.pig
@@ -70,6 +72,7 @@ The second script parses dbpedia dumps assumed to be in the folder
 
     $ pig -x local \
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
+      -p LANG=en \
       -p INPUT=/home/ogrisel/data/dbpedia \
       -p OUTPUT=workspace \
       examples/ner-corpus/02_dbpedia_article_types.pig
@@ -90,6 +93,7 @@ for instance:
       -p PIGNLPROC_JAR=target/pignlproc-0.1.0-SNAPSHOT.jar \
       -p INPUT=workspace \
       -p OUTPUT=workspace \
+      -p LANG=en \
       -p TYPE_URI=http://dbpedia.org/ontology/Person \
       -p TYPE_NAME=person \
       examples/ner-corpus/03_join_by_type_and_convert.pig

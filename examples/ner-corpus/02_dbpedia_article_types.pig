@@ -5,7 +5,7 @@
 REGISTER $PIGNLPROC_JAR
 
 -- Load wikipedia, instance types and redirects from dbpedia dumps
-wikipedia_links = LOAD '$INPUT/wikipedia_links_en.nt'
+wikipedia_links = LOAD '$INPUT/wikipedia_links_$LANG.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://xmlns.com/foaf/0.1/primaryTopic')
   AS (wikiuri: chararray, dburi: chararray);
@@ -31,5 +31,5 @@ projected = FOREACH joined GENERATE wikiuri, type;
 
 -- Ensure ordering for fast merge with sentence links
 ordered = ORDER projected BY wikiuri ASC, type ASC;
-STORE ordered INTO '$OUTPUT/wikiuri_to_types';
+STORE ordered INTO '$OUTPUT/wikiuri_to_types_$LANG';
 
