@@ -36,4 +36,4 @@ opennlp_corpus =
  FOREACH grouped
  GENERATE merge(ordered.sentence, ordered.linkBegin, ordered.linkEnd);
 
-STORE opennlp_corpus INTO '$OUTPUT/opennlp_$LANG_$TYPE_NAME';
+STORE opennlp_corpus INTO '$OUTPUT/opennlp_${LANG}_${TYPE_NAME}';
