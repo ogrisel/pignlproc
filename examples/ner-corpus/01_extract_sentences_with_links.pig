@@ -30,4 +30,4 @@ stored = FOREACH sentences
 
 -- Ensure ordering for fast merge with type info later
 ordered = ORDER stored BY linkTarget ASC, title ASC, sentenceOrder ASC;
-STORE ordered INTO '$OUTPUT/sentences_with_links_$LANG';
+STORE ordered INTO '$OUTPUT/$LANG/sentences_with_links';

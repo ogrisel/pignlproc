@@ -31,5 +31,5 @@ projected = FOREACH joined GENERATE wikiuri, type;
 
 -- Ensure ordering for fast merge with sentence links
 ordered = ORDER projected BY wikiuri ASC, type ASC;
-STORE ordered INTO '$OUTPUT/wikiuri_to_types_$LANG';
+STORE ordered INTO '$OUTPUT/$LANG/wikiuri_to_types';
 
