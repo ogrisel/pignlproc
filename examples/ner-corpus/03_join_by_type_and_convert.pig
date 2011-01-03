@@ -2,6 +2,8 @@
  * Join the wikipedia page URI to the type of the linked entity.
  */
 
+SET default_parallel 20
+
 REGISTER $PIGNLPROC_JAR
 -- use the english tokenizer for other european languages as well
 DEFINE merge pignlproc.evaluation.MergeAsOpenNLPAnnotatedText('en', '$TYPE_NAME');
@@ -19,7 +21,7 @@ filtered_types = FILTER wikiuri_types BY type == '$TYPE_URI';
 -- both bags are previously ordered by wikiuri / linkTarget
 joined =
   JOIN filtered_types
-  BY wikiuri, sentences BY linkTarget USING "merge";
+  BY wikiuri, sentences BY linkTarget; -- USING "merge";
 
 result =
   FOREACH joined
