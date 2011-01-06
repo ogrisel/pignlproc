@@ -28,6 +28,11 @@ real Hadoop cluster, upload the dumps into HDFS, adjust the above paths
 to match your setup and remove the '-x local' command line parameter to
 tell pig to use your Hadoop cluster.
 
+The [pignlproc wiki](https://github.com/ogrisel/pignlproc/wiki) provides
+comprehensive documentation on where to download the dumps from and how
+to setup a Hadoop cluster on EC2 using [Apache Whirr](
+http://incubator.apache.org/whirr).
+
 ### Extracting links from a raw Wikipedia XML dump
 
 You can take example on the extract-links.pig example script:
@@ -47,8 +52,6 @@ or CRF models with [OpenNLP](http://incubator.apache.org/opennlp),
 [Mallet](http://mallet.cs.umass.edu/) or
 [crfsuite](http://www.chokkan.org/software/crfsuite/).
 
-*WARNING*: work in progress
-
 To achieve this you can run time following scripts (splitted into somewhat
 independant parts that store intermediate results to avoid recomputing
 everything from scratch when you can the source files or some parameters.
@@ -64,8 +67,8 @@ information:
       -p OUTPUT=workspace \
       examples/ner-corpus/01_extract_sentences_with_links.pig
 
-The parser has been measured to run at a processing of 1MB/s on in local mode on
-a MacBook Pro of 2009.
+The parser has been measured to run at a processing of 1MB/s on in local
+mode on a MacBook Pro of 2009.
 
 The second script parses dbpedia dumps assumed to be in the folder
 /home/ogrisel/data/dbpedia:
@@ -106,33 +109,10 @@ for instance:
 
 ### Building a document classification corpus
 
-TODO: Explain howto extract bag of words / document frequency features suitable
-for document classification using a SGD model from
+TODO: Explain howto extract bag of words or ngrams and document frequency
+features suitable for document classification using a SGD model from
 [Mahout](http://mahout.apache.org) for instance.
 
-## Fetching the data
-
-You can get the latest wikipedia dumps for the english articles here (around
-5.4GB compressed, 23 GB uncompressed):
-
-  [enwiki-latest-pages-articles.xml.bz2](http://download.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2)
-
-The DBPedia links and entities types datasets are available here (16.4GB
-compressed):
-
-  [Index of individual DBpedia 3.5.1 dumps](http://wiki.dbpedia.org/Downloads351)
-
-  [Complete multilingual archive](http://downloads.dbpedia.org/3.5.1/all_languages.tar)
-
-All of those datasets are also available from the Amazon cloud as public EBS
-volumes:
-
-  [Wikipedia XML dataset EBS Volume](http://developer.amazonwebservices.com/connect/entry.jspa?externalID=2506): <tt>snap-8041f2e9</tt> (all languages - 500GB)
-
-  [DBPedia Triples dataset EBS Volume](http://developer.amazonwebservices.com/connect/entry.jspa?externalID=2319): <tt>snap-63cf3a0a</tt> (all languages - 67GB)
-
-It is planned to have crane based utility function to load them to HDFS
-directly from the EBS volume.
 
 ## License
 
