@@ -6,36 +6,34 @@ SET default_parallel 20
 
 REGISTER $PIGNLPROC_JAR
 -- use the english tokenizer for other european languages as well
-DEFINE merge pignlproc.evaluation.MergeAsOpenNLPAnnotatedText('en', '$TYPE_NAME');
+DEFINE opennlp_merge pignlproc.evaluation.MergeAsOpenNLPAnnotatedText('en');
 
 sentences = LOAD '$INPUT/$LANG/sentences_with_links'
   AS (title: chararray, sentenceOrder: int, linkTarget: chararray,
       linkBegin: int, linkEnd: int, sentence: chararray);
 
 wikiuri_types = LOAD '$INPUT/$LANG/wikiuri_to_types'
-  AS (wikiuri: chararray, type: chararray);
+  AS (wikiuri: chararray, typeuri: chararray);
 
-filtered_types = FILTER wikiuri_types BY type == '$TYPE_URI';
+-- load the type mapping from DBpedia type uri to opennlp type name
+type_names = LOAD '$TYPE_NAMES' AS (typeuri: chararray, typename: chararray);
 
--- Perform successive joins to find the type of the linkTarget assuming
--- both bags are previously ordered by wikiuri / linkTarget
-joined =
-  JOIN filtered_types
-  BY wikiuri, sentences BY linkTarget; -- USING "merge";
+-- Perform successive joins to find the opennlp typename of the linkTarget
+joined = JOIN wikiuri_types BY typeuri, type_names BY typeuri USING 'replicated';
+joined_projected = FOREACH joined GENERATE wikiuri, typename;
+joined2 = JOIN joined_projected BY wikiuri, sentences BY linkTarget;
 
-result =
-  FOREACH joined
-  GENERATE title, sentenceOrder, linkBegin, linkEnd, sentence;
+result = FOREACH joined2
+  GENERATE title, sentenceOrder, typename, linkBegin, linkEnd, sentence;
 
 -- Reorder and group by article title and sentence order
 ordered = ORDER result BY title ASC, sentenceOrder ASC;
-
 grouped = GROUP ordered BY (title, sentenceOrder);
 
 -- Convert to the OpenNLP training format
-
 opennlp_corpus =
  FOREACH grouped
- GENERATE merge(ordered.sentence, ordered.linkBegin, ordered.linkEnd);
+ GENERATE opennlp_merge(
+   ordered.sentence, ordered.linkBegin, ordered.linkEnd, ordered.typename);
 
-STORE opennlp_corpus INTO '$OUTPUT/$LANG/opennlp_$TYPE_NAME';
+STORE opennlp_corpus INTO '$OUTPUT/$LANG/opennlp';

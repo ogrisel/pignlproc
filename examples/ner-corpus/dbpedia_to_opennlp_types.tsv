@@ -1,0 +1,8 @@
+http://dbpedia.org/ontology/Person	person
+http://dbpedia.org/ontology/Place	location
+http://dbpedia.org/ontology/Organisation	organization
+http://dbpedia.org/ontology/Album	album
+http://dbpedia.org/ontology/Film	movie
+http://dbpedia.org/ontology/Book	book
+http://dbpedia.org/ontology/Software	software
+http://dbpedia.org/ontology/Drug	drug

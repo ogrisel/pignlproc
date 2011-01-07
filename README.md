@@ -99,7 +99,7 @@ for instance:
       -p LANG=en \
       -p TYPE_URI=http://dbpedia.org/ontology/Person \
       -p TYPE_NAME=person \
-      examples/ner-corpus/03_join_by_type_and_convert.pig
+      examples/ner-corpus/03bis_filter_join_by_type_and_convert.pig
 
     $ head -3 workspace/opennlp_person/part-r-00000
     The Table Talk of <START:person> Martin Luther <END> contains the story of a 12-year-old boy who may have been severely autistic .
