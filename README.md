@@ -6,7 +6,10 @@ NLP out of public Wikipedia and DBpedia dumps.
 ## Project status
 
 This project is alpha / experimental code. Features are implemented when needed.
-Expects bugs and not implemented exceptions.
+
+Some preliminary results are available in this blog post:
+
+  * [Mining Wikipedia with Hadoop and Pig for Natural Language Processing](http://blogs.nuxeo.com/dev/2011/01/mining-wikipedia-with-hadoop-and-pig-for-natural-language-processing.html)
 
 ## Building from source
 
