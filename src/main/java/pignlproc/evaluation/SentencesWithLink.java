@@ -44,7 +44,7 @@ public class SentencesWithLink extends EvalFunc<DataBag> {
     protected final SentenceModel model;
 
     public SentencesWithLink() throws IOException {
-        ClassLoader loader = this.getClass().getClassLoader();
+        ClassLoader loader = getClass().getClassLoader();
         // TODO: un-hardcode the model language
         String path = ENGLISH_SENTMODEL_PATH;
         InputStream in = loader.getResourceAsStream(path);

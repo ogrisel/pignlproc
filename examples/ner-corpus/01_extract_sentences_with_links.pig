@@ -10,6 +10,7 @@
 
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER $PIGNLPROC_JAR
+DEFINE extract_sentences pignlproc.evaluation.SentencesWithLink();
 
 parsed = LOAD '$INPUT'
   USING pignlproc.storage.ParsingWikipediaLoader('$LANG')
@@ -22,8 +23,7 @@ projected = FOREACH noredirect GENERATE title, text, links, paragraphs;
 -- Extract the sentence contexts of the links respecting the paragraph
 -- boundaries
 sentences = FOREACH projected
-  GENERATE title, flatten(pignlproc.evaluation.SentencesWithLink(
-    text, links, paragraphs));
+  GENERATE title, flatten(extract_sentences(text, links, paragraphs));
 
 stored = FOREACH sentences
   GENERATE title, sentenceOrder, linkTarget, linkBegin, linkEnd, sentence;

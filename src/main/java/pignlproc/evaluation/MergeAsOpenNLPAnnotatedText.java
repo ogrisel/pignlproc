@@ -1,15 +1,14 @@
 package pignlproc.evaluation;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import opennlp.tools.namefind.NameSampleDataStream;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
+import opennlp.tools.tokenize.SimpleTokenizer;
+import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.util.Span;
 
 import org.apache.pig.EvalFunc;
@@ -29,42 +28,17 @@ import pignlproc.helpers.SpanHelper;
  */
 public class MergeAsOpenNLPAnnotatedText extends EvalFunc<String> {
 
-    public static final String TOKENMODEL_PATH_TEMPLATE = "opennlp/%s-token.bin";
-
-    protected final TokenizerModel model;
+    protected final Tokenizer tokenizer = SimpleTokenizer.INSTANCE;
 
     protected final String defaultTypeName;
 
     public MergeAsOpenNLPAnnotatedText() throws IOException {
-        this("en");
+        this(null);
     }
 
-    public MergeAsOpenNLPAnnotatedText(String tokenModelOrLanguageCode)
-            throws IOException {
-        this(tokenModelOrLanguageCode, null);
-    }
-
-    public MergeAsOpenNLPAnnotatedText(String tokenModelOrLanguageCode,
-            String typeName) throws IOException {
+    public MergeAsOpenNLPAnnotatedText(String typeName) throws IOException {
         super();
         defaultTypeName = typeName;
-        ClassLoader loader = this.getClass().getClassLoader();
-
-        if (tokenModelOrLanguageCode == null) {
-            throw new IllegalArgumentException(
-                    "tokenModelOrLanguageCode cannot be null");
-        } else if (tokenModelOrLanguageCode.length() == 2) {
-            tokenModelOrLanguageCode = String.format(TOKENMODEL_PATH_TEMPLATE,
-                    tokenModelOrLanguageCode);
-        }
-        InputStream in = loader.getResourceAsStream(tokenModelOrLanguageCode);
-        if (in == null) {
-            String message = String.format("Failed to find resource for model"
-                    + " tokenizer model: %s", tokenModelOrLanguageCode);
-            log.error(message);
-            throw new IOException(message);
-        }
-        model = new TokenizerModel(in);
     }
 
     /**
@@ -130,8 +104,6 @@ public class MergeAsOpenNLPAnnotatedText extends EvalFunc<String> {
 
     public String merge(String text, List<Span> links) throws ExecException {
         Collections.sort(links);
-        TokenizerME tokenizer = new TokenizerME(model);
-
         List<Span> tokens = Arrays.asList(tokenizer.tokenizePos(text));
         Iterator<Span> tokensIterator = tokens.iterator();
         Iterator<Span> linksIterator = links.iterator();

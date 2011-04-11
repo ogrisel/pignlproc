@@ -5,8 +5,8 @@
 SET default_parallel 20
 
 REGISTER $PIGNLPROC_JAR
--- use the english tokenizer for other european languages as well
-DEFINE merge pignlproc.evaluation.MergeAsOpenNLPAnnotatedText('en', '$TYPE_NAME');
+-- use the default OpenNLP tokenizer (should work for most european languages)
+DEFINE merge pignlproc.evaluation.MergeAsOpenNLPAnnotatedText('$TYPE_NAME');
 
 sentences = LOAD '$INPUT/$LANG/sentences_with_links'
   AS (title: chararray, sentenceOrder: int, linkTarget: chararray,
