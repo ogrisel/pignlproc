@@ -8,9 +8,9 @@
  */
 
 -- Register the project jar to use the custom loaders and UDFs
-REGISTER $PIGNLPROC_JAR
+REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 
-article_categories = LOAD '$INPUT/article_categories_$LANG.nt'
+article_categories = LOAD 'workspace/article_categories_en.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://purl.org/dc/terms/subject')
   AS (articleUri: chararray, categoryUri: chararray);
@@ -27,9 +27,9 @@ counted_categories = FOREACH grouped_categories
     
 popuplar_categories =
   FILTER counted_categories
-    BY categoryCount < 10 OR categoryCount > 100000;
+    BY categoryCount > 10 OR categoryCount < 100000;
 
-ordered_categories = ORDER counted_categories BY
+ordered_categories = ORDER popuplar_categories BY
   categoryCount DESC, categoryUri ASC, articleUri ASC;
 
 --article_abstracts = LOAD '$INPUT/long_abstracts_$LANG.nt'
@@ -38,4 +38,4 @@ ordered_categories = ORDER counted_categories BY
 --  AS (articleUri: chararray, articleAbstract: chararray);
 -- filter and project as early as possible
 
-STORE ordered_categories INTO '$OUTPUT/$LANG/tmp';
+STORE ordered_categories INTO 'workspace/categories.tsv';
