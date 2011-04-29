@@ -12,12 +12,12 @@ REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 DEFINE aggregate pignlproc.evaluation.AggregateTextBag();
 
 -- Defined available sources to join
-article_topics = LOAD 'workspace/article_categories_en.nt'
+article_topics = LOAD 'workspace/article_categories_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://purl.org/dc/terms/subject')
   AS (articleUri: chararray, topicUri: chararray);
 
-article_abstracts = LOAD 'workspace/long_abstracts_en.nt'
+article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
     'http://dbpedia.org/ontology/abstract')
   AS (articleUri: chararray, articleAbstract: chararray);
