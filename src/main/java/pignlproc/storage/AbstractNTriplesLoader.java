@@ -28,8 +28,8 @@ public abstract class AbstractNTriplesLoader extends LoadFunc implements
 
     protected String objectPrefix;
 
-    protected String checkColons(String prefix) {
-        if (prefix == null || prefix.endsWith(":")) {
+    protected String checkPrefix(String prefix) {
+        if (prefix == null || prefix.isEmpty() || prefix.endsWith(":")) {
             return prefix;
         }
         return prefix + ":";

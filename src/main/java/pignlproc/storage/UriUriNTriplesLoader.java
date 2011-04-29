@@ -26,8 +26,8 @@ public class UriUriNTriplesLoader extends AbstractNTriplesLoader {
     public UriUriNTriplesLoader(String propertyUri, String subjectPrefix, String objectPrefix) {
         super();
         this.propertyUri = propertyUri;
-        this.subjectPrefix = checkColons(subjectPrefix);
-        this.objectPrefix = checkColons(objectPrefix);
+        this.subjectPrefix = checkPrefix(subjectPrefix);
+        this.objectPrefix = checkPrefix(objectPrefix);
     }
 
     @Override

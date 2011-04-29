@@ -7,6 +7,8 @@
  *  articleAbstract: chararray)
  */
 
+SET default_parallel 20
+
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 DEFINE aggregate pignlproc.evaluation.AggregateTextBag();
@@ -14,12 +16,12 @@ DEFINE aggregate pignlproc.evaluation.AggregateTextBag();
 -- Defined available sources to join
 article_topics = LOAD 'workspace/article_categories_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://purl.org/dc/terms/subject')
+    'http://purl.org/dc/terms/subject', 'db:', 'db:')
   AS (articleUri: chararray, topicUri: chararray);
 
 article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
-    'http://dbpedia.org/ontology/abstract')
+    'http://dbpedia.org/ontology/abstract', 'db:')
   AS (articleUri: chararray, articleAbstract: chararray);
 
 -- Count the number of articles categorized for each topic
