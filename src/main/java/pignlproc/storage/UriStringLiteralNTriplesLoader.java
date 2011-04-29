@@ -32,21 +32,10 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Arrays;
 
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.RecordReader;
-import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
-import org.apache.pig.Expression;
-import org.apache.pig.LoadFunc;
-import org.apache.pig.LoadMetadata;
 import org.apache.pig.ResourceSchema;
-import org.apache.pig.ResourceStatistics;
-import org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigSplit;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
-import org.apache.pig.data.TupleFactory;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 
@@ -62,38 +51,26 @@ import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
  * unfortunately does not offer a pure String API that does not allocate Jena
  * specific java objects.
  */
-public class UriStringLiteralNTriplesLoader extends LoadFunc implements
-        LoadMetadata {
-
-    protected RecordReader<Long, Text> reader;
-
-    protected TupleFactory tupleFactory = TupleFactory.getInstance();
-
-    protected String propertyUri;
+public class UriStringLiteralNTriplesLoader extends AbstractNTriplesLoader {
 
     public UriStringLiteralNTriplesLoader() {
+        this(null, null);
     }
 
-    public UriStringLiteralNTriplesLoader(String propertyUri) {
+    public UriStringLiteralNTriplesLoader(String propertyUri, String subjectPrefix) {
+        super();
         this.propertyUri = propertyUri;
+        this.subjectPrefix = checkColons(subjectPrefix);
     }
 
     @Override
-    public void setLocation(String location, Job job) throws IOException {
-        FileInputFormat.setInputPaths(job, location);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public InputFormat getInputFormat() throws IOException {
-        return new TextInputFormat();
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
-    public void prepareToRead(RecordReader reader, PigSplit split)
+    public ResourceSchema getSchema(String location, Job job)
             throws IOException {
-        this.reader = reader;
+        Schema schema = new Schema();
+        schema.add(new FieldSchema("subject", DataType.CHARARRAY));
+        schema.add(new FieldSchema("object", DataType.CHARARRAY));
+        schema.add(new FieldSchema("lang", DataType.CHARARRAY));
+        return new ResourceSchema(schema);
     }
 
     @Override
@@ -125,7 +102,7 @@ public class UriStringLiteralNTriplesLoader extends LoadFunc implements
                         continue;
                     }
                     return tupleFactory.newTupleNoCopy(Arrays.asList(
-                            stripBrackets(split[0]), object[0], object[1]));
+                            stripBrackets(split[0], subjectPrefix), object[0], object[1]));
                 } catch (IOException e) {
                     // TODO: log errors?
                     continue;
@@ -234,37 +211,6 @@ public class UriStringLiteralNTriplesLoader extends LoadFunc implements
             lang = lang.append(in.readChar());
         }
         return lang.toString();
-    }
-
-    protected String stripBrackets(String bracketedURI) {
-        return bracketedURI.substring(1, bracketedURI.length() - 1);
-    }
-
-    @Override
-    public ResourceSchema getSchema(String location, Job job)
-            throws IOException {
-        Schema schema = new Schema();
-        schema.add(new FieldSchema("subject", DataType.CHARARRAY));
-        schema.add(new FieldSchema("object", DataType.CHARARRAY));
-        schema.add(new FieldSchema("lang", DataType.CHARARRAY));
-        return new ResourceSchema(schema);
-    }
-
-    @Override
-    public ResourceStatistics getStatistics(String location, Job job)
-            throws IOException {
-        return null;
-    }
-
-    @Override
-    public String[] getPartitionKeys(String location, Job job)
-            throws IOException {
-        return null;
-    }
-
-    @Override
-    public void setPartitionFilter(Expression partitionFilter)
-            throws IOException {
     }
 
     public static class IStream {
