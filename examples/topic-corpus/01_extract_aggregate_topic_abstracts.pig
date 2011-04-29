@@ -68,7 +68,7 @@ bagged_abstracts = FOREACH grouped_topics2
   GENERATE
     group AS topicUri,
     COUNT(filtered_topics2.articleUri) AS topicCount,
-    aggregate(topics_abstracts.articleAbstract) AS aggregateTopicAbstract;
+    aggregate(filtered_topics2.articleAbstract) AS aggregateTopicAbstract;
 
 ordered_topics = ORDER bagged_abstracts BY topicCount DESC, topicUri ASC;
 
