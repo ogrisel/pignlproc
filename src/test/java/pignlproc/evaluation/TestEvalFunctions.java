@@ -8,6 +8,7 @@ import java.util.List;
 
 import opennlp.tools.util.Span;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DefaultDataBag;
 import org.apache.pig.data.Tuple;
@@ -15,15 +16,18 @@ import org.apache.pig.data.TupleFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestMergeAsOpenNLPAnnotatedText {
+public class TestEvalFunctions {
 
     public static final String JOHN_SENTENCE = "John Smith works at Smith Consulting.";
 
     protected MergeAsOpenNLPAnnotatedText merger;
 
+    protected AggregateTextBag aggregator;
+
     @Before
     public void setUp() throws IOException {
         merger = new MergeAsOpenNLPAnnotatedText();
+        aggregator = new AggregateTextBag(40);
     }
 
     @Test
@@ -89,4 +93,22 @@ public class TestMergeAsOpenNLPAnnotatedText {
                 + " <START:entity> Smith Consulting <END> .", merged);
     }
 
+    @Test
+    public void testAggregateBagOfText() throws IOException {
+        TupleFactory tf = TupleFactory.getInstance();
+        DefaultDataBag textBag = new DefaultDataBag();
+
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
+
+        // all bags
+        Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
+        String merged = aggregator.exec(input);
+        assertEquals(StringUtils.join(
+                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " "), merged);
+    }
 }

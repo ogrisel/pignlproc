@@ -9,6 +9,7 @@
 
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
+DEFINE aggregate pignlproc.evaluation.AggregateTextBag();
 
 -- Defined available sources to join
 article_topics = LOAD 'workspace/article_categories_en.nt'
@@ -59,7 +60,7 @@ bagged_abstracts = FOREACH grouped_topics2
   GENERATE
     group AS topicUri,
     COUNT(topics_abstracts.articleUri) AS topicCount,
-    topics_abstracts.articleAbstract AS bagOfArticleAbstracts;
+    aggregate(topics_abstracts.articleAbstract) AS aggregateTopicAbstract;
 
 ordered_topics = ORDER bagged_abstracts BY topicCount DESC, topicUri ASC;
 
