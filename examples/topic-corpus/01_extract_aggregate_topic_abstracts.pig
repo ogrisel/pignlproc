@@ -37,7 +37,9 @@ counted_topics = FOREACH grouped_topics
 -- filtering out overly broad topics such as living people
 filtered_topics =
   FILTER counted_topics
-    BY topicCount > 10 AND topicCount < 10000;
+    BY topicCount > 10
+      AND topicCount < 10000
+      AND NOT topicUri MATCHES '.*_births';
 
 -- Flatten the list of articles for each topic so as to be able
 -- to join with the abstracts
@@ -56,12 +58,16 @@ topics_abstracts = FOREACH joined_topics_abstracts
    flattened_topics::articleUri AS articleUri,
    article_abstracts::articleAbstract AS articleAbstract;
 
-grouped_topics2 = GROUP topics_abstracts BY topicUri;
+-- filter again after abstract joins in case of missing abstract
+-- because we do not resolve redirect yet
+filtered_topics2 = FILTER topics_abstracts BY topicCount > 10;
+
+grouped_topics2 = GROUP filtered_topics2 BY topicUri;
 
 bagged_abstracts = FOREACH grouped_topics2
   GENERATE
     group AS topicUri,
-    COUNT(topics_abstracts.articleUri) AS topicCount,
+    COUNT(filtered_topics2.articleUri) AS topicCount,
     aggregate(topics_abstracts.articleAbstract) AS aggregateTopicAbstract;
 
 ordered_topics = ORDER bagged_abstracts BY topicCount DESC, topicUri ASC;
