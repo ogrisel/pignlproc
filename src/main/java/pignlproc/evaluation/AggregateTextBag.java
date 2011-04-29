@@ -28,7 +28,7 @@ public class AggregateTextBag extends EvalFunc<String> {
     protected final int sizeLimit;
 
     public AggregateTextBag() throws IOException {
-        this(10000);
+        this(1000000);
     }
 
     public AggregateTextBag(int sizeLimit) throws IOException {

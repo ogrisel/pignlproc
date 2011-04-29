@@ -35,7 +35,7 @@ counted_topics = FOREACH grouped_topics
 -- filtering out overly broad topics such as living people
 filtered_topics =
   FILTER counted_topics
-    BY topicCount > 10 AND topicCount < 100000;
+    BY topicCount > 10 AND topicCount < 10000;
 
 -- Flatten the list of articles for each topic so as to be able
 -- to join with the abstracts
