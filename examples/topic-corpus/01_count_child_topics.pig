@@ -14,23 +14,35 @@ article_topics = LOAD 'workspace/article_categories_en.nt.gz'
     'http://purl.org/dc/terms/subject', 'db:', 'db:')
   AS (articleUri: chararray, topicUri: chararray);
 
-topic_hierarchy = LOAD 'workspace/skos_categories_en.nt.gz'
+topic_parents = LOAD 'workspace/skos_categories_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://www.w3.org/2004/02/skos/core#broader', 'db:', 'db:')
   AS (narrowerTopicUri: chararray, broaderTopicUri: chararray);
 
+-- Apparently it's not possible to do self joins, hence create a new alias
+-- relation to be able to do a self join on the topic hierarchy in the
+-- grouped_topics relation
+topic_children = FOREACH topic_parents
+  GENERATE broaderTopicUri, narrowerTopicUri;
+
 -- Count the number of articles categorized for each topic
 grouped_topics = COGROUP
   article_topics BY topicUri,
-  topic_hierarchy BY broaderTopicUri;
+  topic_parents BY narrowerTopicUri,
+  topic_children BY broaderTopicUri;
 
 counted_topics = FOREACH grouped_topics
   GENERATE
     group AS topicUri,
     COUNT(article_topics.articleUri) AS articleCount,
-    COUNT(topic_hierarchy.narrowerTopicUri) AS childTopicCount;
+    COUNT(topic_children.narrowerTopicUri) AS narrowerTopicCount,
+    COUNT(topic_parents.broaderTopicUri) AS broaderTopicCount;
 
-ordered_topics = ORDER counted_topics
-   BY childTopicCount ASC, articleCount DESC, topicUri ASC;
+-- Filter topics that are not part of any taxonomic tree as they
+-- are usually not that interesting (1983_births, Living_people, ...)
+filtered_topics = FILTER counted_topics
+  BY narrowerTopicCount != 0 OR broaderTopicCount != 0;
+
+ordered_topics = ORDER filtered_topics BY articleCount DESC, topicUri ASC;
 
 STORE ordered_topics INTO 'workspace/topics_counts.tsv';
