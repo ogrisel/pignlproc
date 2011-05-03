@@ -17,9 +17,12 @@ import org.apache.pig.impl.logicalLayer.schema.Schema;
 /**
  * Merge a bag of single column tuples of texts into a single column tuple of
  * the aggregate text with a limit in size.
- * 
+ *
  * The sizeLimit is no a strong limit to avoid cutting text in the middle of an
  * abstract or worst, in the middle of a word.
+ *
+ * Also replace new lines and tabs in occurrences by simple whitespace to make
+ * the field save for Tab Separated Values format storage using PigStorage.
  */
 public class AggregateTextBag extends EvalFunc<String> {
 
@@ -27,13 +30,20 @@ public class AggregateTextBag extends EvalFunc<String> {
 
     protected final int sizeLimit;
 
+    protected boolean tsvSafe;
+
     public AggregateTextBag() throws IOException {
         this(1000000);
     }
 
     public AggregateTextBag(int sizeLimit) throws IOException {
+        this(sizeLimit, true);
+    }
+
+    public AggregateTextBag(int sizeLimit, boolean tsvSafe) throws IOException {
         super();
         this.sizeLimit = sizeLimit;
+        this.tsvSafe = tsvSafe;
     }
 
     /**
@@ -67,6 +77,9 @@ public class AggregateTextBag extends EvalFunc<String> {
                 throw new ExecException(String.format(
                         "Illegal value for text field: %s."
                                 + " Expected instance of charray or bag", bag));
+            }
+            if (tsvSafe) {
+                return text.replaceAll("[\t\n]", " ");
             }
             return text;
         } catch (ExecException ee) {

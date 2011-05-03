@@ -20,6 +20,8 @@ public class TestEvalFunctions {
 
     public static final String JOHN_SENTENCE = "John Smith works at Smith Consulting.";
 
+    public static final String JOHN_SENTENCE_WITH_TABS = "John\tSmith\tworks\nat Smith Consulting.";
+
     protected MergeAsOpenNLPAnnotatedText merger;
 
     protected AggregateTextBag aggregator;
@@ -104,6 +106,25 @@ public class TestEvalFunctions {
         textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
         textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
         textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE)));
+
+        // all bags
+        Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
+        String merged = aggregator.exec(input);
+        assertEquals(StringUtils.join(
+                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " "), merged);
+    }
+
+    @Test
+    public void testAggregateBagOfTextWithTabs() throws IOException {
+        TupleFactory tf = TupleFactory.getInstance();
+        DefaultDataBag textBag = new DefaultDataBag();
+
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE_WITH_TABS)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE_WITH_TABS)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE_WITH_TABS)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE_WITH_TABS)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE_WITH_TABS)));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE_WITH_TABS)));
 
         // all bags
         Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
