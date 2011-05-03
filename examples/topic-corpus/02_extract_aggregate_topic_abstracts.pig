@@ -32,8 +32,8 @@ article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
 -- filtering out overly broad topics such as "living people"
 filtered_topics =
   FILTER topic_counts
-    BY articleCount > 10
-       AND articleCount < 50000
+    BY articleCount > 50
+       AND articleCount < 30000
        AND NOT topicUri MATCHES '.*_births'
        AND NOT topicUri MATCHES '.*_deaths';
 
