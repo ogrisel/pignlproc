@@ -110,8 +110,10 @@ public class TestEvalFunctions {
         // all bags
         Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
         String merged = aggregator.exec(input);
-        assertEquals(StringUtils.join(
-                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " "), merged);
+        String expected = StringUtils.join(
+                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
+        expected = "\"" + expected + "\"";
+        assertEquals(expected, merged);
     }
 
     @Test
@@ -129,7 +131,9 @@ public class TestEvalFunctions {
         // all bags
         Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
         String merged = aggregator.exec(input);
-        assertEquals(StringUtils.join(
-                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " "), merged);
+        String expected = StringUtils.join(
+                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
+        expected = "\"" + expected + "\"";
+        assertEquals(expected, merged);
     }
 }
