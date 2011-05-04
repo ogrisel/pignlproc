@@ -1,10 +1,8 @@
 """Simple script to perform a similarity query on a Solr index of topic
 
-Solr is expected to have the default schema.xml from the example folder
-with the additional field to store the abstracts of the topics:
+Solr is expected to run with the provided schema.xml (just use the
+`example/` folder of the default Solr distrib with this schema).
 
-    <field name="abstract" type="textgen" indexed="true"
-      stored="false" termVectors="true"/>
 
 You can install sunburnt (the solr / python connector) with::
 
