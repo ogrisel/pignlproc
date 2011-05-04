@@ -79,9 +79,9 @@ public class AggregateTextBag extends EvalFunc<String> {
                                 + " Expected instance of charray or bag", bag));
             }
             if (tsvSafe) {
-                return "\""
-                        + text.replaceAll("[\t\n]", " ").replaceAll("\"",
-                                "\"\"") + "\"";
+                text = text.replaceAll("[\t\n]", " ");
+                text = text.replaceAll("\"", "\"\"");
+                return "\"" + text + "\"";
             }
             return text;
         } catch (ExecException ee) {
