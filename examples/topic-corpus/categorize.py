@@ -25,6 +25,7 @@ class MoreLikeThisDocument(object):
 
 
 def categorize(schema, text):
+    """Categorize a piece of text using a MoreLikeThis query on Solr"""
     q = MoreLikeThisDocument(text)
     solr = sunburnt.SolrInterface("http://localhost:8983/solr", schema)
     solr.add(q)
