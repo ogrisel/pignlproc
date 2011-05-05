@@ -25,35 +25,36 @@ article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
 
 -- Build are candidate matching article URI by removing the 'Category:'
 -- part of the topic URI
-candidate_ground_topics = FOREACH topic_counts GENERATE
+candidate_grounded_topics = FOREACH topic_counts GENERATE
   topicUri, REPLACE(topicUri, 'Category:', '') AS primaryArticleUri,
   articleCount, narrowerTopicCount, broaderTopicCount;
 
--- Join on article abstracts to identify ground topics
-joined_candidate_ground_topics = JOIN
-  candidate_ground_topics BY primaryArticleUri LEFT OUTER,
+-- Join on article abstracts to identify grounded topics
+-- (topics that have a matching article with an abstract)
+joined_candidate_grounded_topics = JOIN
+  candidate_grounded_topics BY primaryArticleUri LEFT OUTER,
   article_abstracts BY articleUri;
 
-projected_candidate_ground_topics = FOREACH joined_candidate_ground_topics
+projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics
   GENERATE
-    candidate_ground_topics::topicUri AS topicUri,
+    candidate_grounded_topics::topicUri AS topicUri,
     article_abstracts::articleUri AS primaryArticleUri,
-    candidate_ground_topics::articleCount AS articleCount,
-    candidate_ground_topics::narrowerTopicCount AS narrowerTopicCount,
-    candidate_ground_topics::broaderTopicCount AS broaderTopicCount;
+    candidate_grounded_topics::articleCount AS articleCount,
+    candidate_grounded_topics::narrowerTopicCount AS narrowerTopicCount,
+    candidate_grounded_topics::broaderTopicCount AS broaderTopicCount;
 
-SPLIT projected_candidate_ground_topics INTO
-   ground_topics IF primaryArticleUri IS NOT NULL,
-   nonground_topics IF primaryArticleUri IS NULL;
+SPLIT projected_candidate_grounded_topics INTO
+   grounded_topics IF primaryArticleUri IS NOT NULL,
+   nongrounded_topics IF primaryArticleUri IS NULL;
    
-ordered_ground_topics = ORDER ground_topics
+ordered_grounded_topics = ORDER grounded_topics
   BY articleCount DESC, topicUri;
    
-projected_nonground_topics = FOREACH nonground_topics
+projected_nongrounded_topics = FOREACH nongrounded_topics
   GENERATE topicUri, articleCount, narrowerTopicCount, broaderTopicCount;
   
-ordered_nonground_topics = ORDER projected_nonground_topics
+ordered_nongrounded_topics = ORDER projected_nongrounded_topics
   BY articleCount DESC, topicUri;
 
-STORE ordered_ground_topics INTO 'workspace/group_topics.tsv';
-STORE ordered_nonground_topics INTO 'workspace/nonground_topics.tsv';
+STORE ordered_grounded_topics INTO 'workspace/grounded_topics.tsv';
+STORE ordered_nongrounded_topics INTO 'workspace/nongrounded_topics.tsv';
