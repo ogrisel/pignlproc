@@ -1,10 +1,6 @@
 /**
  * Join the top skos topics with article abstracts and order
  * by most popular topics.
- *
- * The schema of the result tuples is:
- * (topicUri: chararray, topicCount: int, articleUri: chararray,
- *  articleAbstract: chararray)
  */
 
 SET default_parallel 20
@@ -45,7 +41,7 @@ grounded_topics_articles = JOIN
 projected_grounded_topics_articles = FOREACH grounded_topics_articles
   GENERATE
     grounded_topics::topicUri AS topicUri,
-    grounded_topics::topicCount AS topicCount,
+    grounded_topics::articleCount AS articleCount,
     article_topics::articleUri AS articleUri;
   
 nongrounded_topics_articles = JOIN
@@ -64,8 +60,8 @@ nongrounded_children_topics = JOIN
 projected_nongrounded_children_topics =
   FOREACH nongrounded_children_topics
   GENERATE
-    nongrounded_children_topics::grounded_topics::topicUri AS topicUri,
-    nongrounded_children_topics::grounded_topics::topicCount AS topicCount,
+    children_of_grounded_topics::grounded_topics::topicUri AS topicUri,
+    children_of_grounded_topics::grounded_topics::articleCount AS articleCount,
     nongrounded_topics::topicUri AS nongroundedChildTopicUri;
 
 nongrounded_children_topics_articles = JOIN
@@ -76,7 +72,7 @@ projected_nongrounded_children_topics_articles =
   FOREACH nongrounded_children_topics_articles
   GENERATE
     projected_nongrounded_children_topics::topicUri AS topicUri,
-    projected_nongrounded_children_topics::topicCount AS topicCount,
+    projected_nongrounded_children_topics::articleCount AS articleCount,
     article_topics::articleUri AS articleUri;
     
 compound_topics_articles = UNION
@@ -90,8 +86,8 @@ joined_topics_abstracts = JOIN
 
 topics_abstracts = FOREACH joined_topics_abstracts
   GENERATE
-   compound_topics_articles::filtered_topics::topicUri AS topicUri,
-   compound_topics_articles::article_topics::articleUri AS articleUri,
+   compound_topics_articles::topicUri AS topicUri,
+   compound_topics_articles::articleUri AS articleUri,
    article_abstracts::articleAbstract AS articleAbstract;
 
 grouped_topics2 = GROUP topics_abstracts BY topicUri;
