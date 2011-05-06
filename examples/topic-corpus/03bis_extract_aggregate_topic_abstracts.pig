@@ -1,6 +1,7 @@
 /**
- * Join the top skos topics with article abstracts and order
- * by most popular topics.
+ * Join the top skos topics with categorized article abstracts and
+ * the abstracts of the article categorized to non grounded articles
+ * right below.
  */
 
 SET default_parallel 20
