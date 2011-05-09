@@ -1,6 +1,11 @@
 /**
  * Join the top skos topics with article abstracts and order
  * by most popular topics.
+ *
+ * Warning: this naive method gives poor results when the output is
+ * indexed as this is on solr server to perform similarity queries
+ * for automated topic assignement. Better use the 03bis alternative
+ * script instead.
  */
 
 SET default_parallel 20
