@@ -5,7 +5,8 @@
  * Warning: this naive method gives poor results when the output is
  * indexed as this is on solr server to perform similarity queries
  * for automated topic assignement. Better use the 03bis alternative
- * script instead.
+ * script instead. The ouput is just 58M which is probably far to small
+ * for a good semantic coverage.
  */
 
 SET default_parallel 20
