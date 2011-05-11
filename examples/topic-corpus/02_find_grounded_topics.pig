@@ -23,6 +23,11 @@ article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
     'http://dbpedia.org/ontology/abstract', 'db:')
   AS (articleUri: chararray, articleAbstract: chararray);
 
+article_templates = LOAD 'workspace/infobox_properties_en.nt.gz'
+  USING pignlproc.storage.UriUriNTriplesLoader(
+    'http://dbpedia.org/property/wikiPageUsesTemplate', 'db:', 'db:')
+  AS (articleUri: chararray, templateUri: chararray);
+
 -- Build are candidate matching article URI by removing the 'Category:'
 -- part of the topic URI
 candidate_grounded_topics = FOREACH topic_counts GENERATE
@@ -35,18 +40,23 @@ joined_candidate_grounded_topics = JOIN
   candidate_grounded_topics BY primaryArticleUri LEFT OUTER,
   article_abstracts BY articleUri;
 
-projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics
-  GENERATE
-    candidate_grounded_topics::topicUri AS topicUri,
-    article_abstracts::articleUri AS primaryArticleUri,
-    candidate_grounded_topics::articleCount AS articleCount,
-    candidate_grounded_topics::narrowerTopicCount AS narrowerTopicCount,
-    candidate_grounded_topics::broaderTopicCount AS broaderTopicCount;
+joined_candidate_grounded_topics2 = JOIN
+  joined_candidate_grounded_topics BY primaryArticleUri LEFT OUTER,
+  article_templates BY articleUri;
 
-SPLIT projected_candidate_grounded_topics INTO
+projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics2
+  GENERATE
+    topicUri, primaryArticleUri, articleCount,
+    narrowerTopicCount, broaderTopicCount, templateUri;
+
+-- Filter out Years categories which are not interesting
+filtered_candidate_grounded_topics = FILTER projected_candidate_grounded_topics
+  BY templateUri != 'db:Template:Yearbox';
+
+SPLIT filtered_candidate_grounded_topics INTO
    grounded_topics IF primaryArticleUri IS NOT NULL,
    nongrounded_topics IF primaryArticleUri IS NULL;
-   
+
 ordered_grounded_topics = ORDER grounded_topics
   BY articleCount DESC, topicUri;
    
