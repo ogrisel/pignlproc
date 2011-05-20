@@ -123,10 +123,6 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
-      <id>central-repository</id>
-      <url>http://repo1.maven.org/maven2/</url>
-    </repository>
   </repositories>
 
 </project>
