@@ -15,10 +15,12 @@ import org.apache.pig.ResourceStatistics;
 import org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigSplit;
 import org.apache.pig.data.TupleFactory;
 
-public abstract class AbstractNTriplesLoader extends LoadFunc implements
-        LoadMetadata {
+/**
+ * Base class for the NTriples LoadFunc implementations
+ */
+public abstract class AbstractNTriplesLoader extends LoadFunc implements LoadMetadata {
 
-    protected RecordReader<Long, Text> reader;
+    protected RecordReader<Long,Text> reader;
 
     protected TupleFactory tupleFactory = TupleFactory.getInstance();
 
@@ -27,13 +29,6 @@ public abstract class AbstractNTriplesLoader extends LoadFunc implements
     protected String subjectPrefix;
 
     protected String objectPrefix;
-
-    protected String checkPrefix(String prefix) {
-        if (prefix == null || prefix.isEmpty() || prefix.endsWith(":")) {
-            return prefix;
-        }
-        return prefix + ":";
-    }
 
     @Override
     public void setLocation(String location, Job job) throws IOException {
@@ -46,10 +41,9 @@ public abstract class AbstractNTriplesLoader extends LoadFunc implements
         return new TextInputFormat();
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void prepareToRead(RecordReader reader, PigSplit split)
-            throws IOException {
+    public void prepareToRead(RecordReader reader, PigSplit split) throws IOException {
         this.reader = reader;
     }
 
@@ -58,31 +52,25 @@ public abstract class AbstractNTriplesLoader extends LoadFunc implements
     }
 
     protected String stripBrackets(String bracketedURI, String prefix) {
-        String unbracketed = bracketedURI.substring(1,
-                bracketedURI.length() - 1);
-        if (prefix != null) {
-            String[] uriParts = unbracketed.split("/");
-            String lastPart = uriParts[uriParts.length - 1];
-            return prefix + lastPart;
-        }
-        return unbracketed;
+	String unbracketed = bracketedURI.substring(1,
+		bracketedURI.length() - 1);
+	if (prefix != null && unbracketed.startsWith(prefix)) {
+	    unbracketed = unbracketed.substring(prefix.length());
+	}
+	return unbracketed;
     }
 
     @Override
-    public ResourceStatistics getStatistics(String location, Job job)
-            throws IOException {
+    public ResourceStatistics getStatistics(String location, Job job) throws IOException {
         return null;
     }
 
     @Override
-    public String[] getPartitionKeys(String location, Job job)
-            throws IOException {
+    public String[] getPartitionKeys(String location, Job job) throws IOException {
         return null;
     }
 
     @Override
-    public void setPartitionFilter(Expression partitionFilter)
-            throws IOException {
-    }
+    public void setPartitionFilter(Expression partitionFilter) throws IOException {}
 
 }

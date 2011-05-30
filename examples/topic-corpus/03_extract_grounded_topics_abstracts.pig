@@ -21,7 +21,8 @@ grounded_topics = LOAD 'workspace/grounded_topics.tsv'
 
 article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
-    'http://dbpedia.org/ontology/abstract', 'db:')
+    'http://dbpedia.org/ontology/abstract',
+    'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
   
 -- Join the filtered topics with the article URI information by topicUri

@@ -21,17 +21,22 @@ nongrounded_topics = LOAD 'workspace/nongrounded_topics.tsv'
 -- Defined available sources to join
 article_topics = LOAD 'workspace/article_categories_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://purl.org/dc/terms/subject', 'db:', 'db:')
+    'http://purl.org/dc/terms/subject',
+    'http://dbpedia.org/resource/',
+    'http://dbpedia.org/resource/')
   AS (articleUri: chararray, topicUri: chararray);
 
 article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
-    'http://dbpedia.org/ontology/abstract', 'db:')
+    'http://dbpedia.org/ontology/abstract',
+    'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
   
 topic_parents = LOAD 'workspace/skos_categories_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://www.w3.org/2004/02/skos/core#broader', 'db:', 'db:')
+    'http://www.w3.org/2004/02/skos/core#broader',
+    'http://dbpedia.org/resource/',
+    'http://dbpedia.org/resource/')
   AS (narrowerTopicUri: chararray, broaderTopicUri: chararray);
 
 -- Join the filtered topics with the article URI information by topicUri

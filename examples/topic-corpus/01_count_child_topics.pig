@@ -11,12 +11,16 @@ REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 -- Defined available sources to join
 article_topics = LOAD 'workspace/article_categories_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://purl.org/dc/terms/subject', 'db:', 'db:')
+    'http://purl.org/dc/terms/subject',
+    'http://dbpedia.org/resource/',
+    'http://dbpedia.org/resource/')
   AS (articleUri: chararray, topicUri: chararray);
 
 topic_parents = LOAD 'workspace/skos_categories_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://www.w3.org/2004/02/skos/core#broader', 'db:', 'db:')
+    'http://www.w3.org/2004/02/skos/core#broader',
+    'http://dbpedia.org/resource/',
+    'http://dbpedia.org/resource/')
   AS (narrowerTopicUri: chararray, broaderTopicUri: chararray);
 
 -- Apparently it's not possible to do self joins, hence create a new alias

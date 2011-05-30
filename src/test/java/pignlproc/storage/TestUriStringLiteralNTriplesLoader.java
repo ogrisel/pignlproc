@@ -55,7 +55,7 @@ public class TestUriStringLiteralNTriplesLoader {
         filename = filename.replace("\\", "\\\\");
         String query = "A = LOAD 'file:" + filename
                 + "' USING pignlproc.storage.UriStringLiteralNTriplesLoader("
-                + "'http://dbpedia.org/property/abstract', 'db:')"
+                + "'http://dbpedia.org/property/abstract', 'http://dbpedia.org/resource/')"
                 + " as (s: chararray, o: chararray, l: chararray);";
         pig.registerQuery(query);
         Iterator<Tuple> it = pig.openIterator("A");
@@ -71,7 +71,7 @@ public class TestUriStringLiteralNTriplesLoader {
         }
         assertEquals(22, tupleCount);
         // introspect last tuple
-        assertEquals("db:%22C%22_Is_for_Corpse",
+        assertEquals("%22C%22_Is_for_Corpse",
                 tuple.get(0));
         assertEquals(
                 "\"C\" Is for Corpse is the third novel in Sue Grafton's \"Alphabet\""

@@ -15,17 +15,22 @@ topic_counts = LOAD 'workspace/topics_counts.tsv'
 
 topic_parents = LOAD 'workspace/skos_categories_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://www.w3.org/2004/02/skos/core#broader', 'db:', 'db:')
+    'http://www.w3.org/2004/02/skos/core#broader',
+    'http://dbpedia.org/resource/',
+    'http://dbpedia.org/resource/')
   AS (narrowerTopicUri: chararray, broaderTopicUri: chararray);
   
 article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
-    'http://dbpedia.org/ontology/abstract', 'db:')
+    'http://dbpedia.org/ontology/abstract',
+    'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
 
 article_templates = LOAD 'workspace/infobox_properties_en.nt.gz'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://dbpedia.org/property/wikiPageUsesTemplate', 'db:', 'db:')
+    'http://dbpedia.org/property/wikiPageUsesTemplate',
+    'http://dbpedia.org/resource/',
+    'http://dbpedia.org/resource/')
   AS (articleUri: chararray, templateUri: chararray);
 
 -- Build are candidate matching article URI by removing the 'Category:'
@@ -51,7 +56,7 @@ projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics2
 
 -- Filter out Years categories which are not interesting
 filtered_candidate_grounded_topics = FILTER projected_candidate_grounded_topics
-  BY templateUri != 'db:Template:Yearbox';
+  BY templateUri != 'Template:Yearbox';
 
 SPLIT filtered_candidate_grounded_topics INTO
    grounded_topics IF primaryArticleUri IS NOT NULL,
