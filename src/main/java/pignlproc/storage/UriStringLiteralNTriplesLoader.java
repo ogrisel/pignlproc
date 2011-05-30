@@ -60,7 +60,7 @@ public class UriStringLiteralNTriplesLoader extends AbstractNTriplesLoader {
     public UriStringLiteralNTriplesLoader(String propertyUri, String subjectPrefix) {
         super();
         this.propertyUri = propertyUri;
-        this.subjectPrefix = subjectPrefix;
+        this.subjectNamespace = subjectPrefix;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class UriStringLiteralNTriplesLoader extends AbstractNTriplesLoader {
                         continue;
                     }
                     return tupleFactory.newTupleNoCopy(Arrays.asList(
-                            stripBrackets(split[0], subjectPrefix), object[0], object[1]));
+                            stripBrackets(split[0], subjectNamespace), object[0], object[1]));
                 } catch (IOException e) {
                     // TODO: log errors?
                     continue;

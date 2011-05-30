@@ -26,8 +26,8 @@ public class UriUriNTriplesLoader extends AbstractNTriplesLoader {
     public UriUriNTriplesLoader(String propertyUri, String subjectPrefix, String objectPrefix) {
         super();
         this.propertyUri = propertyUri;
-        this.subjectPrefix = subjectPrefix;
-        this.objectPrefix = objectPrefix;
+        this.subjectNamespace = subjectPrefix;
+        this.objectNamespace = objectPrefix;
     }
 
     @Override
@@ -47,8 +47,8 @@ public class UriUriNTriplesLoader extends AbstractNTriplesLoader {
                     continue;
                 }
                 return tupleFactory.newTupleNoCopy(Arrays.asList(
-                        stripBrackets(split[0], subjectPrefix),
-                        stripBrackets(split[2], objectPrefix)));
+                        stripBrackets(split[0], subjectNamespace),
+                        stripBrackets(split[2], objectNamespace)));
             }
             if (line != null) {
                 // we reached the end of the file split with an non matching

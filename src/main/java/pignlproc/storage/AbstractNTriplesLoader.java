@@ -16,9 +16,11 @@ import org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigSplit;
 import org.apache.pig.data.TupleFactory;
 
 /**
- * Base class for the NTriples LoadFunc implementations
+ * Base class for the NTriples LoadFunc implementations with optional namespace
+ * removal for space efficiency.
  */
-public abstract class AbstractNTriplesLoader extends LoadFunc implements LoadMetadata {
+public abstract class AbstractNTriplesLoader extends LoadFunc implements
+	LoadMetadata {
 
     protected RecordReader<Long,Text> reader;
 
@@ -26,9 +28,9 @@ public abstract class AbstractNTriplesLoader extends LoadFunc implements LoadMet
 
     protected String propertyUri;
 
-    protected String subjectPrefix;
+    protected String subjectNamespace;
 
-    protected String objectPrefix;
+    protected String objectNamespace;
 
     @Override
     public void setLocation(String location, Job job) throws IOException {
@@ -51,11 +53,11 @@ public abstract class AbstractNTriplesLoader extends LoadFunc implements LoadMet
         return bracketedURI.substring(1, bracketedURI.length() - 1);
     }
 
-    protected String stripBrackets(String bracketedURI, String prefix) {
+    protected String stripBrackets(String bracketedURI, String namespace) {
 	String unbracketed = bracketedURI.substring(1,
 		bracketedURI.length() - 1);
-	if (prefix != null && unbracketed.startsWith(prefix)) {
-	    unbracketed = unbracketed.substring(prefix.length());
+	if (namespace != null && unbracketed.startsWith(namespace)) {
+	    unbracketed = unbracketed.substring(namespace.length());
 	}
 	return unbracketed;
     }
