@@ -55,24 +55,20 @@ public abstract class AbstractNTriplesStorer extends StoreFunc {
 
 	switch (DataType.findType(field)) {
 
-	case DataType.BYTEARRAY: {
+	case DataType.BYTEARRAY:
 	    byte[] b = ((DataByteArray) field).get();
 	    buffer.write(b, 0, b.length);
 	    break;
-	}
 
-	case DataType.CHARARRAY: {
+	case DataType.CHARARRAY:
 	    // oddly enough, writeBytes writes a string
 	    buffer.write(((String) field).getBytes(UTF8));
 	    break;
-	}
 
-	default: {
+	default:
 	    int errCode = 2108;
 	    String msg = "Could not determine data type of field: " + field;
 	    throw new ExecException(msg, errCode, PigException.BUG);
-	}
-
 	}
     }
 
