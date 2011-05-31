@@ -57,10 +57,11 @@ public class UriStringLiteralNTriplesLoader extends AbstractNTriplesLoader {
         this(null, null);
     }
 
-    public UriStringLiteralNTriplesLoader(String propertyUri, String subjectPrefix) {
-        super();
-        this.propertyUri = propertyUri;
-        this.subjectNamespace = subjectPrefix;
+    public UriStringLiteralNTriplesLoader(String propertyUri,
+	    String subjectNamespace) {
+	super();
+	this.propertyUri = propertyUri;
+	this.subjectNamespace = subjectNamespace;
     }
 
     @Override
