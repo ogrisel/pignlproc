@@ -3,7 +3,6 @@ package pignlproc.storage;
 import java.io.IOException;
 
 import org.apache.pig.backend.executionengine.ExecException;
-import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 
 public class UriUriNTriplesStorer extends AbstractNTriplesStorer {
