@@ -43,4 +43,34 @@ public class TestUriUriNTriplesStorer {
         assertEquals("<d> <http://mynamespace#followerOf> <a> .", lines.get(2));
     }
 
+    @Test
+    public void testUriUriStorerWithNamespaces() throws Exception {
+        PigServer pig = new PigServer(LOCAL);
+        URL dbpediaDump = Thread.currentThread().getContextClassLoader().getResource("followership.tsv");
+        String inputFilename = dbpediaDump.getPath();
+        inputFilename = inputFilename.replace("\\", "\\\\");
+        outputFile = File.createTempFile("testUriUriStorer-", ".nt");
+        FileUtils.deleteQuietly(outputFile);
+        String outputFilename = outputFile.getAbsolutePath().replace("\\", "\\\\");
+        String query = "A = LOAD 'file:" + inputFilename + "' AS (s: chararray, o: chararray);";
+        pig.registerQuery(query);
+        pig.store("A", outputFilename, "pignlproc.storage.UriUriNTriplesStorer("
+                                       + "'http://mynamespace#followerOf', 'http://example.org/source#',"
+                                       + " 'http://example.org/target#')");
+        assertTrue(outputFile.exists());
+        File outPart = new File(outputFile, "part-m-00000");
+        assertTrue(outPart.exists());
+        List<String> lines = FileUtils.readLines(outPart);
+        assertEquals(5, lines.size());
+        assertEquals(
+            "<http://example.org/source#a> <http://mynamespace#followerOf> <http://example.org/target#b> .",
+            lines.get(0));
+        assertEquals(
+            "<http://example.org/source#a> <http://mynamespace#followerOf> <http://example.org/target#c> .",
+            lines.get(1));
+        assertEquals(
+            "<http://example.org/source#d> <http://mynamespace#followerOf> <http://example.org/target#a> .",
+            lines.get(2));
+    }
+
 }
