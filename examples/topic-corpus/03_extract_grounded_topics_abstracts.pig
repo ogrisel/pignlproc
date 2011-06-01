@@ -36,7 +36,7 @@ ordered_topics_abstracts = ORDER topics_abstracts BY
   articleCount DESC, topicUri ASC;
 
 -- TSV export suitable for direct Solr indexing
-tsv_topics_abstracts = FOREACH topics_abstracts
+tsv_topics_abstracts = FOREACH ordered_topics_abstracts
   GENERATE
     topicUri, articleCount,
     SafeTsvText(articleAbstract) AS primaryArticleAbstract;
@@ -45,7 +45,7 @@ STORE tsv_topics_abstracts
   INTO 'workspace/topics_primary_abstracts.tsv';
 
 -- NTriples export suitable for Stanbol EntityHub import
-ntriples_topics_abstracts = FOREACH topics_abstracts
+ntriples_topics_abstracts = FOREACH ordered_topics_abstracts
   GENERATE topicUri, articleAbstract;
 
 STORE ntriples_topics_abstracts
