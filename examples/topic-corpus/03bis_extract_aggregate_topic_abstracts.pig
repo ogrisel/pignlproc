@@ -113,8 +113,8 @@ filtered_topics2 = FILTER bagged_abstracts BY abstractCount > 10;
 ordered_topics = ORDER filtered_topics2 BY abstractCount DESC, topicUri ASC;
 
 -- NTriples export suitable for Stanbol EntityHub import
-ntriples_topics_abstracts = FOREACH topics_abstracts
-  GENERATE topicUri, articleAbstract;
+ntriples_topics_abstracts = FOREACH ordered_topics
+  GENERATE topicUri, aggregateTopicAbstract;
 
 STORE ntriples_topics_abstracts
   INTO 'workspace/topics_abstracts.nt'
