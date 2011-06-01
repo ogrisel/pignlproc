@@ -37,7 +37,7 @@ public class AggregateTextBag extends EvalFunc<String> {
     }
 
     public AggregateTextBag(int sizeLimit) throws IOException {
-        this(sizeLimit, true);
+        this(sizeLimit, false);
     }
 
     public AggregateTextBag(int sizeLimit, boolean tsvSafe) throws IOException {

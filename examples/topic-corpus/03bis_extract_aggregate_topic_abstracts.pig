@@ -9,6 +9,8 @@ SET default_parallel 20
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 DEFINE aggregate pignlproc.evaluation.AggregateTextBag();
+DEFINE NTriplesAbstractsStorage pignlproc.storage.UriStringLiteralNTriplesStorer(
+  'http://pignlproc.org/merged-abstracts', 'http://dbpedia.org/resource/', 'en');
 
 grounded_topics = LOAD 'workspace/grounded_topics.tsv'
   AS (topicUri: chararray, primaryArticleUri: chararray,
@@ -110,4 +112,10 @@ filtered_topics2 = FILTER bagged_abstracts BY abstractCount > 10;
 
 ordered_topics = ORDER filtered_topics2 BY abstractCount DESC, topicUri ASC;
 
-STORE ordered_topics INTO 'workspace/topics_abstracts.tsv';
+-- NTriples export suitable for Stanbol EntityHub import
+ntriples_topics_abstracts = FOREACH topics_abstracts
+  GENERATE topicUri, articleAbstract;
+
+STORE ntriples_topics_abstracts
+  INTO 'workspace/topics_abstracts.nt'
+  USING NTriplesAbstractsStorage;

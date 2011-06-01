@@ -29,7 +29,7 @@ public class TestEvalFunctions {
     @Before
     public void setUp() throws IOException {
         merger = new MergeAsOpenNLPAnnotatedText();
-        aggregator = new AggregateTextBag(40);
+        aggregator = new AggregateTextBag(40, true);
     }
 
     @Test
