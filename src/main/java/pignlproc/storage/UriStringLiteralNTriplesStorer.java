@@ -7,9 +7,9 @@ import org.apache.pig.data.Tuple;
 
 /**
  * Serialize key value pairs as NTriples by providing a fixed property URI and optional namespace info the
- * subject and object of the triples.
+ * subject. The object is expected to be a string literal with a fixed optional language declaration.
  */
-public class UriUriNTriplesStorer extends AbstractNTriplesStorer {
+public class UriStringLiteralNTriplesStorer extends AbstractNTriplesStorer {
 
     protected final String head;
 
@@ -17,22 +17,22 @@ public class UriUriNTriplesStorer extends AbstractNTriplesStorer {
 
     protected final String tail;
 
-    public UriUriNTriplesStorer(String propertyUri) {
+    public UriStringLiteralNTriplesStorer(String propertyUri) {
         this(propertyUri, null, null);
     }
 
-    public UriUriNTriplesStorer(String propertyUri, String subjectNamespace, String objectNamespace) {
+    public UriStringLiteralNTriplesStorer(String propertyUri, String subjectNamespace, String lang) {
         super();
         if (subjectNamespace == null) {
             subjectNamespace = "";
         }
-        if (objectNamespace == null) {
-            objectNamespace = "";
-        }
         head = "<" + escapeUtf8ToUsAsciiUri(subjectNamespace);
-        middle = String.format("> <%s> <%s", escapeUtf8ToUsAsciiUri(propertyUri),
-            escapeUtf8ToUsAsciiUri(objectNamespace));
-        tail = "> .";
+        middle = "> <" + escapeUtf8ToUsAsciiUri(propertyUri) + "> \"";
+        String tail = "\"";
+        if (lang != null && !lang.isEmpty()) {
+            tail += "@" + lang;
+        }
+        this.tail = tail + " .";
     }
 
     @Override
@@ -52,12 +52,11 @@ public class UriUriNTriplesStorer extends AbstractNTriplesStorer {
             StringBuilder sb = new StringBuilder(head);
             escapeUtf8ToUsAscii(fields.get(0).toString(), sb, true);
             sb.append(middle);
-            escapeUtf8ToUsAscii(fields.get(1).toString(), sb, true);
+            escapeUtf8ToUsAscii(fields.get(1).toString(), sb, false);
             sb.append(tail);
             writer.write(null, sb.toString());
         } catch (InterruptedException e) {
             throw new IOException(e);
         }
     }
-
 }
