@@ -18,9 +18,9 @@ perform such queries is provided in the `categorize.py` python script.
 - Install <http://pig.apache.org> and put the `bin/` folder in your PATH to have
   the `pig` command ready:
 
-    pig --version
-    Apache Pig version 0.8.1 (r1094835)
-    compiled Apr 18 2011, 19:26:53
+      pig --version
+      Apache Pig version 0.8.1 (r1094835)
+      compiled Apr 18 2011, 19:26:53
 
 - Download the following dumps file from <http://wiki.dbpedia.org/Downloads36>:
 
@@ -34,9 +34,9 @@ perform such queries is provided in the `categorize.py` python script.
 - Run the scripts from the toplevel folder of `pignlproc`
   (this can take more than 1h on a single machine):
 
-    pig -x local -b examples/topic-corpus/01_count_child_topics.pig
-    pig -x local -b examples/topic-corpus/02_find_grounded_topics.pig
-    pig -x local -b examples/topic-corpus/03bis_extract_aggregate_topic_abstracts.pig
+      pig -x local -b examples/topic-corpus/01_count_child_topics.pig
+      pig -x local -b examples/topic-corpus/02_find_grounded_topics.pig
+      pig -x local -b examples/topic-corpus/03bis_extract_aggregate_topic_abstracts.pig
 
 The interesting resulting file is `workspace/topics_abstracts.tsv` and should be
 around 500MB.
@@ -49,17 +49,17 @@ around 500MB.
 - Assuming you unarchived it in `/opt`, replace the default `schema.xml` with
   the one provided by this example in the folder:
 
-    /opt/apache-solr-3.1.0/example/solr/conf/
+      /opt/apache-solr-3.1.0/example/solr/conf/
 
 - In the same folder, in the `solrconfig.xml` file, insert the following
   handler declaration (after the other handler declarations for instance):
 
-    <requestHandler name="/mlt" class="solr.MoreLikeThisHandler" startup="lazy" />
+      <requestHandler name="/mlt" class="solr.MoreLikeThisHandler" startup="lazy" />
 
 - Start the solr example server instance:
 
-    cd /opt/apache-solr-3.1.0/example/
-    java -Xmx2g -jar start.jar
+      cd /opt/apache-solr-3.1.0/example/
+      java -Xmx2g -jar start.jar
 
 - Solr should start on <http://localhost:8983/solr/>
 
