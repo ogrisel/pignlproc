@@ -18,7 +18,7 @@ perform such queries is provided in the `categorize.py` python script.
 - Install <http://pig.apache.org> and put the `bin/` folder in your PATH to have
   the `pig` command ready:
 
-    $ pig --version
+    pig --version
     Apache Pig version 0.8.1 (r1094835)
     compiled Apr 18 2011, 19:26:53
 
@@ -63,12 +63,14 @@ around 500MB.
 
 - Solr should start on <http://localhost:8983/solr/>
 
+
 ## Index the topics aggregate text
 
 We can now launching the indexing itself using the CSV / TSV importer of Solr
 (adjust the path in the `stream.file` query parameter):
 
     curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&headers=false&fieldnames=id,popularity,text&stream.file=/path/to/topics_abstracts.tsv&stream.contentType=text/plain;charset=utf-8'
+
 
 ## Performing queries
 
@@ -78,7 +80,16 @@ Install sunburnt (e.g. the development version directly from github with pip)
 
 Then, from this folder, run:
 
-    python categorize.py schema.xml http://www.bbc.co.uk
+    python categorize.py schema.xml http://lucene.apache.org/
+    Category:Apache_Software_Foundation
+    Category:Continuous_integration
+    Category:Message-oriented_middleware
+    Category:Red_Hat
+    Category:Windows_95
+
+As we can see the categories found using this strategy are not yet
+great. Ways to improve it would be to follow the SKOS hierarchy to find
+the more generic categories using individual subcategories as voters.
 
 
 ## Using Apache Stanbol
