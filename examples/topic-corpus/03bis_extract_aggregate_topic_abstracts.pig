@@ -8,7 +8,8 @@ SET default_parallel 20
 
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
-DEFINE aggregate pignlproc.evaluation.AggregateTextBag();
+DEFINE AggregateTextBag pignlproc.evaluation.AggregateTextBag();
+DEFINE SafeTsvText pignlproc.evaluation.SafeTsvText();
 DEFINE NTriplesAbstractsStorage pignlproc.storage.UriStringLiteralNTriplesStorer(
   'http://pignlproc.org/merged-abstracts', 'http://dbpedia.org/resource/', 'en');
 
@@ -104,13 +105,22 @@ bagged_abstracts = FOREACH grouped_topics2
   GENERATE
     group AS topicUri,
     COUNT(topics_abstracts.articleUri) AS abstractCount,
-    aggregate(topics_abstracts.articleAbstract) AS aggregateTopicAbstract;
+    AggregateTextBag(topics_abstracts.articleAbstract) AS aggregateTopicAbstract;
 
 -- filter again after abstract joins in case of missing abstract
 -- because we do not resolve redirect yet
 filtered_topics2 = FILTER bagged_abstracts BY abstractCount > 10;
 
 ordered_topics = ORDER filtered_topics2 BY abstractCount DESC, topicUri ASC;
+
+-- TSV export suitable for direct Solr indexing
+tsv_topics_abstracts = FOREACH ordered_topics
+  GENERATE
+    topicUri, abstractCount,
+    SafeTsvText(aggregateTopicAbstract) AS primaryArticleAbstract;
+
+STORE tsv_topics_abstracts
+  INTO 'workspace/topics_abstracts.tsv';
 
 -- NTriples export suitable for Stanbol EntityHub import
 ntriples_topics_abstracts = FOREACH ordered_topics
