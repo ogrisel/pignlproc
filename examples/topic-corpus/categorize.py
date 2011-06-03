@@ -49,6 +49,10 @@ def categorize(schema, text):
     """Categorize a piece of text using a MoreLikeThis query on Solr"""
     q = MoreLikeThisDocument(text)
     solr = sunburnt.SolrInterface("http://localhost:8983/solr", schema)
+
+    # TODO: add support for the MoreLikeThisHandler instead to avoid useless
+    # indexing and deletions
+    # https://github.com/tow/sunburnt/issues/18
     solr.add(q)
     solr.commit()
     try:
