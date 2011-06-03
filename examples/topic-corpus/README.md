@@ -18,9 +18,11 @@ perform such queries is provided in the `categorize.py` python script.
 - Install <http://pig.apache.org> and put the `bin/` folder in your PATH to have
   the `pig` command ready:
 
+      <pre><code>
       pig --version
       Apache Pig version 0.8.1 (r1094835)
       compiled Apr 18 2011, 19:26:53
+      </code></pre>
 
 - Download the following dumps file from <http://wiki.dbpedia.org/Downloads36>:
 
