@@ -10,8 +10,19 @@ wikipedia_links = LOAD '$INPUT/wikipedia_links_$LANG.nt'
     'http://xmlns.com/foaf/0.1/primaryTopic')
   AS (wikiuri: chararray, dburi: chararray);
 
-wikipedia_links2 =
+redirects = LOAD '$INPUT/redirects_$LANG.nt'
+  USING pignlproc.storage.UriUriNTriplesLoader(
+    'http://dbpedia.org/ontology/wikiPageRedirects')
+  AS (source: chararray, target: chararray);
+
+-- the last tuple can be (null, null)
+wikipedia_links_notnull =
   FILTER wikipedia_links BY wikiuri IS NOT NULL;
+
+-- follow the redirect links if any
+redirect_joined = JOIN wikipedia_links_notnull BY dburi LEFT OUTER, redirects BY source;
+redirected_wikipedia_links = FOREACH redirect_joined GENERATE
+  (target IS NOT NULL ? target : dburi) AS dburi, wikiuri;
 
 -- Load dbpedia type data and filter out the overly generic owl:Thing type
 instance_types =
@@ -23,9 +34,8 @@ instance_types =
 instance_types_no_thing =
   FILTER instance_types BY type NEQ 'http://www.w3.org/2002/07/owl#Thing';
 
-joined = JOIN instance_types_no_thing BY dburi, wikipedia_links2 BY dburi;
+joined = JOIN instance_types_no_thing BY dburi, redirected_wikipedia_links BY dburi;
 
--- TODO: resolve the redirect info from dbpedia too
 
 projected = FOREACH joined GENERATE wikiuri, type;
 
