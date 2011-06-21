@@ -159,8 +159,9 @@ public class AnnotatingMarkupParser implements ITextConverter {
                                 int start = countingBuffer.currentPosition;
                                 tag.getBodyString(countingBuffer);
                                 int end = countingBuffer.currentPosition;
-                                wikilinks.add(new Annotation(start, end,
-                                        wikilinkLabel, wikilinkTarget));
+                                if (!wikilinkTarget.startsWith("#")) {
+                                    wikilinks.add(new Annotation(start, end, wikilinkLabel, wikilinkTarget));
+                                }
                             }
                         } else {
                             tag.getBodyString(countingBuffer);

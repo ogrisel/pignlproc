@@ -80,7 +80,7 @@ public class TestWikipediaParsing {
         simpleText = converter.parse(markup);
         assertTrue(simpleText.contains("Autism is a brain development disorder"
                 + " characterized by impaired social interaction and communication"));
-        assertEquals(236, converter.getWikiLinkAnnotations().size());
+        assertEquals(234, converter.getWikiLinkAnnotations().size());
         firstLink = converter.getWikiLinkAnnotations().get(0);
         assertEquals("Neurodevelopmental disorder", firstLink.label);
         assertEquals(
@@ -90,6 +90,11 @@ public class TestWikipediaParsing {
         assertEquals(41, firstLink.end);
         assertEquals("brain development disorder",
                 simpleText.substring(firstLink.begin, firstLink.end));
+
+        for (Annotation a: converter.getWikiLinkAnnotations()) {
+            // internal anchors are not extracted as links
+            assertFalse(a.value.startsWith("#"));
+        }
 
         // there is no fifth article in this test file
         assertFalse(reader.nextKeyValue());
