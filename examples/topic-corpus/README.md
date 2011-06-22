@@ -36,7 +36,9 @@ perform such queries is provided in the `categorize.py` python script.
 
         pig -x local -b examples/topic-corpus/01_count_child_topics.pig
         pig -x local -b examples/topic-corpus/02_find_grounded_topics.pig
-        pig -x local -b examples/topic-corpus/03bis_extract_aggregate_topic_abstracts.pig
+        pig -x local -b examples/topic-corpus/03_find_descendants.pig
+        pig -x local -b examples/topic-corpus/04_find_grounded_topics_articles.pig
+        pig -x local -b examples/topic-corpus/05_extract_aggregate_topic_abstracts.pig
 
 The interesting resulting file is `workspace/topics_abstracts.tsv` and should be
 around 500MB.
