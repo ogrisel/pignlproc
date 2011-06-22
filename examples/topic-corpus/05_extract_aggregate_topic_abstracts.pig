@@ -12,8 +12,6 @@ DEFINE SafeTsvText pignlproc.evaluation.SafeTsvText();
 DEFINE NTriplesAbstractsStorage pignlproc.storage.UriStringLiteralNTriplesStorer(
   'http://pignlproc.org/merged-abstracts', 'http://dbpedia.org/resource/', 'en');
 
-
-
 -- Defined available sources to join
 
 article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
@@ -32,8 +30,8 @@ joined_topics_abstracts = JOIN
 
 topics_abstracts = FOREACH joined_topics_abstracts
   GENERATE
-   compound_topics_articles::topicUri AS topicUri,
-   compound_topics_articles::articleUri AS articleUri,
+   grounded_topics_articles::topicUri AS topicUri,
+   grounded_topics_articles::articleUri AS articleUri,
    article_abstracts::articleAbstract AS articleAbstract;
 
 grouped_topics2 = GROUP topics_abstracts BY topicUri;
