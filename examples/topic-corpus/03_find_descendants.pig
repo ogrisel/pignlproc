@@ -65,3 +65,5 @@ topic_descendants_3 = UNION
  topic_descendants_3_distinct,
  topic_descendants_3_part_1,
  topic_descendants_3_part_2;
+
+STORE topic_descendants_3 INTO 'workspace/topic_descendants_3.tsv';

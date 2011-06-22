@@ -15,19 +15,13 @@ DEFINE NTriplesAbstractsStorage pignlproc.storage.UriStringLiteralNTriplesStorer
 
 
 -- Defined available sources to join
-article_topics = LOAD 'workspace/article_categories_en.nt.gz'
-  USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://purl.org/dc/terms/subject',
-    'http://dbpedia.org/resource/',
-    'http://dbpedia.org/resource/')
-  AS (articleUri: chararray, topicUri: chararray);
 
 article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
     'http://dbpedia.org/ontology/abstract',
     'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
-  
+
 grounded_topics_articles = LOAD 'workspace/grounded_topics_articles.tsv'
   AS (topicUri: chararray, articleUri: chararray);
 
