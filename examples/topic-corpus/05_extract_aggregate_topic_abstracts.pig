@@ -21,7 +21,7 @@ article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
   AS (articleUri: chararray, articleAbstract: chararray);
 
 grounded_topics_articles = LOAD 'workspace/grounded_topics_articles.tsv'
-  AS (topicUri: chararray, articleUri: chararray);
+  AS (topicUri: chararray, articleCount: long, articleUri: chararray);
 
 -- Join with the abstract by articleUri
 joined_topics_abstracts = JOIN
