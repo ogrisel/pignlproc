@@ -41,7 +41,7 @@ perform such queries is provided in the `categorize.py` python script.
         pig -x local -b examples/topic-corpus/05_extract_aggregate_topic_abstracts.pig
 
 The interesting resulting file is `workspace/topics_abstracts.tsv` and should be
-around 500MB.
+around 3.5GB uncompressed.
 
 
 ## Setup Solr
