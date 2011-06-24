@@ -14,6 +14,9 @@ import os
 import sys
 import urllib2
 import uuid
+from collections import Counter
+from pprint import pprint
+from random import Random
 
 import sunburnt
 import lxml.html
@@ -45,8 +48,13 @@ def fetch_text_from_url(url):
     return text
 
 
-def categorize(schema, text):
-    """Categorize a piece of text using a MoreLikeThis query on Solr"""
+def categorize(schema, text, n_categories=5, n_terms=30):
+    """Categorize a piece of text using a MoreLikeThis query on Solr
+
+    This is basically an approximated k-Neareast Neighbors using the TF-IDF
+    similarity of the Solr index. The query is truncated to the top n_terms
+    terms with maximum weights for efficiency reasons.
+    """
     q = MoreLikeThisDocument(text)
     solr = sunburnt.SolrInterface("http://localhost:8983/solr", schema)
 
@@ -56,7 +64,8 @@ def categorize(schema, text):
     solr.add(q)
     solr.commit()
     try:
-        mlt_query = solr.query(id=q.id).mlt("text")
+        mlt_query = solr.query(id=q.id).mlt(
+            "text", maxqt=n_terms, count=n_categories)
         mlt_results = mlt_query.execute().more_like_these
         if q.id in mlt_results:
             return [d['id'] for d in mlt_results[q.id].docs]
@@ -66,6 +75,23 @@ def categorize(schema, text):
     finally:
         solr.delete(q)
         solr.commit()
+
+def bagging_categorize(schema, text, n_categories=5, n_bootstraps=5, seed=42):
+    """Bootstrap aggregating version of the kNN categorization"""
+    tokens = text.split()
+    bigrams = [" ".join(tokens[i: i + 1]) for i in range(len(tokens))]
+    rng = Random(seed)
+    bootstrap_size = 2 * len(bigrams) / 3
+
+    categories = []
+    for i in range(n_bootstraps):
+        doc = u" ".join(rng.sample(bigrams, bootstrap_size))
+        categories.extend(categorize(schema, doc, n_categories * 2))
+
+    counted_categories = Counter(categories)
+    pprint(counted_categories)
+    return [cat for cat, c in counted_categories.most_common(n_categories)
+            if c > 2 * n_bootstraps / 3]
 
 
 if __name__ == "__main__":
@@ -77,5 +103,5 @@ if __name__ == "__main__":
     elif os.path.exists(document):
         document = open(document).read()
 
-    for topic in categorize(schema, document):
-        print topic.replace('db:', 'http://dbpedia.org/resource/')
+    for topic in bagging_categorize(schema, document):
+        print topic
