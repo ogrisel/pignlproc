@@ -58,10 +58,10 @@ around 3.5GB uncompressed.
 
         <requestHandler name="/mlt" class="solr.MoreLikeThisHandler" startup="lazy" />
 
-- Also in the `solrconfig.xml` file, increase the field size limit to 1 million
-  characters:
+- Also in the `solrconfig.xml` file, increase the field size limit to a larger
+  size thant the default (1000):
 
-        <maxFieldLength>1000000</maxFieldLength>
+        <maxFieldLength>100000</maxFieldLength>
 
 - Start the solr example server instance:
 
