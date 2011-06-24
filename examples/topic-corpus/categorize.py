@@ -89,7 +89,6 @@ def bagging_categorize(schema, text, n_categories=5, n_bootstraps=5, seed=42):
         categories.extend(categorize(schema, doc, n_categories * 2))
 
     counted_categories = Counter(categories)
-    pprint(counted_categories)
     return [cat for cat, c in counted_categories.most_common(n_categories)
             if c > 2 * n_bootstraps / 3]
 
