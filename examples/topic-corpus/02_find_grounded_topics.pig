@@ -54,10 +54,8 @@ projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics2
     topicUri, primaryArticleUri, articleCount,
     narrowerTopicCount, broaderTopicCount, templateUri;
 
-distinct_candidate_grounded_topics = DISTINCT projected_candidate_grounded_topics;
-
 -- Filter out Years categories which are not interesting
-filtered_candidate_grounded_topics = FILTER distinct_candidate_grounded_topics
+filtered_candidate_grounded_topics = FILTER projected_candidate_grounded_topics
   BY templateUri != 'Template:Yearbox';
 
 ordered_candidate_grounded_topics = ORDER filtered_candidate_grounded_topics
@@ -68,7 +66,10 @@ projected_ordered_candidate_grounded_topics =
   GENERATE topicUri, primaryArticleUri, articleCount,
     narrowerTopicCount, broaderTopicCount;
 
-SPLIT projected_ordered_candidate_grounded_topics INTO
+distinct_candidate_grounded_topics =
+  DISTINCT projected_ordered_candidate_grounded_topics;
+
+SPLIT distinct_candidate_grounded_topics INTO
    grounded_topics IF primaryArticleUri IS NOT NULL,
    nongrounded_topics IF primaryArticleUri IS NULL;
 
@@ -76,7 +77,7 @@ projected_nongrounded_topics = FOREACH nongrounded_topics
   GENERATE topicUri, articleCount, narrowerTopicCount, broaderTopicCount;
 
 -- all topics, grounded and non grounded (primaryArticleUri can be NULL)
-STORE projected_ordered_candidate_grounded_topics INTO 'workspace/linked_topics.tsv';
+STORE distinct_candidate_grounded_topics INTO 'workspace/linked_topics.tsv';
 
 -- only grounded topics (primaryArticleUri is not NULL)
 STORE grounded_topics INTO 'workspace/grounded_topics.tsv';
