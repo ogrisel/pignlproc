@@ -53,19 +53,35 @@ public class AggregateTextBag extends EvalFunc<String> {
     public String exec(Tuple input) throws IOException {
         try {
             Object bag = input.get(0);
-            String text;
+            String text = "";
             if (bag instanceof String) {
                 text = (String) bag;
             } else if (bag instanceof DataBag) {
                 DataBag textBag = (DataBag) bag;
+                if (textBag.size() == 0) {
+                    return text;
+                }
+                int individualLimit = sizeLimit / (int) textBag.size();
+                // take at least 200 chars for each item
+                individualLimit = Math.max(individualLimit, 200);
                 int remaining = sizeLimit;
                 StringBuilder sb = new StringBuilder();
                 Iterator<Tuple> it = textBag.iterator();
                 while (remaining > 0 && it.hasNext()) {
-                    // assume that all the element of the textField bag are the
-                    // same
-                    // sentence grouped several times.
+                    // assume that all the elements of the tuples in the textField bag are the
+                    // same sentence grouped several times, hence only consider the first element
                     String nextString = (String) it.next().get(0);
+
+                    // approximate shortening the text so that samples from the same bag contribute in equal
+                    // ways to the aggregate rather that dropping the end of the bag in case of limit
+                    if (nextString.length() > individualLimit) {
+                        int nextWhitespace = nextString.indexOf(" ", individualLimit - 1);
+                        if (nextWhitespace != -1) {
+                            nextString = nextString.substring(0, nextWhitespace);
+                        } else {
+                            nextString = nextString.substring(0, individualLimit);
+                        }
+                    }
                     if (sb.length() > 0) {
                         sb.append(" ");
                     }
