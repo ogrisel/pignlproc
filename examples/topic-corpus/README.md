@@ -29,16 +29,19 @@ perform such queries is provided in the `categorize.py` python script.
   - long_abstracts_en.nt.bz2
   - infobox_properties_en.nt.bz2
 
-  and put those files in the `workspace/` subfolder of `pignlproc`.
+  and put those files in the `workspace/` subfolder of `pignlproc`. You can use
+  the following script under unix:
+
+      sh download_data.sh
 
 - Run the scripts from the toplevel folder of `pignlproc`
   (this can take more than 1h on a single machine):
 
-        pig -x local -b examples/topic-corpus/01_count_child_topics.pig
-        pig -x local -b examples/topic-corpus/02_find_grounded_topics.pig
-        pig -x local -b examples/topic-corpus/03_find_descendants.pig
-        pig -x local -b examples/topic-corpus/04_find_grounded_topics_articles.pig
-        pig -x local -b examples/topic-corpus/05_extract_aggregate_topic_abstracts.pig
+       pig -x local -b examples/topic-corpus/01_count_child_topics.pig
+       pig -x local -b examples/topic-corpus/02_find_grounded_topics.pig
+       pig -x local -b examples/topic-corpus/03_find_descendants.pig
+       pig -x local -b examples/topic-corpus/04_find_grounded_topics_articles.pig
+       pig -x local -b examples/topic-corpus/06_extract_aggregate_topic_abstracts.pig
 
 The interesting resulting file is `workspace/topics_abstracts.tsv` and should be
 around 3.5GB uncompressed.
