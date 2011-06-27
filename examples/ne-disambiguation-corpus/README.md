@@ -51,10 +51,10 @@ The interesting resulting file is `workspace/entity_contexts.tsv/part-00000`.
 
         <requestHandler name="/mlt" class="solr.MoreLikeThisHandler" startup="lazy" />
 
-- Also in the `solrconfig.xml` file, increase the field size limit to 1 million
-  characters:
+- Also in the `solrconfig.xml` file, increase the field size limit so that MoreLikeThis
+  queries can compute more robust / accurate estimates of the document relatedness:
 
-        <maxFieldLength>1000000</maxFieldLength>
+        <maxFieldLength>100000</maxFieldLength>
 
 - Start the solr example server instance:
 
