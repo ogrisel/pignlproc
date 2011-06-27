@@ -54,8 +54,10 @@ projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics2
     topicUri, primaryArticleUri, articleCount,
     narrowerTopicCount, broaderTopicCount, templateUri;
 
+distinct_candidate_grounded_topics = DISTINCT projected_candidate_grounded_topics;
+
 -- Filter out Years categories which are not interesting
-filtered_candidate_grounded_topics = FILTER projected_candidate_grounded_topics
+filtered_candidate_grounded_topics = FILTER distinct_candidate_grounded_topics
   BY templateUri != 'Template:Yearbox';
 
 ordered_candidate_grounded_topics = ORDER filtered_candidate_grounded_topics
