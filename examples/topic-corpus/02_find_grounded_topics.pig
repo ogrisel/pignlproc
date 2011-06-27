@@ -13,20 +13,20 @@ topic_counts = LOAD 'workspace/topics_counts.tsv'
   AS (topicUri: chararray, articleCount: long, narrowerTopicCount:long,
       broaderTopicCount);
 
-topic_parents = LOAD 'workspace/skos_categories_en.nt.gz'
+topic_parents = LOAD 'workspace/skos_categories_en.nt.bz2'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://www.w3.org/2004/02/skos/core#broader',
     'http://dbpedia.org/resource/',
     'http://dbpedia.org/resource/')
   AS (narrowerTopicUri: chararray, broaderTopicUri: chararray);
   
-article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
+article_abstracts = LOAD 'workspace/long_abstracts_en.nt.bz2'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
     'http://dbpedia.org/ontology/abstract',
     'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
 
-article_templates = LOAD 'workspace/infobox_properties_en.nt.gz'
+article_templates = LOAD 'workspace/infobox_properties_en.nt.bz2'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://dbpedia.org/property/wikiPageUsesTemplate',
     'http://dbpedia.org/resource/',

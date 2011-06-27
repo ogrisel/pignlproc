@@ -13,7 +13,7 @@ topic_descendants_3 = LOAD 'workspace/topic_descendants_3.tsv'
       articleCount: long, uriLevel1: chararray,
       uriLevel2: chararray, uriLevel3: chararray);
 
-article_topics = LOAD 'workspace/article_categories_en.nt.gz'
+article_topics = LOAD 'workspace/article_categories_en.nt.bz2'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://purl.org/dc/terms/subject',
     'http://dbpedia.org/resource/',

@@ -7,7 +7,7 @@ SET default_parallel 20
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 
-topic_parents = LOAD 'workspace/skos_categories_en.nt.gz'
+topic_parents = LOAD 'workspace/skos_categories_en.nt.bz2'
   USING pignlproc.storage.UriUriNTriplesLoader(
     'http://www.w3.org/2004/02/skos/core#broader',
     'http://dbpedia.org/resource/',

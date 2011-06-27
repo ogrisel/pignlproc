@@ -14,7 +14,7 @@ DEFINE NTriplesAbstractsStorage pignlproc.storage.UriStringLiteralNTriplesStorer
 
 -- Defined available sources to join
 
-article_abstracts = LOAD 'workspace/long_abstracts_en.nt.gz'
+article_abstracts = LOAD 'workspace/long_abstracts_en.nt.bz2'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
     'http://dbpedia.org/ontology/abstract',
     'http://dbpedia.org/resource/')
