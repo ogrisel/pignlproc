@@ -53,8 +53,8 @@ grounded_topics_articles_2_projected = FOREACH grounded_topics_articles_2_joined
 
 grounded_topics_articles = UNION
   grounded_topics_articles_0_projected,
-  grounded_topics_articles_1_projected,
-  grounded_topics_articles_2_projected;
+  grounded_topics_articles_1_projected;
+  --grounded_topics_articles_2_projected;
 
 grounded_topics_articles_distinct = DISTINCT grounded_topics_articles;
 
