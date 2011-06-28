@@ -22,7 +22,7 @@ topic_children = FOREACH topic_parents
 
 topic_children_deduped = FILTER topic_children
   BY broaderTopicUri != narrowerTopicUri;
-  
+
 topic_children_distinct = DISTINCT topic_children_deduped;
 
 linked_topics = LOAD 'workspace/linked_topics.tsv'
@@ -45,25 +45,11 @@ topic_descendants_2_projected = FOREACH topic_descendants_2_joined GENERATE
   topicUri, primaryArticleUri, articleCount, uriLevel1, narrowerTopicUri AS uriLevel2;
 topic_descendants_2_distinct = DISTINCT topic_descendants_2_projected;
 
-SPLIT topic_descendants_2_distinct INTO
-  topic_descendants_2_filtered IF uriLevel2 IS NOT NULL,
-  topic_no_descendants_2 IF uriLevel2 IS NULL;
+topic_descendants_1_padded = FOREACH topic_no_descendants_1 GENERATE
+  topicUri, primaryArticleUri, articleCount, uriLevel1, NULL AS uriLevel2;
 
-topic_descendants_3_joined = JOIN topic_descendants_2_filtered BY uriLevel2 LEFT OUTER,
-                                  topic_children_distinct BY broaderTopicUri;
-topic_descendants_3_projected = FOREACH topic_descendants_3_joined GENERATE
-  topicUri, primaryArticleUri, articleCount, uriLevel1, uriLevel2, narrowerTopicUri AS uriLevel3;
-topic_descendants_3_distinct = DISTINCT topic_descendants_3_projected;
+topic_descendants = UNION
+ topic_descendants_1_padded,
+ topic_descendants_2_distinct;
 
-topic_descendants_3_part_1 = FOREACH topic_no_descendants_1 GENERATE
-  topicUri, primaryArticleUri, articleCount, uriLevel1, NULL AS uriLevel2, NULL AS uriLevel3;
-
-topic_descendants_3_part_2 = FOREACH topic_no_descendants_2 GENERATE
-  topicUri, primaryArticleUri, articleCount, uriLevel1, uriLevel2, NULL AS uriLevel3;
-
-topic_descendants_3 = UNION
- topic_descendants_3_distinct,
- topic_descendants_3_part_1,
- topic_descendants_3_part_2;
-
-STORE topic_descendants_3 INTO 'workspace/topic_descendants_3.tsv';
+STORE topic_descendants INTO 'workspace/topic_descendants.tsv';

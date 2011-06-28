@@ -8,10 +8,10 @@ SET default_parallel 20
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 
-topic_descendants_3 = LOAD 'workspace/topic_descendants_3.tsv'
+topic_descendants = LOAD 'workspace/topic_descendants.tsv'
   AS (topicUri: chararray, primaryArticleUri: chararray,
       articleCount: long, uriLevel1: chararray,
-      uriLevel2: chararray, uriLevel3: chararray);
+      uriLevel2: chararray);
 
 article_topics = LOAD 'workspace/article_categories_en.nt.bz2'
   USING pignlproc.storage.UriUriNTriplesLoader(
@@ -20,18 +20,15 @@ article_topics = LOAD 'workspace/article_categories_en.nt.bz2'
     'http://dbpedia.org/resource/')
   AS (articleUri: chararray, topicUri: chararray);
 
-
 -- Perform the joins on the grounded topics only
 
-grounded_topics_descendants = FILTER  topic_descendants_3
+grounded_topics_descendants = FILTER topic_descendants
   BY primaryArticleUri IS NOT NULL;
   
-grounded_topics_descendants_1_filtered = FILTER  topic_descendants_3
+grounded_topics_descendants_1_filtered = FILTER topic_descendants
   BY uriLevel1 IS NOT NULL;
-grounded_topics_descendants_2_filtered = FILTER  topic_descendants_3
+grounded_topics_descendants_2_filtered = FILTER topic_descendants
   BY uriLevel2 IS NOT NULL;
-grounded_topics_descendants_3_filtered = FILTER  topic_descendants_3
-  BY uriLevel3 IS NOT NULL;
 
 grounded_topics_articles_0_joined = JOIN
   grounded_topics_descendants BY topicUri,
@@ -54,18 +51,10 @@ grounded_topics_articles_2_projected = FOREACH grounded_topics_articles_2_joined
   GENERATE grounded_topics_descendants_2_filtered::topicUri AS topicUri,
     articleCount, articleUri;
 
-grounded_topics_articles_3_joined = JOIN
-  grounded_topics_descendants_3_filtered BY uriLevel3,
-  article_topics BY topicUri;
-grounded_topics_articles_3_projected = FOREACH grounded_topics_articles_3_joined
-  GENERATE grounded_topics_descendants_3_filtered::topicUri AS topicUri,
-    articleCount, articleUri;
-
 grounded_topics_articles = UNION
   grounded_topics_articles_0_projected,
   grounded_topics_articles_1_projected,
-  grounded_topics_articles_2_projected,
-  grounded_topics_articles_3_projected;
+  grounded_topics_articles_2_projected;
 
 grounded_topics_articles_distinct = DISTINCT grounded_topics_articles;
 

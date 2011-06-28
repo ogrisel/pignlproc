@@ -26,6 +26,10 @@ article_abstracts = LOAD 'workspace/long_abstracts_en.nt.bz2'
     'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
 
+-- Project early: we don't need to load the abstract content
+articles = FOREACH article_abstracts GENERATE
+   articleUri AS articleUri, 1 AS hasAbstract;
+
 -- Build are candidate matching article URI by removing the 'Category:'
 -- part of the topic URI
 candidate_grounded_topics = FOREACH topic_counts GENERATE
@@ -36,13 +40,13 @@ candidate_grounded_topics = FOREACH topic_counts GENERATE
 -- (topics that have a matching article with an abstract)
 joined_candidate_grounded_topics = JOIN
   candidate_grounded_topics BY candidatePrimaryArticleUri LEFT OUTER,
-  article_abstracts BY articleUri;
+  articles BY articleUri;
 
 projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics
   GENERATE
     candidate_grounded_topics::topicUri AS topicUri,
-    (article_abstracts::articleAbstract IS NOT NULL ?
-      article_abstracts::articleUri : NULL) AS primaryArticleUri,
+    (articles::hasAbstract IS NOT NULL ?
+      articles::articleUri : NULL) AS primaryArticleUri,
     candidate_grounded_topics::articleCount AS articleCount,
     candidate_grounded_topics::narrowerTopicCount AS narrowerTopicCount,
     candidate_grounded_topics::broaderTopicCount AS broaderTopicCount;
