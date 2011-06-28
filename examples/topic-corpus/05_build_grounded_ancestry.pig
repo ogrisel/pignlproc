@@ -39,13 +39,14 @@ topic_children_with_info = FOREACH topic_children_joined GENERATE
 
 topic_children_with_info_distinct = DISTINCT topic_children_with_info;
 
-grounded_roots = FILTER linked_topics
-  BY primaryArticleUri IS NOT NULL
-  AND broaderTopicCount == 0;
+roots = FILTER linked_topics BY broaderTopicCount == 0;
 
-grounded_ancestry_1 = FOREACH grounded_roots GENERATE
-  topicUri, topicUri AS rootUri, primaryArticleUri, articleCount,
-  topicUri AS groundedPath, 1 AS groundedPathLength;
+grounded_ancestry_1 = FOREACH roots GENERATE
+  topicUri, topicUri AS rootUri,
+  primaryArticleUri AS primaryArticleUri,
+  articleCount AS articleCount,
+  (primaryArticleUri IS NULL ? '' : topicUri) AS groundedPath,
+  (primaryArticleUri IS NULL ? 0 : 1) AS groundedPathLength;
 
 joined_children_2 = JOIN
   grounded_ancestry_1 BY topicUri,  
