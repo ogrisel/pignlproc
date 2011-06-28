@@ -27,7 +27,6 @@ perform such queries is provided in the `categorize.py` python script.
   - article_categories_en.nt.bz2
   - skos_categories_en.nt.bz2
   - long_abstracts_en.nt.bz2
-  - infobox_properties_en.nt.bz2
 
   and put those files in the `workspace/` subfolder of `pignlproc`. You can use
   the following script under unix:

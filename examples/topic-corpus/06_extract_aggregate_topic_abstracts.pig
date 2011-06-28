@@ -8,6 +8,8 @@ SET default_parallel 20
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 DEFINE AggregateTextBag pignlproc.evaluation.AggregateTextBag();
+DEFINE JoinRoots pignlproc.evaluation.ConcatTextBag(' ');
+DEFINE JoinPaths pignlproc.evaluation.ConcatTextBag('  ');
 DEFINE SafeTsvText pignlproc.evaluation.SafeTsvText();
 DEFINE NTriplesAbstractsStorage pignlproc.storage.UriStringLiteralNTriplesStorer(
   'http://pignlproc.org/merged-abstracts', 'http://dbpedia.org/resource/', 'en');
@@ -23,6 +25,11 @@ article_abstracts = LOAD 'workspace/long_abstracts_en.nt.bz2'
 grounded_topics_articles = LOAD 'workspace/grounded_topics_articles.tsv'
   AS (topicUri: chararray, articleCount: long, articleUri: chararray);
 
+grounded_ancestry = LOAD 'workspace/grounded_ancestry.tsv'
+  AS (topicUri: chararray, rootUri: chararray,
+      primaryArticleUri: chararray, articleCount: long,
+      groundedPath: chararray, groundedPathLength: long);
+
 -- Join with the abstract by articleUri
 joined_topics_abstracts = JOIN
   grounded_topics_articles BY articleUri,
@@ -34,13 +41,17 @@ topics_abstracts = FOREACH joined_topics_abstracts
    grounded_topics_articles::articleUri AS articleUri,
    article_abstracts::articleAbstract AS articleAbstract;
 
-grouped_topics2 = GROUP topics_abstracts BY topicUri;
+grouped_topics2 = GROUP
+  topics_abstracts BY topicUri,
+  grounded_ancestry BY topicUri;
 
 bagged_abstracts = FOREACH grouped_topics2
   GENERATE
     group AS topicUri,
     COUNT(topics_abstracts.articleUri) AS abstractCount,
-    AggregateTextBag(topics_abstracts.articleAbstract) AS aggregateTopicAbstract;
+    AggregateTextBag(topics_abstracts.articleAbstract) AS aggregateTopicAbstract,
+    JoinRoots(grounded_ancestry.rootUri) AS roots,
+    JoinPaths(grounded_ancestry.groundedPath) AS paths;
 
 -- filter again after abstract joins in case of missing abstract
 -- because we do not resolve redirect yet
@@ -51,7 +62,7 @@ ordered_topics = ORDER filtered_topics2 BY abstractCount DESC, topicUri ASC;
 -- TSV export suitable for direct Solr indexing
 tsv_topics_abstracts = FOREACH ordered_topics
   GENERATE
-    topicUri, abstractCount,
+    topicUri, abstractCount, roots, paths,
     SafeTsvText(aggregateTopicAbstract) AS primaryArticleAbstract;
 
 STORE tsv_topics_abstracts

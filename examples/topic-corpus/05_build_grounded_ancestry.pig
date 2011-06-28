@@ -39,7 +39,9 @@ topic_children_with_info = FOREACH topic_children_joined GENERATE
 
 topic_children_with_info_distinct = DISTINCT topic_children_with_info;
 
-roots = FILTER linked_topics BY broaderTopicCount == 0;
+-- interesting roots
+roots = FILTER topic_children_with_info_distinct
+  BY broaderTopicUri == 'Category:Main_topic_classifications';
 
 grounded_ancestry_1 = FOREACH roots GENERATE
   topicUri, topicUri AS rootUri,
@@ -112,13 +114,98 @@ grounded_ancestry_5 = FOREACH joined_children_5 GENERATE
      groundedPathLength :
      groundedPathLength + 1) AS groundedPathLength;
 
+joined_children_6 = JOIN
+  grounded_ancestry_5 BY topicUri,  
+  topic_children_with_info BY broaderTopicUri;
+
+grounded_ancestry_6 = FOREACH joined_children_6 GENERATE
+  topic_children_with_info::topicUri AS topicUri,
+  grounded_ancestry_5::rootUri AS rootUri,
+  topic_children_with_info::primaryArticleUri AS primaryArticleUri,
+  topic_children_with_info::articleCount AS articleCount,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPath :
+     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPathLength :
+     groundedPathLength + 1) AS groundedPathLength;
+
+joined_children_7 = JOIN
+  grounded_ancestry_6 BY topicUri,  
+  topic_children_with_info BY broaderTopicUri;
+
+grounded_ancestry_7 = FOREACH joined_children_7 GENERATE
+  topic_children_with_info::topicUri AS topicUri,
+  grounded_ancestry_6::rootUri AS rootUri,
+  topic_children_with_info::primaryArticleUri AS primaryArticleUri,
+  topic_children_with_info::articleCount AS articleCount,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPath :
+     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPathLength :
+     groundedPathLength + 1) AS groundedPathLength;
+
+joined_children_8 = JOIN
+  grounded_ancestry_7 BY topicUri,  
+  topic_children_with_info BY broaderTopicUri;
+
+grounded_ancestry_8 = FOREACH joined_children_8 GENERATE
+  topic_children_with_info::topicUri AS topicUri,
+  grounded_ancestry_7::rootUri AS rootUri,
+  topic_children_with_info::primaryArticleUri AS primaryArticleUri,
+  topic_children_with_info::articleCount AS articleCount,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPath :
+     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPathLength :
+     groundedPathLength + 1) AS groundedPathLength;
+
+joined_children_9 = JOIN
+  grounded_ancestry_8 BY topicUri,  
+  topic_children_with_info BY broaderTopicUri;
+
+grounded_ancestry_9 = FOREACH joined_children_9 GENERATE
+  topic_children_with_info::topicUri AS topicUri,
+  grounded_ancestry_8::rootUri AS rootUri,
+  topic_children_with_info::primaryArticleUri AS primaryArticleUri,
+  topic_children_with_info::articleCount AS articleCount,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPath :
+     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPathLength :
+     groundedPathLength + 1) AS groundedPathLength;
+
+joined_children_10 = JOIN
+  grounded_ancestry_9 BY topicUri,  
+  topic_children_with_info BY broaderTopicUri;
+
+grounded_ancestry_10 = FOREACH joined_children_10 GENERATE
+  topic_children_with_info::topicUri AS topicUri,
+  grounded_ancestry_9::rootUri AS rootUri,
+  topic_children_with_info::primaryArticleUri AS primaryArticleUri,
+  topic_children_with_info::articleCount AS articleCount,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPath :
+     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+  (topic_children_with_info::primaryArticleUri IS NULL ?
+     groundedPathLength :
+     groundedPathLength + 1) AS groundedPathLength;
+
 grounded_ancestry = UNION
   grounded_ancestry_1,
   grounded_ancestry_2,
   grounded_ancestry_3,
   grounded_ancestry_4,
-  grounded_ancestry_5;
+  grounded_ancestry_5,
+  grounded_ancestry_6,
+  grounded_ancestry_7,
+  grounded_ancestry_8,
+  grounded_ancestry_9,
+  grounded_ancestry_10;
 
-ordered_grounded_ancestry = ORDER grounded_ancestry BY groundedPath;
+ordered_grounded_ancestry = ORDER grounded_ancestry BY articleCount DESC, topicUri;
 
 STORE ordered_grounded_ancestry INTO 'workspace/grounded_ancestry.tsv';

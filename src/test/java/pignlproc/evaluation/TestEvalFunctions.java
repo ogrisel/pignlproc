@@ -26,10 +26,13 @@ public class TestEvalFunctions {
 
     protected AggregateTextBag aggregator;
 
+    protected ConcatTextBag concatTextBag;
+
     @Before
     public void setUp() throws IOException {
         merger = new MergeAsOpenNLPAnnotatedText();
         aggregator = new AggregateTextBag(40, true);
+        concatTextBag = new ConcatTextBag("  ", true);
     }
 
     @Test
@@ -136,4 +139,23 @@ public class TestEvalFunctions {
         expected = "\"" + expected + "\"";
         assertEquals(expected, merged);
     }
+
+
+    @Test
+    public void testConcatTextBag() throws IOException {
+        TupleFactory tf = TupleFactory.getInstance();
+        DefaultDataBag textBag = new DefaultDataBag();
+
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(" foo1")));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList("foo2")));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList(" foo3 ")));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList("foo4 ")));
+
+        // all bags
+        Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
+        String merged = concatTextBag.exec(input);
+        String expected = "foo1  foo2  foo3  foo4";
+        assertEquals(expected, merged);
+    }
+
 }

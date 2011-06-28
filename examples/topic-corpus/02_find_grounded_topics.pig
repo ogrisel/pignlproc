@@ -26,50 +26,34 @@ article_abstracts = LOAD 'workspace/long_abstracts_en.nt.bz2'
     'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
 
-article_templates = LOAD 'workspace/infobox_properties_en.nt.bz2'
-  USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://dbpedia.org/property/wikiPageUsesTemplate',
-    'http://dbpedia.org/resource/',
-    'http://dbpedia.org/resource/')
-  AS (articleUri: chararray, templateUri: chararray);
-
 -- Build are candidate matching article URI by removing the 'Category:'
 -- part of the topic URI
 candidate_grounded_topics = FOREACH topic_counts GENERATE
-  topicUri, REPLACE(topicUri, 'Category:', '') AS primaryArticleUri,
+  topicUri, REPLACE(topicUri, 'Category:', '') AS candidatePrimaryArticleUri,
   articleCount, narrowerTopicCount, broaderTopicCount;
 
 -- Join on article abstracts to identify grounded topics
 -- (topics that have a matching article with an abstract)
 joined_candidate_grounded_topics = JOIN
-  candidate_grounded_topics BY primaryArticleUri LEFT OUTER,
+  candidate_grounded_topics BY candidatePrimaryArticleUri LEFT OUTER,
   article_abstracts BY articleUri;
 
-joined_candidate_grounded_topics2 = JOIN
-  joined_candidate_grounded_topics BY primaryArticleUri LEFT OUTER,
-  article_templates BY articleUri;
-
-projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics2
+projected_candidate_grounded_topics = FOREACH joined_candidate_grounded_topics
   GENERATE
-    topicUri, primaryArticleUri, articleCount,
-    narrowerTopicCount, broaderTopicCount, templateUri;
-
--- Filter out Years categories which are not interesting
-filtered_candidate_grounded_topics = FILTER projected_candidate_grounded_topics
-  BY templateUri != 'Template:Yearbox';
-
-ordered_candidate_grounded_topics = ORDER filtered_candidate_grounded_topics
-  BY articleCount DESC, topicUri;
-
-projected_ordered_candidate_grounded_topics =
-  FOREACH ordered_candidate_grounded_topics
-  GENERATE topicUri, primaryArticleUri, articleCount,
-    narrowerTopicCount, broaderTopicCount;
+    candidate_grounded_topics::topicUri AS topicUri,
+    (article_abstracts::articleAbstract IS NOT NULL ?
+      article_abstracts::articleUri : NULL) AS primaryArticleUri,
+    candidate_grounded_topics::articleCount AS articleCount,
+    candidate_grounded_topics::narrowerTopicCount AS narrowerTopicCount,
+    candidate_grounded_topics::broaderTopicCount AS broaderTopicCount;
 
 distinct_candidate_grounded_topics =
-  DISTINCT projected_ordered_candidate_grounded_topics;
+  DISTINCT projected_candidate_grounded_topics;
 
-SPLIT distinct_candidate_grounded_topics INTO
+ordered_candidate_grounded_topics = ORDER distinct_candidate_grounded_topics
+  BY articleCount DESC, topicUri;
+
+SPLIT ordered_candidate_grounded_topics INTO
    grounded_topics IF primaryArticleUri IS NOT NULL,
    nongrounded_topics IF primaryArticleUri IS NULL;
 
