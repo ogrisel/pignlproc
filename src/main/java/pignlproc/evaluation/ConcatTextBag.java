@@ -40,6 +40,9 @@ public class ConcatTextBag extends EvalFunc<String> {
     @Override
     public String exec(Tuple input) throws IOException {
         try {
+            if (input == null) {
+                return "";
+            }
             Object bag = input.get(0);
             String text = "";
             if (bag instanceof String) {
@@ -53,6 +56,9 @@ public class ConcatTextBag extends EvalFunc<String> {
                 Iterator<Tuple> it = textBag.iterator();
                 while (it.hasNext()) {
                     String nextString = (String) it.next().get(0);
+                    if (nextString == null) {
+                        continue;
+                    }
                     if (trim) {
                         nextString = nextString.trim();
                     }
