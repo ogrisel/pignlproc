@@ -1,9 +1,12 @@
 package pignlproc.evaluation;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import opennlp.tools.util.Span;
@@ -38,16 +41,14 @@ public class TestEvalFunctions {
     @Test
     public void testSimpleSentenceMerge() throws ExecException {
         String sentence = JOHN_SENTENCE;
-        List<Span> names = Arrays.asList(new Span(0, 10, "person"), new Span(
-                19, 36, "organization"));
+        List<Span> names = Arrays.asList(new Span(0, 10, "person"), new Span(19, 36, "organization"));
         String merged = merger.merge(sentence, names);
         assertEquals("<START:person> John Smith <END> works"
-                + " at <START:organization> Smith Consulting <END> .", merged);
+                     + " at <START:organization> Smith Consulting <END> .", merged);
 
         names = Arrays.asList(new Span(0, 10), new Span(19, 36));
         merged = merger.merge(sentence, names);
-        assertEquals("<START> John Smith <END> works"
-                + " at <START> Smith Consulting <END> .", merged);
+        assertEquals("<START> John Smith <END> works" + " at <START> Smith Consulting <END> .", merged);
     }
 
     @SuppressWarnings("unchecked")
@@ -70,32 +71,26 @@ public class TestEvalFunctions {
         typeBag.add(tf.newTupleNoCopy(Arrays.asList("organization")));
 
         // all bags
-        Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag,
-                endBag, typeBag));
+        Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag, endBag, typeBag));
         String merged = merger.exec(input);
         assertEquals("<START:person> John Smith <END> works"
-                + " at <START:organization> Smith Consulting <END> .", merged);
+                     + " at <START:organization> Smith Consulting <END> .", merged);
 
         // all literals
         input = tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE, 0, 10, "person"));
         merged = merger.exec(input);
-        assertEquals(
-                "<START:person> John Smith <END> works at Smith Consulting .",
-                merged);
+        assertEquals("<START:person> John Smith <END> works at Smith Consulting .", merged);
 
         // bags without types
         input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag, endBag));
         merged = merger.exec(input);
-        assertEquals(
-                "<START> John Smith <END> works at <START> Smith Consulting <END> .",
-                merged);
+        assertEquals("<START> John Smith <END> works at <START> Smith Consulting <END> .", merged);
 
         // bags with fixed type
-        input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag, endBag,
-                "entity"));
+        input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag, endBag, "entity"));
         merged = merger.exec(input);
-        assertEquals("<START:entity> John Smith <END> works at"
-                + " <START:entity> Smith Consulting <END> .", merged);
+        assertEquals("<START:entity> John Smith <END> works at" + " <START:entity> Smith Consulting <END> .",
+            merged);
     }
 
     @Test
@@ -113,8 +108,7 @@ public class TestEvalFunctions {
         // all bags
         Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
         String merged = aggregator.exec(input);
-        String expected = StringUtils.join(
-                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
+        String expected = StringUtils.join(Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
         expected = "\"" + expected + "\"";
         assertEquals(expected, merged);
     }
@@ -134,12 +128,10 @@ public class TestEvalFunctions {
         // all bags
         Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
         String merged = aggregator.exec(input);
-        String expected = StringUtils.join(
-                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
+        String expected = StringUtils.join(Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
         expected = "\"" + expected + "\"";
         assertEquals(expected, merged);
     }
-
 
     @Test
     public void testConcatTextBag() throws IOException {
@@ -156,6 +148,26 @@ public class TestEvalFunctions {
         String merged = concatTextBag.exec(input);
         String expected = "foo1  foo2  foo3  foo4";
         assertEquals(expected, merged);
+    }
+
+    @Test
+    public void testNoLoopInPath() throws IOException {
+        NoLoopInPath noloopInPathFunc = new NoLoopInPath(" ");
+        TupleFactory tf = TupleFactory.getInstance();
+
+        assertTrue(noloopInPathFunc.exec(null));
+        assertTrue(noloopInPathFunc.exec(tf.newTupleNoCopy(Collections.emptyList())));
+        assertTrue(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList(""))));
+        assertTrue(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a"))));
+        assertTrue(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a b c d"))));
+
+        assertFalse(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a a"))));
+        assertFalse(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a b c a"))));
+        assertFalse(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a b c b"))));
+        assertFalse(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a b c c"))));
+
+        // for efficiency reason, this function only check for loops introduced by the last element:
+        assertTrue(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a b b d"))));
     }
 
 }

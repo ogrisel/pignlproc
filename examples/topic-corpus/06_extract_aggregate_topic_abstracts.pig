@@ -8,7 +8,6 @@ SET default_parallel 20
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
 DEFINE AggregateTextBag pignlproc.evaluation.AggregateTextBag();
-DEFINE JoinRoots pignlproc.evaluation.ConcatTextBag(' ');
 DEFINE JoinPaths pignlproc.evaluation.ConcatTextBag('  ');
 DEFINE SafeTsvText pignlproc.evaluation.SafeTsvText();
 DEFINE NTriplesAbstractsStorage pignlproc.storage.UriStringLiteralNTriplesStorer(
@@ -26,8 +25,8 @@ grounded_topics_articles = LOAD 'workspace/grounded_topics_articles.tsv'
   AS (topicUri: chararray, articleCount: long, articleUri: chararray);
 
 grounded_ancestry = LOAD 'workspace/grounded_ancestry.tsv'
-  AS (topicUri: chararray, rootUri: chararray,
-      primaryArticleUri: chararray, articleCount: long,
+  AS (topicUri: chararray, primaryArticleUri: chararray,
+      articleCount: long, fullPath: chararray,
       groundedPath: chararray, groundedPathLength: long);
 
 -- Join with the abstract by articleUri
@@ -50,7 +49,6 @@ bagged_abstracts = FOREACH grouped_topics2
     group AS topicUri,
     COUNT(topics_abstracts.articleUri) AS abstractCount,
     AggregateTextBag(topics_abstracts.articleAbstract) AS aggregateTopicAbstract,
-    JoinRoots(grounded_ancestry.rootUri) AS roots,
     JoinPaths(grounded_ancestry.groundedPath) AS paths;
 
 -- filter again after abstract joins in case of missing abstract
@@ -62,7 +60,7 @@ ordered_topics = ORDER filtered_topics2 BY abstractCount DESC, topicUri ASC;
 -- TSV export suitable for direct Solr indexing
 tsv_topics_abstracts = FOREACH ordered_topics
   GENERATE
-    topicUri, abstractCount, roots, paths,
+    topicUri, abstractCount, paths,
     SafeTsvText(aggregateTopicAbstract) AS primaryArticleAbstract;
 
 STORE tsv_topics_abstracts
