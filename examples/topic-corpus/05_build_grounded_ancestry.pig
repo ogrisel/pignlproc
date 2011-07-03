@@ -42,7 +42,10 @@ topic_children_with_info_distinct = DISTINCT topic_children_with_info;
 
 -- interesting roots
 roots = FILTER topic_children_with_info_distinct
-  BY broaderTopicUri == 'Category:Main_topic_classifications';
+  BY broaderTopicUri == 'Category:Main_topic_classifications'
+  AND topicUri != 'Category:People';
+
+-- TODO: rewrite the following using a python script + loop when pig 0.9 is out
 
 grounded_ancestry_1 = FOREACH roots GENERATE
   topicUri,
