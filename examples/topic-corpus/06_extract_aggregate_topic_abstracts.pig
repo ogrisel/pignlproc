@@ -26,8 +26,8 @@ grounded_topics_articles = LOAD 'workspace/grounded_topics_articles.tsv'
   AS (topicUri: chararray, articleCount: long, articleUri: chararray);
 
 grounded_ancestry = LOAD 'workspace/grounded_ancestry.tsv'
-  AS (topicUri: chararray, rootUri: chararray,
-      primaryArticleUri: chararray, articleCount: long,
+  AS (topicUri: chararray, primaryArticleUri: chararray,
+      articleCount: long, fullPath: chararray,
       groundedPath: chararray, groundedPathLength: long);
 
 -- Join with the abstract by articleUri
