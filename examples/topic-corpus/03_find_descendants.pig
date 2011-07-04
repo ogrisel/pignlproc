@@ -35,21 +35,26 @@ topic_descendants_1_projected = FOREACH topic_descendants_1_joined GENERATE
   topicUri, primaryArticleUri, articleCount, narrowerTopicUri AS uriLevel1;
 topic_descendants_1_distinct = DISTINCT topic_descendants_1_projected;
   
-SPLIT topic_descendants_1_distinct INTO
-  topic_descendants_1_filtered IF uriLevel1 IS NOT NULL,
-  topic_no_descendants_1 IF uriLevel1 IS NULL;
+-- SPLIT topic_descendants_1_distinct INTO
+--   topic_descendants_1_filtered IF uriLevel1 IS NOT NULL,
+--   topic_no_descendants_1 IF uriLevel1 IS NULL;
+-- 
+-- topic_descendants_2_joined = JOIN topic_descendants_1_filtered BY uriLevel1 LEFT OUTER,
+--                                   topic_children_distinct BY broaderTopicUri;
+-- topic_descendants_2_projected = FOREACH topic_descendants_2_joined GENERATE
+--   topicUri, primaryArticleUri, articleCount, uriLevel1, narrowerTopicUri AS uriLevel2;
+-- topic_descendants_2_distinct = DISTINCT topic_descendants_2_projected;
+-- 
+-- topic_descendants_1_padded = FOREACH topic_no_descendants_1 GENERATE
+--   topicUri, primaryArticleUri, articleCount, uriLevel1, NULL AS uriLevel2;
+-- 
+-- topic_descendants = UNION
+--  topic_descendants_1_padded,
+--  topic_descendants_2_distinct;
 
-topic_descendants_2_joined = JOIN topic_descendants_1_filtered BY uriLevel1 LEFT OUTER,
-                                  topic_children_distinct BY broaderTopicUri;
-topic_descendants_2_projected = FOREACH topic_descendants_2_joined GENERATE
-  topicUri, primaryArticleUri, articleCount, uriLevel1, narrowerTopicUri AS uriLevel2;
-topic_descendants_2_distinct = DISTINCT topic_descendants_2_projected;
-
-topic_descendants_1_padded = FOREACH topic_no_descendants_1 GENERATE
+-- alternative implementation: just consider level 1 descendants
+-- (uriLevel is fixed to NULL)
+topic_descendants = FOREACH topic_descendants_1_distinct GENERATE
   topicUri, primaryArticleUri, articleCount, uriLevel1, NULL AS uriLevel2;
-
-topic_descendants = UNION
- topic_descendants_1_padded,
- topic_descendants_2_distinct;
 
 STORE topic_descendants INTO 'workspace/topic_descendants.tsv';

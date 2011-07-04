@@ -42,8 +42,7 @@ topic_children_with_info_distinct = DISTINCT topic_children_with_info;
 
 -- interesting roots
 roots = FILTER topic_children_with_info_distinct
-  BY broaderTopicUri == 'Category:Main_topic_classifications'
-  AND topicUri != 'Category:People';
+  BY broaderTopicUri == 'Category:Main_topic_classifications';
 
 -- TODO: rewrite the following using a python script + loop when pig 0.9 is out
 
@@ -129,41 +128,41 @@ grounded_ancestry_5 = FOREACH joined_children_5 GENERATE
 
 grounded_ancestry_5_noloop = FILTER grounded_ancestry_5 BY NoLoopInPath(fullPath);
 
-joined_children_6 = JOIN
-  grounded_ancestry_5_noloop BY topicUri,
-  topic_children_with_info BY broaderTopicUri;
-
-grounded_ancestry_6 = FOREACH joined_children_6 GENERATE
-  topic_children_with_info::topicUri AS topicUri,
-  topic_children_with_info::primaryArticleUri AS primaryArticleUri,
-  topic_children_with_info::articleCount AS articleCount,
-  CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
-  (topic_children_with_info::primaryArticleUri IS NULL ?
-     groundedPath :
-     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
-  (topic_children_with_info::primaryArticleUri IS NULL ?
-     groundedPathLength :
-     groundedPathLength + 1) AS groundedPathLength;
-
-grounded_ancestry_6_noloop = FILTER grounded_ancestry_6 BY NoLoopInPath(fullPath);
-
-joined_children_7 = JOIN
-  grounded_ancestry_6_noloop BY topicUri,
-  topic_children_with_info BY broaderTopicUri;
-
-grounded_ancestry_7 = FOREACH joined_children_7 GENERATE
-  topic_children_with_info::topicUri AS topicUri,
-  topic_children_with_info::primaryArticleUri AS primaryArticleUri,
-  topic_children_with_info::articleCount AS articleCount,
-  CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
-  (topic_children_with_info::primaryArticleUri IS NULL ?
-     groundedPath :
-     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
-  (topic_children_with_info::primaryArticleUri IS NULL ?
-     groundedPathLength :
-     groundedPathLength + 1) AS groundedPathLength;
-
-grounded_ancestry_7_noloop = FILTER grounded_ancestry_7 BY NoLoopInPath(fullPath);
+-- joined_children_6 = JOIN
+--   grounded_ancestry_5_noloop BY topicUri,
+--   topic_children_with_info BY broaderTopicUri;
+-- 
+-- grounded_ancestry_6 = FOREACH joined_children_6 GENERATE
+--   topic_children_with_info::topicUri AS topicUri,
+--   topic_children_with_info::primaryArticleUri AS primaryArticleUri,
+--   topic_children_with_info::articleCount AS articleCount,
+--   CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
+--   (topic_children_with_info::primaryArticleUri IS NULL ?
+--      groundedPath :
+--      CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+--   (topic_children_with_info::primaryArticleUri IS NULL ?
+--      groundedPathLength :
+--      groundedPathLength + 1) AS groundedPathLength;
+-- 
+-- grounded_ancestry_6_noloop = FILTER grounded_ancestry_6 BY NoLoopInPath(fullPath);
+-- 
+-- joined_children_7 = JOIN
+--   grounded_ancestry_6_noloop BY topicUri,
+--   topic_children_with_info BY broaderTopicUri;
+-- 
+-- grounded_ancestry_7 = FOREACH joined_children_7 GENERATE
+--   topic_children_with_info::topicUri AS topicUri,
+--   topic_children_with_info::primaryArticleUri AS primaryArticleUri,
+--   topic_children_with_info::articleCount AS articleCount,
+--   CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
+--   (topic_children_with_info::primaryArticleUri IS NULL ?
+--      groundedPath :
+--      CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+--   (topic_children_with_info::primaryArticleUri IS NULL ?
+--      groundedPathLength :
+--      groundedPathLength + 1) AS groundedPathLength;
+-- 
+-- grounded_ancestry_7_noloop = FILTER grounded_ancestry_7 BY NoLoopInPath(fullPath);
 
 
 grounded_ancestry = UNION
@@ -171,9 +170,7 @@ grounded_ancestry = UNION
   grounded_ancestry_2_noloop,
   grounded_ancestry_3_noloop,
   grounded_ancestry_4_noloop,
-  grounded_ancestry_5_noloop,
-  grounded_ancestry_6_noloop,
-  grounded_ancestry_7_noloop;
+  grounded_ancestry_5_noloop;
 
 ordered_grounded_ancestry = ORDER grounded_ancestry BY articleCount DESC, topicUri;
 
