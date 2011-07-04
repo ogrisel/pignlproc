@@ -22,6 +22,8 @@ import sunburnt
 import lxml.html
 from lxml.etree import ElementTree
 
+import argparse
+
 
 class MoreLikeThisDocument(object):
     """Transient document to get indexed to be able to do a similarity query"""
@@ -48,7 +50,8 @@ def fetch_text_from_url(url):
     return text
 
 
-def categorize(schema, text, n_categories=5, n_terms=30):
+def categorize(schema, text, n_categories=5, n_terms=30,
+               server='http://localhost:8983/solr'):
     """Categorize a piece of text using a MoreLikeThis query on Solr
 
     This is basically an approximated k-Neareast Neighbors using the TF-IDF
@@ -56,7 +59,7 @@ def categorize(schema, text, n_categories=5, n_terms=30):
     terms with maximum weights for efficiency reasons.
     """
     q = MoreLikeThisDocument(text)
-    solr = sunburnt.SolrInterface("http://localhost:8983/solr", schema)
+    solr = sunburnt.SolrInterface(server, schema)
 
     # TODO: add support for the MoreLikeThisHandler instead to avoid useless
     # indexing and deletions
@@ -94,13 +97,30 @@ def bagging_categorize(schema, text, n_categories=5, n_bootstraps=5, seed=42):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description='Categorize text documents using text Wikipedia categories')
+    parser.add_argument(
+        'document',
+        help=('The URL of a HTML page, filename of text file or '
+              'the text content of paragraph to categorize'))
+    parser.add_argument(
+        '--schema', default='schema.xml',
+        help='Path to the Solr schema file')
+    parser.add_argument(
+        '--solr', default='http://localhost:8983/solr',
+        help='URL of the Solr HTTP endpoint')
+    args = parser.parse_args()
 
-    schema = sys.argv[1]
-    document = sys.argv[2]
+    schema = args.schema
+    document = args.document
+    server = args.solr
+
+    print schema, server, document
+
     if document.startswith("http://"):
         document = fetch_text_from_url(document)
     elif os.path.exists(document):
         document = open(document).read()
 
-    for topic in bagging_categorize(schema, document):
+    for topic in categorize(schema, document, server=server):
         print topic
