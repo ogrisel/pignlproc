@@ -15,57 +15,46 @@ DEFINE NTriplesAbstractsStorage pignlproc.storage.UriStringLiteralNTriplesStorer
 
 -- Defined available sources to join
 
-grounded_topics_articles = LOAD 'workspace/grounded_topics_articles.tsv'
-  AS (topicUri: chararray, articleCount: long, articleUri: chararray);
-
 article_abstracts = LOAD 'workspace/long_abstracts_en.nt.bz2'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
     'http://dbpedia.org/ontology/abstract',
     'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
 
+grounded_topics_articles = LOAD 'workspace/grounded_topics_articles.tsv'
+  AS (topicUri: chararray, articleCount: long, articleUri: chararray);
+
 grounded_ancestry = LOAD 'workspace/grounded_ancestry.tsv'
   AS (topicUri: chararray, primaryArticleUri: chararray,
       articleCount: long, fullPath: chararray,
       groundedPath: chararray, groundedPathLength: long);
 
-grounded_ancestry_filtered = FILTER grounded_ancestry
-  BY primaryArticleUri IS NOT NULL;
-
-grouped_ancestry = GROUP grounded_ancestry_filtered BY topicUri;
-
-aggregated_ancestry = FOREACH grouped_ancestry GENERATE
-  group AS topicUri,
-  JoinPaths(grounded_ancestry_filtered.groundedPath) AS paths;
-
-grounded_topics_articles_with_paths = JOIN
-  aggregated_ancestry BY topicUri,
-  grounded_topics_articles BY topicUri;
-
 -- Join with the abstract by articleUri
 joined_topics_abstracts = JOIN
-  grounded_topics_articles_with_paths BY articleUri,
+  grounded_topics_articles BY articleUri,
   article_abstracts BY articleUri;
 
 topics_abstracts = FOREACH joined_topics_abstracts
   GENERATE
-   grounded_topics_articles_with_paths::grounded_topics_articles::topicUri AS topicUri,
-   grounded_topics_articles_with_paths::grounded_topics_articles::articleUri AS articleUri,
-   article_abstracts::articleAbstract AS articleAbstract,
-   grounded_topics_articles_with_paths::aggregated_ancestry::paths AS paths;
+   grounded_topics_articles::topicUri AS topicUri,
+   grounded_topics_articles::articleUri AS articleUri,
+   article_abstracts::articleAbstract AS articleAbstract;
 
-grouped_topics_abstracts = GROUP topics_abstracts BY topicUri;
+grouped_topics2 = GROUP
+  topics_abstracts BY topicUri,
+  grounded_ancestry BY topicUri;
 
-bagged_abstracts = FOREACH grouped_topics_abstracts
+bagged_abstracts = FOREACH grouped_topics2
   GENERATE
     group AS topicUri,
     COUNT(topics_abstracts.articleUri) AS abstractCount,
-    topics_abstracts.paths.$0 AS paths,
-    AggregateTextBag(topics_abstracts.articleAbstract) AS aggregateTopicAbstract;
+    AggregateTextBag(topics_abstracts.articleAbstract) AS aggregateTopicAbstract,
+    COUNT(grounded_ancestry.groundedPath) AS pathsCount,
+    JoinPaths(grounded_ancestry.groundedPath) AS paths;
 
 -- filter again after abstract joins in case of missing abstract
 -- because we do not resolve redirect yet
-filtered_topics2 = FILTER bagged_abstracts BY abstractCount > 10;
+filtered_topics2 = FILTER bagged_abstracts BY abstractCount > 10 AND pathsCount != 0;
 
 ordered_topics = ORDER filtered_topics2 BY abstractCount DESC, topicUri ASC;
 
