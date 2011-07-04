@@ -31,7 +31,7 @@ perform such queries is provided in the `categorize.py` python script.
   and put those files in the `workspace/` subfolder of `pignlproc`. You can use
   the following script under unix:
 
-      sh download_data.sh
+       sh download_data.sh
 
 - Run the scripts from the toplevel folder of `pignlproc`
   (this can take more than 1h on a single machine):
@@ -40,10 +40,15 @@ perform such queries is provided in the `categorize.py` python script.
        pig -x local -b examples/topic-corpus/02_find_grounded_topics.pig
        pig -x local -b examples/topic-corpus/03_find_descendants.pig
        pig -x local -b examples/topic-corpus/04_find_grounded_topics_articles.pig
+       pig -x local -b examples/topic-corpus/05_build_grounded_ancestry.pig
        pig -x local -b examples/topic-corpus/06_extract_aggregate_topic_abstracts.pig
 
+In total running those scripts on a single machine would last 1 or 2 hours. It
+would be possible to run then on a Hadoop cluster to speed up the processing but
+don't expect drammatic speed up on such a smallish corpus.
+
 The interesting resulting file is `workspace/topics_abstracts.tsv` and should be
-around 3.5GB uncompressed.
+around 2.5GB.
 
 
 ## Setup Solr
@@ -53,7 +58,7 @@ around 3.5GB uncompressed.
 - Assuming you unarchived it in `/opt`, replace the default `schema.xml` with
   the one provided by this example in the folder:
 
-        /opt/apache-solr-3.1.0/example/solr/conf/
+        /opt/apache-solr-3.3.0/example/solr/conf/
 
 - In the same folder, in the `solrconfig.xml` file, insert the following
   handler declaration (after the other handler declarations for instance):
@@ -67,8 +72,7 @@ around 3.5GB uncompressed.
 
 - Start the solr example server instance:
 
-        cd /opt/apache-solr-3.1.0/example/
-        java -Xmx2g -jar start.jar
+        $ cd /opt/apache-solr-3.3.0/example/ && java -Xmx2g -jar start.jar
 
 - Solr should start on <http://localhost:8983/solr/>
 
@@ -78,7 +82,13 @@ around 3.5GB uncompressed.
 We can now launching the indexing itself using the CSV / TSV importer of Solr
 (adjust the path in the `stream.file` query parameter):
 
-    curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&headers=false&fieldnames=id,popularity,text&stream.file=/path/to/topics_abstracts.tsv&stream.contentType=text/plain;charset=utf-8'
+    $ curl 'http://localhost:8983/solr/update/csv?commit=true&separator=%09&headers=false&fieldnames=id,popularity,paths,text&stream.file=/path/to/topics_abstracts.tsv/part-r-00000&stream.contentType=text/plain;charset=utf-8'
+
+This process should last less than an hour and eat an additional 5.8GB on your
+hardrive.
+
+TODO: Split the paths on the `%20%20` character at import time to get a
+multi-valued field.
 
 
 ## Performing queries
@@ -87,17 +97,23 @@ Install sunburnt (e.g. the development version directly from github with pip)
 
     sudo pip install https://github.com/tow/sunburnt
 
-Then, from this folder, run:
+Then from this folder, run for instance:
 
-    python categorize.py schema.xml http://lucene.apache.org/
-    Category:Apache_Software_Foundation
-    Category:Continuous_integration
-    Category:Message-oriented_middleware
-    Category:Red_Hat
-    Category:Windows_95
+    $ python categorize.py schema.xml http://lucene.apache.org/
+    Category:Open_source_project_foundations
+    Category:Search_engine_software
+    Category:Free_web_software
+    Category:Java_platform_software
+    Category:Java_programming_language
 
-As we can see the categories found using this strategy are not yet
-great. Ways to improve it would be to follow the SKOS hierarchy to find
+    $ python categorize.py schema.xml http://pig.apache.org/
+    Category:Compilers
+    Category:Open_source_project_foundations
+    Category:Software_optimization
+    Category:Network_file_systems
+    Category:Java_platform_software
+
+TODO: improve the results would be to follow the SKOS hierarchy to find
 the more generic categories using individual subcategories as voters.
 
 
@@ -112,3 +128,5 @@ document categorization and output the results in a structured format
 such as JSON-LD or RDF/XML for instance.
 
 More to come later on <http://incubator.apache.org/stanbol>.
+
+TODO: export the paths information as another `.nt` file.
