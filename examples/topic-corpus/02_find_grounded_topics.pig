@@ -26,13 +26,36 @@ article_abstracts = LOAD 'workspace/long_abstracts_en.nt.bz2'
     'http://dbpedia.org/resource/')
   AS (articleUri: chararray, articleAbstract: chararray);
 
+
+-- Remove boring topics as early as possible: those topics do no bring
+-- much classification information outside of Wikipedia.
+
+topic_counts_filtered = FILTER topic_counts BY
+  topicUri != 'Category:People'
+  AND topicUri != 'Category:Living_people'
+  AND topicUri != 'Category:Dead_people'
+  AND topicUri != 'Category:Chronology'
+  AND topicUri != 'Category:Events'
+  AND topicUri != 'Category:Years'
+  AND topicUri != 'Year_of_birth_missing_%28living_people%29'
+  AND topicUri != 'Year_of_death_missing'
+  AND topicUri != 'Place_of_birth_missing_%28living_people%29'
+  AND topicUri != 'Category:Year_of_birth_unknown'
+  AND topicUri != 'Category:Year_of_birth_missing_%28living_people%29'
+  AND topicUri != 'Category:Articles_missing_birth_or_death_information'
+  AND topicUri != 'Category:Categories_by_language'
+  AND topicUri != 'Category:Place_of_birth_missing_%28living_people%29'
+  AND topicUri != 'Category:People_by_period'
+  AND topicUri != 'Category:Surnames';
+
+
 -- Project early: we don't need to load the abstract content
 articles = FOREACH article_abstracts GENERATE
    articleUri AS articleUri, 1 AS hasAbstract;
 
 -- Build are candidate matching article URI by removing the 'Category:'
 -- part of the topic URI
-candidate_grounded_topics = FOREACH topic_counts GENERATE
+candidate_grounded_topics = FOREACH topic_counts_filtered GENERATE
   topicUri, REPLACE(topicUri, 'Category:', '') AS candidatePrimaryArticleUri,
   articleCount, narrowerTopicCount, broaderTopicCount;
 

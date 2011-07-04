@@ -24,7 +24,17 @@ article_topics = LOAD 'workspace/article_categories_en.nt.bz2'
 
 grounded_topics_descendants = FILTER topic_descendants
   BY primaryArticleUri IS NOT NULL;
-  
+
+-- Do not forget the main article
+-- TODO: optim: reuse the grounded_topic table directly
+
+grounded_topics_primary_articles = FOREACH grounded_topics_descendants
+  GENERATE topicUri, articleCount, primaryArticleUri AS articleUri;
+
+grounded_topics_primary_articles_distinct = DISTINCT grounded_topics_primary_articles;
+
+-- Follow the descendants
+   
 grounded_topics_descendants_1_filtered = FILTER topic_descendants
   BY uriLevel1 IS NOT NULL;
 grounded_topics_descendants_2_filtered = FILTER topic_descendants
@@ -52,6 +62,7 @@ grounded_topics_articles_2_projected = FOREACH grounded_topics_articles_2_joined
     articleCount, articleUri;
 
 grounded_topics_articles = UNION
+  grounded_topics_primary_articles_distinct,
   grounded_topics_articles_0_projected,
   grounded_topics_articles_1_projected;
   --grounded_topics_articles_2_projected;
