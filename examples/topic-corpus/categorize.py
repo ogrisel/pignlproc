@@ -109,18 +109,21 @@ if __name__ == "__main__":
     parser.add_argument(
         '--solr', default='http://localhost:8983/solr',
         help='URL of the Solr HTTP endpoint')
+    parser.add_argument(
+        '--categories', default=5,
+        type=int, help='Number of categories to return')
     args = parser.parse_args()
 
     schema = args.schema
     document = args.document
     server = args.solr
-
-    print schema, server, document
+    n_categories = args.categories
 
     if document.startswith("http://"):
         document = fetch_text_from_url(document)
     elif os.path.exists(document):
         document = open(document).read()
 
-    for topic in categorize(schema, document, server=server):
+    for topic in categorize(schema, document, server=server,
+                            n_categories=n_categories):
         print topic
