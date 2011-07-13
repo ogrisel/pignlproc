@@ -11,15 +11,17 @@
 
     <fieldType name="text" class="solr.TextField">
       <analyzer type="index">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true"
-          words="stopwords.txt" />
+          words="stopwords_en.txt" enablePositionIncrements="false" />
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
       <analyzer type="query">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true"
-                words="stopwords.txt" />
+          words="stopwords_en.txt" enablePositionIncrements="false" />
+        <filter class="solr.SynonymFilterFactory"
+          synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
