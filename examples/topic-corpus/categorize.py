@@ -103,6 +103,7 @@ if __name__ == "__main__":
     document = args.document
     server = args.solr
     n_categories = args.categories
+    n_terms = args.terms
     print_terms = args.print_terms
 
     if document.startswith("http://"):
@@ -111,7 +112,9 @@ if __name__ == "__main__":
         document = open(document).read()
 
     results = categorize(schema, document, server=server,
-                         n_categories=n_categories, terms=print_terms)
+                         n_categories=n_categories,
+                         terms=print_terms,
+                         n_terms=n_terms)
     for topic in results:
         print topic['id'].ljust(50) + " [%0.3f]" % topic['score']
 
