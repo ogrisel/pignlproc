@@ -58,21 +58,29 @@ def categorize(schema, text, n_categories=5, n_terms=30,
     return q.execute()
 
 
-def bagging_categorize(schema, text, n_categories=5, n_bootstraps=5, seed=42):
+def bagging_categorize(schema, text, n_categories=5, n_bootstraps=5, seed=42,
+                       n_terms=30, server='http://localhost:8983/solr',
+                       terms=False):
     """Bootstrap aggregating version of the kNN categorization"""
     tokens = text.split()
     bigrams = [" ".join(tokens[i: i + 1]) for i in range(len(tokens))]
     rng = Random(seed)
     bootstrap_size = 2 * len(bigrams) / 3
 
-    categories = []
+    n_categories
+    categories = {}
+    category_ids = []
     for i in range(n_bootstraps):
         doc = u" ".join(rng.sample(bigrams, bootstrap_size))
-        categories.extend(categorize(schema, doc, n_categories * 2))
+        results = categorize(schema, doc, server=server, n_terms=n_terms,
+                             terms=terms, n_categories=n_categories * 2)
+        categories.update(dict((cat['id'], cat) for cat in results))
+        category_ids.extend(cat['id'] for cat in results)
 
-    counted_categories = Counter(categories)
-    return [cat for cat, c in counted_categories.most_common(n_categories)
-            if c > 2 * n_bootstraps / 3]
+    counted_categories = Counter(category_ids)
+    return [categories[id]
+            for id, count in counted_categories.most_common(n_categories)
+            if count > 2 * n_bootstraps / 3]
 
 
 if __name__ == "__main__":
@@ -95,6 +103,9 @@ if __name__ == "__main__":
         '--print-terms', default=False, action="store_true",
         help='Print the selected terms to use for the query')
     parser.add_argument(
+        '--bagging', default=False, action="store_true",
+        help='Use the bootstrap aggregating categorizer.')
+    parser.add_argument(
         '--categories', default=5,
         type=int, help='Number of categories to return')
     args = parser.parse_args()
@@ -111,13 +122,18 @@ if __name__ == "__main__":
     elif os.path.exists(document):
         document = open(document).read()
 
-    results = categorize(schema, document, server=server,
-                         n_categories=n_categories,
-                         terms=print_terms,
-                         n_terms=n_terms)
+    if args.bagging:
+        results = bagging_categorize(schema, document, server=server,
+                                     n_categories=n_categories,
+                                     n_terms=n_terms)
+    else:
+        results = categorize(schema, document, server=server,
+                             n_categories=n_categories,
+                             terms=print_terms,
+                             n_terms=n_terms)
     for topic in results:
         print topic['id'].ljust(50) + " [%0.3f]" % topic['score']
 
-    if print_terms:
+    if print_terms and not args.bagging:
         print "Interesting terms:"
         pprint(results.interesting_terms)
