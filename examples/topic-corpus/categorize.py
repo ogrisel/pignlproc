@@ -25,15 +25,6 @@ from lxml.etree import ElementTree
 import argparse
 
 
-class MoreLikeThisDocument(object):
-    """Transient document to get indexed to be able to do a similarity query"""
-
-    def __init__(self, text):
-        self.id = uuid.uuid4().get_hex()
-        self.type = "mlt_query_document"
-        self.text = text
-
-
 def fetch_text_from_url(url):
     """Simple helper to scrap the text content of a webpage"""
     opener = urllib2.build_opener()
@@ -51,33 +42,21 @@ def fetch_text_from_url(url):
 
 
 def categorize(schema, text, n_categories=5, n_terms=30,
-               server='http://localhost:8983/solr'):
+               server='http://localhost:8983/solr', terms=False):
     """Categorize a piece of text using a MoreLikeThis query on Solr
 
     This is basically an approximated k-Neareast Neighbors using the TF-IDF
     similarity of the Solr index. The query is truncated to the top n_terms
     terms with maximum weights for efficiency reasons.
     """
-    q = MoreLikeThisDocument(text)
     solr = sunburnt.SolrInterface(server, schema)
+    interestingTerms = 'list' if terms else 'none'
+    q = solr.mlt_query("text", body=text, maxqt=n_terms,
+                       interestingTerms=interestingTerms)
+    q = q.paginate(rows=n_categories)
+    q = q.field_limit(score=True, all_fields=True)
+    return q.execute()
 
-    # TODO: add support for the MoreLikeThisHandler instead to avoid useless
-    # indexing and deletions
-    # https://github.com/tow/sunburnt/issues/18
-    solr.add(q)
-    solr.commit()
-    try:
-        mlt_query = solr.query(id=q.id).mlt(
-            "text", maxqt=n_terms, count=n_categories)
-        mlt_results = mlt_query.execute().more_like_these
-        if q.id in mlt_results:
-            return [d['id'] for d in mlt_results[q.id].docs]
-        else:
-            print "ERROR: query document with id='%s' not found" % q.id
-            return []
-    finally:
-        solr.delete(q)
-        solr.commit()
 
 def bagging_categorize(schema, text, n_categories=5, n_bootstraps=5, seed=42):
     """Bootstrap aggregating version of the kNN categorization"""
@@ -110,6 +89,12 @@ if __name__ == "__main__":
         '--solr', default='http://localhost:8983/solr',
         help='URL of the Solr HTTP endpoint')
     parser.add_argument(
+        '--terms', default=30,
+        type=int, help='Number of interesting terms to use for the query')
+    parser.add_argument(
+        '--print-terms', default=False, action="store_true",
+        help='Print the selected terms to use for the query')
+    parser.add_argument(
         '--categories', default=5,
         type=int, help='Number of categories to return')
     args = parser.parse_args()
@@ -118,12 +103,18 @@ if __name__ == "__main__":
     document = args.document
     server = args.solr
     n_categories = args.categories
+    print_terms = args.print_terms
 
     if document.startswith("http://"):
         document = fetch_text_from_url(document)
     elif os.path.exists(document):
         document = open(document).read()
 
-    for topic in categorize(schema, document, server=server,
-                            n_categories=n_categories):
-        print topic
+    results = categorize(schema, document, server=server,
+                         n_categories=n_categories, terms=print_terms)
+    for topic in results:
+        print topic['id'].ljust(50) + " [%0.3f]" % topic['score']
+
+    if print_terms:
+        print "Interesting terms:"
+        pprint(results.interesting_terms)
