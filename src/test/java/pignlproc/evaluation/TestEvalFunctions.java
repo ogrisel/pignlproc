@@ -41,14 +41,16 @@ public class TestEvalFunctions {
     @Test
     public void testSimpleSentenceMerge() throws ExecException {
         String sentence = JOHN_SENTENCE;
-        List<Span> names = Arrays.asList(new Span(0, 10, "person"), new Span(19, 36, "organization"));
+        List<Span> names = Arrays.asList(new Span(0, 10, "person"), new Span(
+                19, 36, "organization"));
         String merged = merger.merge(sentence, names);
         assertEquals("<START:person> John Smith <END> works"
-                     + " at <START:organization> Smith Consulting <END> .", merged);
+                + " at <START:organization> Smith Consulting <END> .", merged);
 
         names = Arrays.asList(new Span(0, 10), new Span(19, 36));
         merged = merger.merge(sentence, names);
-        assertEquals("<START> John Smith <END> works" + " at <START> Smith Consulting <END> .", merged);
+        assertEquals("<START> John Smith <END> works"
+                + " at <START> Smith Consulting <END> .", merged);
     }
 
     @SuppressWarnings("unchecked")
@@ -71,26 +73,32 @@ public class TestEvalFunctions {
         typeBag.add(tf.newTupleNoCopy(Arrays.asList("organization")));
 
         // all bags
-        Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag, endBag, typeBag));
+        Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag,
+                endBag, typeBag));
         String merged = merger.exec(input);
         assertEquals("<START:person> John Smith <END> works"
-                     + " at <START:organization> Smith Consulting <END> .", merged);
+                + " at <START:organization> Smith Consulting <END> .", merged);
 
         // all literals
         input = tf.newTupleNoCopy(Arrays.asList(JOHN_SENTENCE, 0, 10, "person"));
         merged = merger.exec(input);
-        assertEquals("<START:person> John Smith <END> works at Smith Consulting .", merged);
+        assertEquals(
+                "<START:person> John Smith <END> works at Smith Consulting .",
+                merged);
 
         // bags without types
         input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag, endBag));
         merged = merger.exec(input);
-        assertEquals("<START> John Smith <END> works at <START> Smith Consulting <END> .", merged);
+        assertEquals(
+                "<START> John Smith <END> works at <START> Smith Consulting <END> .",
+                merged);
 
         // bags with fixed type
-        input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag, endBag, "entity"));
+        input = tf.newTupleNoCopy(Arrays.asList(textBag, beginBag, endBag,
+                "entity"));
         merged = merger.exec(input);
-        assertEquals("<START:entity> John Smith <END> works at" + " <START:entity> Smith Consulting <END> .",
-            merged);
+        assertEquals("<START:entity> John Smith <END> works at"
+                + " <START:entity> Smith Consulting <END> .", merged);
     }
 
     @Test
@@ -108,7 +116,8 @@ public class TestEvalFunctions {
         // all bags
         Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
         String merged = aggregator.exec(input);
-        String expected = StringUtils.join(Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
+        String expected = StringUtils.join(
+                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
         expected = "\"" + expected + "\"";
         assertEquals(expected, merged);
     }
@@ -128,7 +137,8 @@ public class TestEvalFunctions {
         // all bags
         Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
         String merged = aggregator.exec(input);
-        String expected = StringUtils.join(Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
+        String expected = StringUtils.join(
+                Arrays.asList(JOHN_SENTENCE, JOHN_SENTENCE), " ");
         expected = "\"" + expected + "\"";
         assertEquals(expected, merged);
     }
@@ -167,8 +177,43 @@ public class TestEvalFunctions {
         assertFalse(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a b c b"))));
         assertFalse(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a b c c"))));
 
-        // for efficiency reason, this function only check for loops introduced by the last element:
+        // for efficiency reason, this function only check for loops introduced
+        // by the last element:
         assertTrue(noloopInPathFunc.exec(tf.newTupleNoCopy(Arrays.asList("a b b d"))));
     }
 
+    @Test
+    public void testCheckAbstract() throws IOException {
+        CheckAbstract abstractChecker = new CheckAbstract();
+        TupleFactory tf = TupleFactory.getInstance();
+        assertFalse(abstractChecker.exec(null));
+        assertFalse(abstractChecker.exec(tf.newTupleNoCopy(Collections.emptyList())));
+        assertFalse(abstractChecker.exec(tf.newTupleNoCopy(Arrays.asList((String) null))));
+        assertFalse(abstractChecker.exec(tf.newTupleNoCopy(Arrays.asList(""))));
+        assertFalse(abstractChecker.exec(tf.newTupleNoCopy(Arrays.asList("Some short boring abstract."))));
+        String longBoringAbstract = "Elections by country gives information on elections."
+                + " For each de jure and de facto sovereign state and dependent territory"
+                + " an article on elections in that entity has been included and "
+                + "information on the way the head of state and the parliament or "
+                + "legislature is elected. The articles include the results of the "
+                + "elections. For a chronological order, see the electoral calendar."
+                + " Contents Top · 0–9 · A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+        assertFalse(abstractChecker.exec(tf.newTupleNoCopy(Arrays.asList(longBoringAbstract))));
+        String interestingAbstract = "Mathematics is the study of quantity, structure,"
+                + " space, and change. Mathematicians seek out patterns,"
+                + " formulate new conjectures, and establish truth by rigorous"
+                + " deduction from appropriately chosen axioms and definitions."
+                + " There is debate over whether mathematical objects such as"
+                + " numbers and points exist naturally or are human creations."
+                + " The mathematician Benjamin Peirce called mathematics \"the"
+                + " science that draws necessary conclusions\". Albert Einstein,"
+                + " on the other hand, stated that \"as far as the laws of"
+                + " mathematics refer to reality, they are not certain; and as"
+                + " far as they are certain, they do not refer to reality. \""
+                + " Through the use of abstraction and logical reasoning,"
+                + " mathematics evolved from counting, calculation, measurement,"
+                + " and the systematic study of the shapes and motions of"
+                + " physical objects.";
+        assertTrue(abstractChecker.exec(tf.newTupleNoCopy(Arrays.asList(interestingAbstract))));
+    }
 }
