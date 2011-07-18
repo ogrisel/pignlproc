@@ -20,7 +20,7 @@ topic_parents = LOAD 'workspace/skos_categories_en.nt.bz2'
     'http://dbpedia.org/resource/',
     'http://dbpedia.org/resource/')
   AS (narrowerTopicUri: chararray, broaderTopicUri: chararray);
-  
+
 article_abstracts = LOAD 'workspace/long_abstracts_en.nt.bz2'
   USING pignlproc.storage.UriStringLiteralNTriplesLoader(
     'http://dbpedia.org/ontology/abstract',
@@ -50,10 +50,12 @@ topic_counts_filtered = FILTER topic_counts BY
   AND topicUri != 'Category:Surnames';
 
 
--- Project early: we don't need to load the abstract content
+-- Project early: we don't need to load the abstract content: use NULL as
+-- false marker to be able to combine them with missing abstracts later
 articles = FOREACH article_abstracts GENERATE
    articleUri AS articleUri,
    (checkAbstract(articleAbstract) ? 1 : NULL) AS hasGoodAbstract;
+
 
 -- Build are candidate matching article URI by removing the 'Category:'
 -- part of the topic URI
