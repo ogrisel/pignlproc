@@ -46,7 +46,10 @@ joined_topic_articles = JOIN
   grounded_topics_articles BY topicUri;
 
 grounded_topics_articles_with_paths = FOREACH joined_topic_articles
-  GENERATE topic_paths::topicUri AS topicUri, articleUri, paths;
+  GENERATE
+  topic_paths::topicUri AS topicUri,
+  articleUri AS articleUri,
+  paths AS paths;
 
 -- filter out abstracts that are boring
 filtered_article_abstracts = FILTER article_abstracts
@@ -61,7 +64,8 @@ topics_abstracts = FOREACH joined_topics_abstracts
   GENERATE
    grounded_topics_articles_with_paths::topicUri AS topicUri,
    grounded_topics_articles_with_paths::paths AS paths,
-   article_abstracts::articleAbstract AS articleAbstract;
+   filtered_article_abstracts::articleUri AS articleUri,
+   filtered_article_abstracts::articleAbstract AS articleAbstract;
 
 grouped_topics2 = GROUP topics_abstracts BY (topicUri, paths);
 
