@@ -132,8 +132,8 @@ grounded_ancestry = UNION
   grounded_ancestry_1_noloop,
   grounded_ancestry_2_noloop,
   grounded_ancestry_3_noloop,
-  grounded_ancestry_4_noloop;
---  grounded_ancestry_5_noloop;
+  grounded_ancestry_4_noloop,
+  grounded_ancestry_5_noloop;
 
 ordered_grounded_ancestry = ORDER grounded_ancestry BY articleCount DESC, topicUri;
 
