@@ -35,7 +35,7 @@ public class TestEvalFunctions {
     public void setUp() throws IOException {
         merger = new MergeAsOpenNLPAnnotatedText();
         aggregator = new AggregateTextBag(40, true);
-        concatTextBag = new ConcatTextBag("  ", true);
+        concatTextBag = new ConcatTextBag(" _ ", true);
     }
 
     @Test
@@ -141,12 +141,13 @@ public class TestEvalFunctions {
         textBag.add(tf.newTupleNoCopy(Arrays.asList(" foo1")));
         textBag.add(tf.newTupleNoCopy(Arrays.asList("foo2")));
         textBag.add(tf.newTupleNoCopy(Arrays.asList(" foo3 ")));
+        textBag.add(tf.newTupleNoCopy(Arrays.asList("foo1")));
         textBag.add(tf.newTupleNoCopy(Arrays.asList("foo4 ")));
 
         // all bags
         Tuple input = tf.newTupleNoCopy(Arrays.asList(textBag));
         String merged = concatTextBag.exec(input);
-        String expected = "foo1  foo2  foo3  foo4";
+        String expected = "foo1 _ foo2 _ foo3 _ foo4";
         assertEquals(expected, merged);
     }
 

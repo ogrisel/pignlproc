@@ -1,7 +1,9 @@
 package pignlproc.evaluation;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.pig.EvalFunc;
 import org.apache.pig.PigException;
@@ -12,7 +14,8 @@ import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 
 /**
- * Merge a bag of single column tuples of texts using a separator.
+ * Merge a bag of single column tuples of texts using a separator. This UDF also
+ * removes duplicate entries in the same bag.
  */
 public class ConcatTextBag extends EvalFunc<String> {
 
@@ -48,6 +51,7 @@ public class ConcatTextBag extends EvalFunc<String> {
             if (bag instanceof String) {
                 text = (String) bag;
             } else if (bag instanceof DataBag) {
+                Set<String> seen = new HashSet<String>();
                 DataBag textBag = (DataBag) bag;
                 if (textBag.size() == 0) {
                     return text;
@@ -63,6 +67,12 @@ public class ConcatTextBag extends EvalFunc<String> {
                         nextString = nextString.trim();
                     }
                     if (!nextString.isEmpty()) {
+                        if (seen.contains(nextString)) {
+                            // do not concatenate duplicates
+                            continue;
+                        } else {
+                            seen.add(nextString);
+                        }
                         if (sb.length() > 0) {
                             sb.append(separator);
                         }
