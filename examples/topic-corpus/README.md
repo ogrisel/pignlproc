@@ -87,7 +87,7 @@ We can now launching the indexing itself using the CSV / TSV importer of Solr
 This process should last less than an hour and eat an additional 5.8GB on your
 hardrive.
 
-TODO: Split the paths on the `%20%20` character at import time to get a
+TODO: Split the paths on the `%20` character at import time to get a
 multi-valued field.
 
 

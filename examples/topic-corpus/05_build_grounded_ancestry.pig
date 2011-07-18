@@ -6,7 +6,7 @@ SET default_parallel 20
 
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
-DEFINE NoLoopInPath pignlproc.evaluation.NoLoopInPath(' ');
+DEFINE NoLoopInPath pignlproc.evaluation.NoLoopInPath('/');
 
 topic_parents = LOAD 'workspace/skos_categories_en.nt.bz2'
   USING pignlproc.storage.UriUriNTriplesLoader(
@@ -64,10 +64,10 @@ grounded_ancestry_2 = FOREACH joined_children_2 GENERATE
   topic_children_with_info::topicUri AS topicUri,
   topic_children_with_info::primaryArticleUri AS primaryArticleUri,
   topic_children_with_info::articleCount AS articleCount,
-  CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
+  CONCAT(CONCAT(fullPath, '/'), topic_children_with_info::topicUri) AS fullPath,
   (topic_children_with_info::primaryArticleUri IS NULL ?
      groundedPath :
-     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+     CONCAT(CONCAT(groundedPath, '/'), topic_children_with_info::topicUri)) AS groundedPath,
   (topic_children_with_info::primaryArticleUri IS NULL ?
      groundedPathLength :
      groundedPathLength + 1) AS groundedPathLength;
@@ -82,10 +82,10 @@ grounded_ancestry_3 = FOREACH joined_children_3 GENERATE
   topic_children_with_info::topicUri AS topicUri,
   topic_children_with_info::primaryArticleUri AS primaryArticleUri,
   topic_children_with_info::articleCount AS articleCount,
-  CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
+  CONCAT(CONCAT(fullPath, '/'), topic_children_with_info::topicUri) AS fullPath,
   (topic_children_with_info::primaryArticleUri IS NULL ?
      groundedPath :
-     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+     CONCAT(CONCAT(groundedPath, '/'), topic_children_with_info::topicUri)) AS groundedPath,
   (topic_children_with_info::primaryArticleUri IS NULL ?
      groundedPathLength :
      groundedPathLength + 1) AS groundedPathLength;
@@ -100,10 +100,10 @@ grounded_ancestry_4 = FOREACH joined_children_4 GENERATE
   topic_children_with_info::topicUri AS topicUri,
   topic_children_with_info::primaryArticleUri AS primaryArticleUri,
   topic_children_with_info::articleCount AS articleCount,
-  CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
+  CONCAT(CONCAT(fullPath, '/'), topic_children_with_info::topicUri) AS fullPath,
   (topic_children_with_info::primaryArticleUri IS NULL ?
      groundedPath :
-     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+     CONCAT(CONCAT(groundedPath, '/'), topic_children_with_info::topicUri)) AS groundedPath,
   (topic_children_with_info::primaryArticleUri IS NULL ?
      groundedPathLength :
      groundedPathLength + 1) AS groundedPathLength;
@@ -118,59 +118,22 @@ grounded_ancestry_5 = FOREACH joined_children_5 GENERATE
   topic_children_with_info::topicUri AS topicUri,
   topic_children_with_info::primaryArticleUri AS primaryArticleUri,
   topic_children_with_info::articleCount AS articleCount,
-  CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
+  CONCAT(CONCAT(fullPath, '/'), topic_children_with_info::topicUri) AS fullPath,
   (topic_children_with_info::primaryArticleUri IS NULL ?
      groundedPath :
-     CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
+     CONCAT(CONCAT(groundedPath, '/'), topic_children_with_info::topicUri)) AS groundedPath,
   (topic_children_with_info::primaryArticleUri IS NULL ?
      groundedPathLength :
      groundedPathLength + 1) AS groundedPathLength;
 
 grounded_ancestry_5_noloop = FILTER grounded_ancestry_5 BY NoLoopInPath(fullPath);
 
--- joined_children_6 = JOIN
---   grounded_ancestry_5_noloop BY topicUri,
---   topic_children_with_info BY broaderTopicUri;
--- 
--- grounded_ancestry_6 = FOREACH joined_children_6 GENERATE
---   topic_children_with_info::topicUri AS topicUri,
---   topic_children_with_info::primaryArticleUri AS primaryArticleUri,
---   topic_children_with_info::articleCount AS articleCount,
---   CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
---   (topic_children_with_info::primaryArticleUri IS NULL ?
---      groundedPath :
---      CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
---   (topic_children_with_info::primaryArticleUri IS NULL ?
---      groundedPathLength :
---      groundedPathLength + 1) AS groundedPathLength;
--- 
--- grounded_ancestry_6_noloop = FILTER grounded_ancestry_6 BY NoLoopInPath(fullPath);
--- 
--- joined_children_7 = JOIN
---   grounded_ancestry_6_noloop BY topicUri,
---   topic_children_with_info BY broaderTopicUri;
--- 
--- grounded_ancestry_7 = FOREACH joined_children_7 GENERATE
---   topic_children_with_info::topicUri AS topicUri,
---   topic_children_with_info::primaryArticleUri AS primaryArticleUri,
---   topic_children_with_info::articleCount AS articleCount,
---   CONCAT(CONCAT(fullPath, ' '), topic_children_with_info::topicUri) AS fullPath,
---   (topic_children_with_info::primaryArticleUri IS NULL ?
---      groundedPath :
---      CONCAT(CONCAT(groundedPath, ' '), topic_children_with_info::topicUri)) AS groundedPath,
---   (topic_children_with_info::primaryArticleUri IS NULL ?
---      groundedPathLength :
---      groundedPathLength + 1) AS groundedPathLength;
--- 
--- grounded_ancestry_7_noloop = FILTER grounded_ancestry_7 BY NoLoopInPath(fullPath);
-
-
 grounded_ancestry = UNION
   grounded_ancestry_1_noloop,
   grounded_ancestry_2_noloop,
   grounded_ancestry_3_noloop,
-  grounded_ancestry_4_noloop,
-  grounded_ancestry_5_noloop;
+  grounded_ancestry_4_noloop;
+--  grounded_ancestry_5_noloop;
 
 ordered_grounded_ancestry = ORDER grounded_ancestry BY articleCount DESC, topicUri;
 
