@@ -15,6 +15,14 @@
         <filter class="solr.StopFilterFactory" ignoreCase="true"
           words="stopwords_en.txt" enablePositionIncrements="false" />
         <filter class="solr.LowerCaseFilterFactory"/>
+        <!-- The use of Shingle might help improve the quality but they increase
+        the size of the index far too much. It would be better to use a
+        collocation bloom filter to mitigate this effect:
+        http://issues.apache.org/jira/browse/MAHOUT-415
+
+        <filter class="solr.ShingleFilterFactory" maxShingleSize="2"
+          outputUnigrams="true"/>
+         -->
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory"/>
@@ -23,6 +31,10 @@
         <filter class="solr.SynonymFilterFactory"
           synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
         <filter class="solr.LowerCaseFilterFactory"/>
+        <!--
+        <filter class="solr.ShingleFilterFactory" maxShingleSize="2"
+          outputUnigrams="true"/>
+         -->
       </analyzer>
     </fieldType>
 
