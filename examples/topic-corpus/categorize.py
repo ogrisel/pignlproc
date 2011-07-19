@@ -103,6 +103,9 @@ if __name__ == "__main__":
         '--print-terms', default=False, action="store_true",
         help='Print the selected terms to use for the query')
     parser.add_argument(
+        '--print-paths', default=False, action="store_true",
+        help='Print the paths of the categories')
+    parser.add_argument(
         '--bagging', default=False, action="store_true",
         help='Use the bootstrap aggregating categorizer.')
     parser.add_argument(
@@ -133,6 +136,13 @@ if __name__ == "__main__":
                              n_terms=n_terms)
     for topic in results:
         print topic['id'].ljust(50) + " [%0.3f]" % topic['score']
+
+    if args.print_paths:
+        paths = set()
+        for topic in results:
+            paths.update(topic['paths'])
+        for path in sorted(paths):
+            print path
 
     if print_terms and not args.bagging:
         print "Interesting terms:"
