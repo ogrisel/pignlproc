@@ -8,7 +8,7 @@ SET default_parallel 20
 
 -- Register the project jar to use the custom loaders and UDFs
 REGISTER target/pignlproc-0.1.0-SNAPSHOT.jar
-DEFINE checkAbstract pignlproc.evaluation.CheckAbstract();
+DEFINE checkAbstract pignlproc.evaluation.CheckAbstract('30');
 
 topic_counts = LOAD 'workspace/topics_counts.tsv'
   AS (topicUri: chararray, articleCount: long, narrowerTopicCount:long,
@@ -61,6 +61,8 @@ topic_counts_filtered = FILTER topic_counts BY
 articles = FOREACH article_abstracts GENERATE
    articleUri AS articleUri,
    (checkAbstract(articleAbstract) ? 1 : NULL) AS hasGoodAbstract;
+
+STORE articles INTO 'workspace/articles_abstract_check.tsv';
 
 -- Build are candidate matching article URI by removing the 'Category:'
 -- part of the topic URI

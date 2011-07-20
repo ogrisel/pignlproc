@@ -24,7 +24,11 @@ public class CheckAbstract extends EvalFunc<Boolean> {
     protected final List<Pattern> blackListedPatterns = new ArrayList<Pattern>();
 
     public CheckAbstract() throws IOException {
-        this(80);
+        this(30);
+    }
+
+    public CheckAbstract(String minWords) throws IOException {
+        this(Integer.valueOf(minWords));
     }
 
     public CheckAbstract(int minWords) throws IOException {
