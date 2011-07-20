@@ -100,6 +100,9 @@ if __name__ == "__main__":
         '--terms', default=30,
         type=int, help='Number of interesting terms to use for the query')
     parser.add_argument(
+        '--print-raw-text', default=False, action="store_true",
+        help='Print the text of the document used as a query')
+    parser.add_argument(
         '--print-terms', default=False, action="store_true",
         help='Print the selected terms to use for the query')
     parser.add_argument(
@@ -143,6 +146,12 @@ if __name__ == "__main__":
             paths.update(topic['paths'])
         for path in sorted(paths):
             print path
+
+    if args.print_raw_text:
+        print "Source text:"
+        print "\"\"\""
+        print document
+        print "\"\"\""
 
     if print_terms and not args.bagging:
         print "Interesting terms:"
