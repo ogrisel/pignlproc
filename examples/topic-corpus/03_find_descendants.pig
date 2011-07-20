@@ -26,8 +26,7 @@ topic_children_deduped = FILTER topic_children
 topic_children_distinct = DISTINCT topic_children_deduped;
 
 linked_topics = LOAD 'workspace/linked_topics.tsv'
-  AS (topicUri: chararray, primaryArticleUri: chararray,
-      articleCount: long, narrowerTopicCount:long, broaderTopicCount: long);
+  AS (topicUri: chararray, primaryArticleUri: chararray, articleCount: long);
 
 topic_descendants_1_joined = JOIN linked_topics BY topicUri LEFT OUTER,
                                   topic_children_distinct BY broaderTopicUri;

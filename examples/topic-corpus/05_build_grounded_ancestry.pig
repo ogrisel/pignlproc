@@ -16,8 +16,7 @@ topic_parents = LOAD 'workspace/skos_categories_en.nt.bz2'
   AS (narrowerTopicUri: chararray, broaderTopicUri: chararray);
 
 linked_topics = LOAD 'workspace/linked_topics.tsv'
-  AS (topicUri: chararray, primaryArticleUri: chararray,
-      articleCount: long, narrowerTopicCount:long, broaderTopicCount: long);
+  AS (topicUri: chararray, primaryArticleUri: chararray, articleCount: long);
 
 -- Apparently it's not possible to do self joins, hence create a new alias
 -- relation to be able to do a self join on the topic hierarchy in the

@@ -1,6 +1,7 @@
 /**
  * Count the topics in articles occurrences and including
- * occurrences of descendants topics
+ * occurrences of descendants topics to filter out topics that are not part
+ * of the taxonomy tree.
  */
 
 SET default_parallel 20
