@@ -3,8 +3,6 @@
 Apache Pig utilities to build training corpora for machine learning /
 NLP out of public Wikipedia and DBpedia dumps.
 
-Here is a sample file generated using this script: [topics_abstracts.tsv.gz](http://dl.dropbox.com/u/5743203/data/topics_abstracts.tsv.gz) (387 MB)
-
 ## Project status
 
 This project is alpha / experimental code. Features are implemented when needed.
