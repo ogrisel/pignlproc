@@ -5,6 +5,8 @@ build a universal text document classifier based on the taxonomy of Wikipedia
 categories that has been extracted as RDF dumps (using the SKOS vocabulary) by
 the DBpedia crew.
 
+Here is a sample file generated using those Pig scripts: [topics_abstracts.tsv.gz](http://dl.dropbox.com/u/5743203/data/topics_abstracts.tsv.gz) (387 MB)
+
 Categorization can then be achieved by using the `MoreLikeThisHandler` that is
 able to perform text similarity / relatedness queries. A sample client able to
 perform such queries is provided in the `categorize.py` python script.
