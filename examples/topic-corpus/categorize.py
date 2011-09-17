@@ -11,9 +11,7 @@ You can install sunburnt (the solr / python connector) and lxml with::
 """
 
 import os
-import sys
 import urllib2
-import uuid
 from collections import Counter
 from pprint import pprint
 from random import Random
@@ -51,7 +49,7 @@ def categorize(schema, text, n_categories=5, n_terms=30,
     """
     solr = sunburnt.SolrInterface(server, schema)
     interestingTerms = 'list' if terms else 'none'
-    q = solr.mlt_query("text", body=text, maxqt=n_terms,
+    q = solr.mlt_query("text", content=text, maxqt=n_terms,
                        interestingTerms=interestingTerms)
     q = q.paginate(rows=n_categories)
     q = q.field_limit(score=True, all_fields=True)
