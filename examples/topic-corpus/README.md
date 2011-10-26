@@ -5,7 +5,8 @@ build a universal text document classifier based on the taxonomy of Wikipedia
 categories that has been extracted as RDF dumps (using the SKOS vocabulary) by
 the DBpedia crew.
 
-Here is a sample file generated using those Pig scripts: [topics_abstracts.tsv.gz](http://dl.dropbox.com/u/5743203/data/topics_abstracts.tsv.gz) (387 MB)
+Here is a sample file generated using those Pig scripts:
+[topics_abstracts.tsv.gz](http://dl.dropbox.com/u/5743203/data/topics_abstracts.tsv.gz) (387 MB)
 
 Categorization can then be achieved by using the `MoreLikeThisHandler` that is
 able to perform text similarity / relatedness queries. A sample client able to
@@ -97,18 +98,18 @@ multi-valued field.
 
 Install sunburnt (e.g. the development version directly from github with pip)
 
-    sudo pip install https://github.com/tow/sunburnt
+    $ sudo pip install https://github.com/tow/sunburnt
 
 Then from this folder, run for instance:
 
-    $ python categorize.py schema.xml http://lucene.apache.org/
+    $ python categorize.py http://lucene.apache.org/
     Category:Open_source_project_foundations
     Category:Search_engine_software
     Category:Free_web_software
     Category:Java_platform_software
     Category:Java_programming_language
 
-    $ python categorize.py schema.xml http://pig.apache.org/
+    $ python categorize.py http://pig.apache.org/
     Category:Compilers
     Category:Open_source_project_foundations
     Category:Software_optimization
