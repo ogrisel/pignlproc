@@ -152,7 +152,8 @@ if __name__ == "__main__":
             paths.update(topic['paths'])
         for path in sorted(paths):
             print " / ".join(human_readable(element)
-                             for element in path.split("/"))
+                             for element in path.split("/")
+                             if element.strip())
 
     if args.print_raw_text:
         print "Source text:"
