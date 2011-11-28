@@ -12,6 +12,7 @@ You can install sunburnt (the solr / python connector) and lxml with::
 
 import os
 import urllib2
+from urllib import unquote
 from collections import Counter
 from pprint import pprint
 from random import Random
@@ -83,6 +84,7 @@ def bagging_categorize(schema, text, n_categories=5, n_bootstraps=5, seed=42,
 
 def human_readable(category_id):
     category_id = category_id[len("Category:"):]
+    category_id = unquote(category_id)
     return category_id.replace('_', ' ')
 
 
