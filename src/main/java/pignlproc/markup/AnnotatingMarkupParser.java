@@ -79,7 +79,7 @@ public class AnnotatingMarkupParser implements ITextConverter {
 
     public WikiModel makeWikiModel(String languageCode) {
         return new WikiModel(String.format(
-                "http:/%s.wikipedia.org/wiki/${image}", languageCode),
+                "http://%s.wikipedia.org/wiki/${image}", languageCode),
                 String.format("http://%s.wikipedia.org/wiki/${title}",
                         languageCode)) {
             @Override
