@@ -9,7 +9,7 @@ This project is alpha / experimental code. Features are implemented when needed.
 
 Some preliminary results are available in this blog post:
 
-  * [Mining Wikipedia with Hadoop and Pig for Natural Language Processing](http://blogs.nuxeo.com/dev/2011/01/mining-wikipedia-with-hadoop-and-pig-for-natural-language-processing.html)
+  * [Mining Wikipedia with Hadoop and Pig for Natural Language Processing](http://www.nuxeo.com/blog/mining-wikipedia-with-hadoop-and-pig-for-natural-language-processing/)
 
 ## Building from source
 
