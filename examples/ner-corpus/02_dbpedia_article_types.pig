@@ -7,12 +7,12 @@ REGISTER $PIGNLPROC_JAR
 -- Load wikipedia, instance types and redirects from dbpedia dumps
 wikipedia_links = LOAD '$INPUT/wikipedia_links_$LANG.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://xmlns.com/foaf/0.1/primaryTopic')
+    'http://xmlns.com/foaf/0.1/primaryTopic', '', '')
   AS (wikiuri: chararray, dburi: chararray);
 
 redirects = LOAD '$INPUT/redirects_$LANG.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://dbpedia.org/ontology/wikiPageRedirects')
+    'http://dbpedia.org/ontology/wikiPageRedirects', '', '')
   AS (source: chararray, target: chararray);
 
 -- the last tuple can be (null, null)
@@ -28,7 +28,7 @@ redirected_wikipedia_links = FOREACH redirect_joined GENERATE
 instance_types =
   LOAD '$INPUT/instance_types_en.nt'
   USING pignlproc.storage.UriUriNTriplesLoader(
-    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
+    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', '', '')
   AS (dburi: chararray, type: chararray);
 
 instance_types_no_thing =
