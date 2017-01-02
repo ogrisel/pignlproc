@@ -37,10 +37,6 @@ public class UriUriNTriplesStorer extends AbstractNTriplesStorer {
 
     @Override
     public void putNext(Tuple fields) throws IOException {
-        if (fields.isNull()) {
-            // skip null entries
-            return;
-        }
         if (fields.size() != 2) {
             throw new ExecException("Expected 2 chararray fields in input tuple: subject and object");
         }

@@ -13,9 +13,9 @@ Some preliminary results are available in this blog post:
 
 ## Building from source
 
-Install maven (tested with 2.2.1) and java jdk 6, then:
+Install maven (tested with 3.3.9) and java jdk >= 6, then:
 
-    $ mvn assembly:assembly
+    $ mvn package
 
 This should download the dependencies, build a jar in the target/
 subfolder and run the tests.

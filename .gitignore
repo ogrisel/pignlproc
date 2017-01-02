@@ -10,3 +10,5 @@ bin
 *.iml
 run.sh
 workspace
+dependency-reduced-pom.xml
+
