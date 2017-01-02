@@ -36,6 +36,8 @@ comprehensive documentation on where to download the dumps from and how
 to setup a Hadoop cluster on EC2 using [Apache Whirr](
 http://incubator.apache.org/whirr).
 
+It is compatible with AWS EMR 5.2.1.
+
 ### Extracting links from a raw Wikipedia XML dump
 
 You can take example on the extract-links.pig example script:
