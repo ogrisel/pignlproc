@@ -1,5 +1,7 @@
 # pignlproc
 
+**This project is archived.**
+
 Apache Pig utilities to build training corpora for machine learning /
 NLP out of public Wikipedia and DBpedia dumps.
 
